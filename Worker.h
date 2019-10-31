@@ -22,7 +22,7 @@ protected:
     string description;
 };
 
-class Deliveryperson {
+class Deliveryperson: Worker {
 protected:
     Vehicle vehicle;
     vector<Order> orders;
