@@ -18,5 +18,13 @@ protected:
     float orderPrice;
 };
 
+class Delivery: Order {
+private:
+    float deliveryPrice;
+    Deliveryperson deliveryperson;
+    bool sucess;
+    int deliveryTime;
+    string notes;
+};
 
 #endif //AEDA_UGHEATS_ORDER_H
