@@ -12,7 +12,19 @@ private:
     string floor;
     string postcode;
     string municipality;
-
+public:
+    //Metodos Set
+    void setStreet(string street);
+    void setDoor(string door);
+    void setFloor(string floor);
+    void setPostCode(string postcode);
+    void setMunicipality(string municipality);
+    //Metodos Get
+    string getStreet() const;
+    string getDoor() const;
+    string getFloor() const;
+    string getPostCode() const;
+    string getMunicipality() const;
 };
 
 
