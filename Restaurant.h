@@ -12,11 +12,24 @@ using namespace std;
 
 class Restaurant{
 private:
-    Address adress;
+    Address address;
     vector<string> cuisine;
     vector<Product> products;
     vector<Order> orders;
     Base base;
+public:
+    //Metodos Set
+    void setRestaurantAddress(Address address);
+    void setRestaurantCuisine(vector<string> cuisine);
+    void setRestaurantProducts(vector<Product> products);
+    void setRestaurantOrders(vector<Order> orders);
+    void setRestaurantBase(Base base);
+    //Metodos Get
+    Address getRestaurantAddress() const;
+    vector<string> getRestaurantCuisine() const;
+    vector<Product> getRestaurantProducts() const;
+    vector<Order> getRestaurantOrders() const;
+    Base getRestaurantBase() const;
 };
 
 
