@@ -16,6 +16,19 @@ protected:
     int orderTime;
     vector<Product> products;
     float orderPrice;
+public:
+    //Metodos Set
+    void setOrderRestaurant(Restaurant restaurant);
+    void setOrderDate(Date date);
+    void setOrderTime(int orderTime);
+    void setOrderProducts(vector<Product> products);
+    void setOrderPrice(float orderPrice);
+    //Metodos Get
+    Restaurant getRestaurant() const;
+    Date getOrderDate() const;
+    int getOrderTime() const;
+    vector<Product> getOrderProducts() const;
+    float getOrderPrice() const;
 };
 
 class Delivery: Order {

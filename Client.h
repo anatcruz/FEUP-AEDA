@@ -18,6 +18,23 @@ private:
     Address address;
     int nif;
     bool black_listed;
+
+public:
+    //Metodos Set
+    void setClientName(string name);
+    void setBase(Base base);
+    void setClientAddress(Address address);
+    void setClientNif(int nif);
+    void setBlack_listed(bool black_listed);
+    //Metodos Get
+    string getClientName() const;
+    Base getBase() const;
+    Address getClientAddress() const;
+    int getClientNif() const;
+    bool getBlack_listed();
+
+
+
 };
 
 
