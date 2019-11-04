@@ -4,8 +4,10 @@
 #include "Restaurant.h"
 #include "Date.h
 #include "Product.h"
+#include "Worker.h"
 #include <vector>
 #include <string>
+
 
 using namespace std;
 
@@ -35,9 +37,22 @@ class Delivery: Order {
 private:
     float deliveryPrice;
     Deliveryperson deliveryperson;
-    bool sucess;
+    bool success;
     int deliveryTime;
     string notes;
+public:
+    //Metodos Set
+    void setDeliveryPrice(float deliveryPrice);
+    void setDeliveryPerson(float deliveryPerson);
+    void setSuccess(bool success);
+    void setDeliveryTime(int deliveryTime);
+    void setDeliveryNotes(string notes);
+    //Metodos Get
+    float getDeliveryPrice() const;
+    Deliveryperson getDeliveryPerson() const;
+    bool getSuccess() const;
+    int getDeliveryTime() const;
+    string getDeliveryNotes() const;
 };
 
 #endif //AEDA_UGHEATS_ORDER_H

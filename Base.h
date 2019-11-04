@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 #include "Location.h"
-#include "Admin.h"
+#include "Worker.h"
 #include "Client.h"
 #include "Restaurant.h"
 
@@ -21,6 +21,20 @@ private:
     vector<Client> clients;
     vector<Restaurant> restaurants;
     vector<string> municipalities;
+public:
+    //Metodos Set
+    void setBaseLocation(Location location);
+    void setBaseManager(Admin manager);
+    void setBaseClients(vector<Client> clients);
+    void setBaseRestaurants(vector<Restaurant> restaurants);
+    void setBaseMunicipalities(vector<string> municipalities);
+    //Metodos Get
+    Location getBaseLocation() const;
+    Admin getBaseManager() const;
+    vector<Client> getBaseClients() const;
+    vector<Restaurant> getBaseRestaurants() const;
+    vector<string> getBaseMunicipalities() const;
+
 };
 
 

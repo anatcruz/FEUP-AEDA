@@ -41,3 +41,45 @@ vector<Product> Order::getOrderProducts() const {
 float Order::getOrderPrice() const {
     return orderPrice;
 }
+
+//Metodos Set
+void Delivery::setDeliveryPrice(float deliveryPrice) {
+    this->deliveryPrice = deliveryPrice;
+}
+
+void Delivery::setDeliveryPerson(float deliveryPerson) {
+    this->deliveryperson = deliveryPerson;
+}
+
+void Delivery::setSuccess(bool success) {
+    this->success = success;
+}
+
+void Delivery::setDeliveryTime(int deliveryTime) {
+    this->deliveryTime = deliveryTime;
+}
+
+void Delivery::setDeliveryNotes(string notes) {
+    this->notes = notes;
+}
+
+//Metodos Get
+float Delivery::getDeliveryPrice() const {
+    return deliveryPrice;
+}
+
+Deliveryperson Delivery::getDeliveryPerson() const {
+    return deliveryperson;
+}
+
+bool Delivery::getSuccess() const {
+    return success;
+}
+
+int Delivery::getDeliveryTime() const {
+    return deliveryTime;
+}
+
+string Delivery::getDeliveryNotes() const {
+    return notes;
+}
