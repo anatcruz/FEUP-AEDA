@@ -14,11 +14,12 @@ using namespace std;
 class Order {
 protected:
     Restaurant restaurant;
-    Date date;
+    Date date{};
     int orderTime;
     vector<Product> products;
     float orderPrice;
 public:
+    Order(Restaurant restaurant, Date date, int orderTime, vector<Product> products, float orderPrice);
     //Metodos Set
     void setOrderRestaurant(Restaurant restaurant);
     void setOrderDate(Date date);
@@ -31,6 +32,8 @@ public:
     int getOrderTime() const;
     vector<Product> getOrderProducts() const;
     float getOrderPrice() const;
+    //Other Methods
+
 };
 
 class Delivery: Order {
@@ -41,6 +44,7 @@ private:
     int deliveryTime;
     string notes;
 public:
+    Delivery(float deliveryPrice, Deliveryperson deliveryperson, bool success, int deliveryTime, string notes);
     //Metodos Set
     void setDeliveryPrice(float deliveryPrice);
     void setDeliveryPerson(float deliveryPerson);
@@ -53,6 +57,8 @@ public:
     bool getSuccess() const;
     int getDeliveryTime() const;
     string getDeliveryNotes() const;
+    //Other Methods
+
 };
 
 #endif //AEDA_UGHEATS_ORDER_H

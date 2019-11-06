@@ -1,5 +1,11 @@
 #include "Date.h"
 
+Date::Date(int day, int month, int year) {
+    this->day=day;
+    this->month=month;
+    this->year=year;
+}
+
 //Metodos Set
 void Date::setDay(int day) {
     this->day=day;
@@ -25,3 +31,6 @@ int Date::getMonth() const {
 int Date::getYear() const {
     return year;
 }
+
+//Other Methods
+

@@ -15,6 +15,17 @@ private:
     string manufacturer;
     string type;
     Date purchaseDate;
+public:
+    Vehicle() = default;
+    Vehicle(string manufacturer, string type, Date purchaseDate);
+    //Metodos Set
+    void setManufacturer(string manufacturer);
+    void setType(string type);
+    void setPurchaseDate(Date purchaseDate);
+    //Metodos Get
+    string getManufacturer() const;
+    string getType() const;
+    Date getPurchaseDate() const;
 };
 
 

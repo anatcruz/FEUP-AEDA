@@ -1,5 +1,14 @@
 #include "Base.h"
 
+Base::Base(Location location, Admin manager, vector<Client> clients, vector<Restaurant> restaurants,
+           vector<string> municipalities) {
+    this->location=location;
+    this->manager=manager;
+    this->clients=clients;
+    this->restaurants=restaurants;
+    this->municipalities=municipalities;
+}
+
 //Metodos Set
 void Base::setBaseLocation(Location location) {
     this->location = location;
@@ -41,3 +50,6 @@ vector<Restaurant> Base::getBaseRestaurants() const {
 vector<string> Base::getBaseMunicipalities() const {
     return municipalities;
 }
+
+//Other Methods
+

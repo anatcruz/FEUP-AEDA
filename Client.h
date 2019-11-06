@@ -20,6 +20,8 @@ private:
     bool black_listed;
 
 public:
+    Client() = default;
+    Client(string name, Base base, Address address, int nif, bool black_listed);
     //Metodos Set
     void setClientName(string name);
     void setBase(Base base);
@@ -32,8 +34,7 @@ public:
     Address getClientAddress() const;
     int getClientNif() const;
     bool getBlack_listed();
-
-
+    //Other Methods
 
 };
 

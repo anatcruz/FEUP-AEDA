@@ -13,6 +13,8 @@ private:
     string postcode;
     string municipality;
 public:
+    Address() = default;
+    Address(string street, string door, string floor, string postcode, string municipality);
     //Metodos Set
     void setStreet(string street);
     void setDoor(string door);
@@ -25,6 +27,7 @@ public:
     string getFloor() const;
     string getPostCode() const;
     string getMunicipality() const;
+    //Other Methods
 };
 
 

@@ -16,6 +16,7 @@ protected:
     Date birthdate;
     double salary;
 public:
+    Worker(string name, int nif, Date birthdate, double salary);
     //Metodos Set
     void setWorkerName(string name);
     void setWorkerNif(int nif);
@@ -32,6 +33,7 @@ class Admin: Worker {
 protected:
     string description;
 public:
+    Admin(string description);
     //Metodos Set
     void setWorkerDescription(string description);
     //Metodos Get
@@ -43,6 +45,7 @@ protected:
     Vehicle vehicle;
     vector<Order> orders;
 public:
+    Deliveryperson(Vehicle vehicle, vector<Order> orders);
     //Metodos Set
     void setVehicle(Vehicle vehicle);
     void setDeliverypersonOrders(vector<Order> orders);

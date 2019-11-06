@@ -1,5 +1,37 @@
-//
-// Created by antonio on 31/10/19.
-//
-
 #include "Vehicle.h"
+
+Vehicle::Vehicle(string manufacturer, string type, Date purchaseDate) {
+    this->manufacturer=manufacturer;
+    this->type=type;
+    this->purchaseDate=purchaseDate;
+}
+
+//Metodos Set
+void Vehicle::setManufacturer(string manufacturer) {
+    this->manufacturer=manufacturer;
+}
+
+void Vehicle::setType(string type) {
+    this->type=type;
+}
+
+void Vehicle::setPurchaseDate(Date purchaseDate) {
+    this->purchaseDate=purchaseDate;
+}
+
+//Metodos Get
+string Vehicle::getManufacturer() const {
+    return manufacturer;
+}
+
+string Vehicle::getType() const {
+    return type;
+}
+
+Date Vehicle::getPurchaseDate() const {
+    return purchaseDate;
+}
+
+
+
+

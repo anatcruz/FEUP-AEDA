@@ -11,6 +11,7 @@ private:
     float price;
 
 public:
+    Product(string name, string cuisine, float price);
     //Metodos Set
     void setProductName(string name);
     void setCuisine(string cuisine);
@@ -19,6 +20,7 @@ public:
     string getProductName() const;
     string getCuisine() const;
     float getPrice() const;
+    //Other Methods
 };
 
 

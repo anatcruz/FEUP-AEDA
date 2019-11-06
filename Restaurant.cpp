@@ -1,5 +1,15 @@
 #include "Restaurant.h"
 
+Restaurant::Restaurant(Address address, vector<string> cuisine, vector<Product> products, vector<Order> orders,
+                       Base base) {
+    this->address=address;
+    this->cuisine=cuisine;
+    this->products=products;
+    this->orders=orders;
+    this->base=base;
+}
+
+
 //Metodos Set
 void Restaurant::setRestaurantAddress(Address address) {
     this->address=address;

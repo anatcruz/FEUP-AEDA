@@ -1,5 +1,11 @@
 #include "Product.h"
 
+Product::Product(string name, string cuisine, float price) {
+    this->name=name;
+    this->cuisine=cuisine;
+    this->price=price;
+}
+
 //Metodos Set
 void Product::setProductName(string name) {
     this->name = name;
@@ -25,3 +31,6 @@ string Product::getCuisine() const {
 float Product::getPrice() const {
     return price;
 }
+
+//Other Methods
+

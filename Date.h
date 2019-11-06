@@ -9,6 +9,8 @@ private:
     int month;
     int year;
 public:
+    Date() = default;
+    Date(int day, int month, int year);
     //Metodos Set
     void setDay(int day);
     void setMonth(int month);
@@ -17,6 +19,7 @@ public:
     int getDay() const;
     int getMonth() const;
     int getYear() const;
+    //Other Methods
 };
 
 

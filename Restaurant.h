@@ -18,6 +18,7 @@ private:
     vector<Order> orders;
     Base base;
 public:
+    Restaurant(Address address, vector<string> cuisine, vector<Product> products, vector<Order> orders, Base base);
     //Metodos Set
     void setRestaurantAddress(Address address);
     void setRestaurantCuisine(vector<string> cuisine);
@@ -30,6 +31,8 @@ public:
     vector<Product> getRestaurantProducts() const;
     vector<Order> getRestaurantOrders() const;
     Base getRestaurantBase() const;
+    //Other Methods
+
 };
 
 

@@ -1,5 +1,15 @@
 #include "Order.h"
 
+//CLASS ORDER
+
+Order::Order(Restaurant restaurant, Date date, int orderTime, vector<Product> products, float orderPrice) {
+    this->restaurant=restaurant;
+    this->date=date;
+    this->orderTime=orderTime;
+    this->products=products;
+    this->orderPrice=orderPrice;
+}
+
 //Metodos Set
 void Order::setOrderRestaurant(Restaurant restaurant) {
     this->restaurant = restaurant;
@@ -40,6 +50,19 @@ vector<Product> Order::getOrderProducts() const {
 
 float Order::getOrderPrice() const {
     return orderPrice;
+}
+
+//Other Methods
+
+
+//CLASE DELIVERY
+
+Delivery::Delivery(float deliveryPrice, Deliveryperson deliveryperson, bool success, int deliveryTime, string notes):Order(restaurant, date, orderTime, products, orderPrice){
+    this->deliveryPrice=deliveryPrice;
+    this->deliveryperson=deliveryperson;
+    this->success=success;
+    this->deliveryTime=deliveryTime;
+    this->notes=notes;
 }
 
 //Metodos Set
@@ -83,3 +106,4 @@ int Delivery::getDeliveryTime() const {
 string Delivery::getDeliveryNotes() const {
     return notes;
 }
+

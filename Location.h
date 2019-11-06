@@ -11,12 +11,16 @@ private:
     Address address;
     pair<int,int> coords;
 public:
+    Location() = default;
+    Location(Address address, pair<int,int> coords);
     //Metodos Set
     void setLocationAddress(Address address);
     void setLocationCoords(pair<int,int> coords);
     //Metodos Get
     Address getLocationAddress() const;
     pair <int,int> getLocationCoords() const;
+    //Other Methods
+
 };
 
 

@@ -22,6 +22,7 @@ private:
     vector<Restaurant> restaurants;
     vector<string> municipalities;
 public:
+    Base(Location location, Admin manager, vector<Client> clients, vector<Restaurant> restaurants, vector<string> municipalities);
     //Metodos Set
     void setBaseLocation(Location location);
     void setBaseManager(Admin manager);
@@ -34,6 +35,7 @@ public:
     vector<Client> getBaseClients() const;
     vector<Restaurant> getBaseRestaurants() const;
     vector<string> getBaseMunicipalities() const;
+    //Other Methods
 
 };
 

@@ -1,5 +1,13 @@
 #include "Client.h"
 
+Client::Client(string name, Base base, Address address, int nif, bool black_listed) {
+    this->name=name;
+    this->base=base;
+    this->address=address;
+    this->nif=nif;
+    this->black_listed=black_listed;
+}
+
 //Metodos Set
 void Client::setClientName(string name) {
     this->name = name;
@@ -41,6 +49,9 @@ int Client::getClientNif() const {
 bool Client::getBlack_listed() {
     return black_listed;
 }
+
+//Other Methods
+
 
 
 

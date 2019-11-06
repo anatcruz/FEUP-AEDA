@@ -1,5 +1,13 @@
 #include "Address.h"
 
+Address::Address(string street, string door, string floor, string postcode, string municipality) {
+    this->street=street;
+    this->door=door;
+    this->floor=floor;
+    this->postcode=postcode;
+    this->municipality=municipality;
+}
+
 //Metodos Set
 void Address::setStreet(string street) {
     this->street=street;
@@ -41,3 +49,6 @@ string Address::getPostCode() const {
 string Address::getMunicipality() const {
     return municipality;
 }
+
+//Other Methods
+

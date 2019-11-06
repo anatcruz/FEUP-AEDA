@@ -20,6 +20,7 @@ private:
     vector<Worker> workers;
     vector<Base> bases;
 public:
+    Company(string name, Location location, double capital, int nif, string email, string phone, vector<Worker> workers, vector<Base> bases);
     //Metodos Set
     void setCompanyName(string name);
     void setCompanyLocation(Location location);
@@ -38,6 +39,8 @@ public:
     string getCompanyPhone() const;
     vector<Worker> getCompanyWorkers() const;
     vector<Base> getCompanyBases() const;
+    //Other Methods
+
 };
 
 #endif //AEDA_UGHEATS_COMPANY_H

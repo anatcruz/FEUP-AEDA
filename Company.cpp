@@ -1,5 +1,17 @@
 #include "Company.h"
 
+Company::Company(string name, Location location, double capital, int nif, string email, string phone,
+                 vector<Worker> workers, vector<Base> bases) {
+    this->name=name;
+    this->location=location;
+    this->capital=capital;
+    this->nif=nif;
+    this->email=email;
+    this->phone=phone;
+    this->workers=workers;
+    this->bases=bases;
+}
+
 //Metodos Set
 void Company::setCompanyName(string name) {
     this->name = name;
@@ -65,4 +77,7 @@ vector<Worker> Company::getCompanyWorkers() const {
 vector<Base> Company::getCompanyBases() const {
     return bases;
 }
+
+//Other Methods
+
 

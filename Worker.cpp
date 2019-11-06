@@ -1,4 +1,12 @@
 #include "Worker.h"
+//CLASS WORKER
+
+Worker::Worker(string name, int nif, Date birthdate, double salary) {
+    this->name=name;
+    this->nif=nif;
+    this->birthdate=birthdate;
+    this->salary=salary;
+}
 
 //Metodos Set
 void Worker::setWorkerName(string name) {
@@ -34,6 +42,12 @@ double Worker::getWorkerSalary() const {
     return salary;
 }
 
+//CLASS ADMIN
+
+Admin::Admin(string description):Worker(name, nif, birthdate, salary) {
+    this->description=description;
+}
+
 //Metodos Set
 void Admin::setWorkerDescription(string description) {
     this->description = description;
@@ -42,6 +56,15 @@ void Admin::setWorkerDescription(string description) {
 //Metodos Get
 string Admin::getWorkerDescription() const {
     return description;
+}
+
+
+
+//CLASS DELIVERYPERSON
+
+Deliveryperson::Deliveryperson(Vehicle vehicle, vector<Order> orders):Worker(name, nif, birthdate, salary) {
+    this->vehicle=vehicle;
+    this->orders=orders;
 }
 
 //Metodos Set
