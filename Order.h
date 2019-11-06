@@ -1,13 +1,13 @@
 #ifndef AEDA_UGHEATS_ORDER_H
 #define AEDA_UGHEATS_ORDER_H
 
-#include "Restaurant.h"
-#include "Date.h
-#include "Product.h"
-#include "Worker.h"
 #include <vector>
 #include <string>
-
+#include "Restaurant.h"
+#include "Date.h"
+#include "Product.h"
+#include "Worker.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -19,6 +19,7 @@ protected:
     vector<Product> products;
     float orderPrice;
 public:
+    Order() = default;
     Order(Restaurant restaurant, Date date, int orderTime, vector<Product> products, float orderPrice);
     //Metodos Set
     void setOrderRestaurant(Restaurant restaurant);
@@ -44,6 +45,7 @@ private:
     int deliveryTime;
     string notes;
 public:
+    Delivery() = default;
     Delivery(float deliveryPrice, Deliveryperson deliveryperson, bool success, int deliveryTime, string notes);
     //Metodos Set
     void setDeliveryPrice(float deliveryPrice);

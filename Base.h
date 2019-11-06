@@ -1,7 +1,3 @@
-//
-// Created by antonio on 31/10/19.
-//
-
 #ifndef AEDA_UGHEATS_BASE_H
 #define AEDA_UGHEATS_BASE_H
 
@@ -11,6 +7,7 @@
 #include "Worker.h"
 #include "Client.h"
 #include "Restaurant.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -22,6 +19,7 @@ private:
     vector<Restaurant> restaurants;
     vector<string> municipalities;
 public:
+    Base() = default;
     Base(Location location, Admin manager, vector<Client> clients, vector<Restaurant> restaurants, vector<string> municipalities);
     //Metodos Set
     void setBaseLocation(Location location);

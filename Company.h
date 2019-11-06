@@ -6,6 +6,7 @@
 #include "Location.h"
 #include "Worker.h"
 #include "Base.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ private:
     vector<Worker> workers;
     vector<Base> bases;
 public:
+    Company() = default;
     Company(string name, Location location, double capital, int nif, string email, string phone, vector<Worker> workers, vector<Base> bases);
     //Metodos Set
     void setCompanyName(string name);

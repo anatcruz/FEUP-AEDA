@@ -2,6 +2,8 @@
 #define AEDA_UGHEATS_PRODUCT_H
 
 #include <string>
+#include "utils.h"
+
 using namespace std;
 
 class Product {
@@ -11,6 +13,7 @@ private:
     float price;
 
 public:
+    Product() = default;
     Product(string name, string cuisine, float price);
     //Metodos Set
     void setProductName(string name);

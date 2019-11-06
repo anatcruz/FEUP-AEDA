@@ -8,6 +8,16 @@ Address::Address(string street, string door, string floor, string postcode, stri
     this->municipality=municipality;
 }
 
+Address::Address(string fullAddress, char delim) {
+    vector<string> temp;
+    temp = strToVect(fullAddress, delim);
+    street = temp.at(0);
+    door = temp.at(1);
+    floor = temp.at(2);
+    postcode = temp.at(3);
+    municipality = temp.at(4);
+}
+
 //Metodos Set
 void Address::setStreet(string street) {
     this->street=street;

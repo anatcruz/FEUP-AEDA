@@ -2,6 +2,8 @@
 #define AEDA_UGHEATS_ADDRESS_H
 
 #include <string>
+#include <vector>
+#include "utils.h"
 
 using namespace std;
 
@@ -15,6 +17,7 @@ private:
 public:
     Address() = default;
     Address(string street, string door, string floor, string postcode, string municipality);
+    Address(string fullAddress, char delim = '/');
     //Metodos Set
     void setStreet(string street);
     void setDoor(string door);

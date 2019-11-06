@@ -6,6 +6,7 @@
 #include "Date.h"
 #include "Order.h"
 #include "Vehicle.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ protected:
     Date birthdate;
     double salary;
 public:
+    Worker() = default;
     Worker(string name, int nif, Date birthdate, double salary);
     //Metodos Set
     void setWorkerName(string name);
@@ -33,6 +35,7 @@ class Admin: Worker {
 protected:
     string description;
 public:
+    Admin() = default;
     Admin(string description);
     //Metodos Set
     void setWorkerDescription(string description);
@@ -45,6 +48,7 @@ protected:
     Vehicle vehicle;
     vector<Order> orders;
 public:
+    Deliveryperson() = default;
     Deliveryperson(Vehicle vehicle, vector<Order> orders);
     //Metodos Set
     void setVehicle(Vehicle vehicle);

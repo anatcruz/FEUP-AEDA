@@ -7,6 +7,7 @@
 #include "Order.h"
 #include "Product.h"
 #include "Address.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -18,6 +19,7 @@ private:
     vector<Order> orders;
     Base base;
 public:
+    Restaurant() = default;
     Restaurant(Address address, vector<string> cuisine, vector<Product> products, vector<Order> orders, Base base);
     //Metodos Set
     void setRestaurantAddress(Address address);
