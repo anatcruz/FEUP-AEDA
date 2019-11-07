@@ -3,10 +3,12 @@
 
 #include <string>
 #include <vector>
-#include "Date.h"
 #include "Order.h"
+#include "Date.h"
 #include "Vehicle.h"
-#include "utils.h"
+#include "../utils.h"
+
+class Order;
 
 using namespace std;
 
@@ -46,16 +48,16 @@ public:
 class Deliveryperson: Worker {
 protected:
     Vehicle vehicle;
-    vector<Order> orders;
+    vector<Order*> orders;
 public:
     Deliveryperson() = default;
-    Deliveryperson(Vehicle vehicle, vector<Order> orders);
+    Deliveryperson(Vehicle vehicle, vector<Order*> orders);
     //Metodos Set
     void setVehicle(Vehicle vehicle);
-    void setDeliverypersonOrders(vector<Order> orders);
+    void setDeliverypersonOrders(vector<Order*> orders);
     //Metodos Get
     Vehicle getVehicle() const;
-    vector<Order> getDeliverypersonOrders() const;
+    vector<Order*> getDeliverypersonOrders() const;
 };
 
 

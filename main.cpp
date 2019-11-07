@@ -1,6 +1,14 @@
 #include <iostream>
+#include <string>
+
+using namespace std;
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    while (true) {
+        std::cout << "Hello, World!";
+        string a;
+        getline(cin, a);
+        break;
+    }
     return 0;
 }

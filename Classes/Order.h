@@ -7,28 +7,31 @@
 #include "Date.h"
 #include "Product.h"
 #include "Worker.h"
-#include "utils.h"
+#include "../utils.h"
 
 using namespace std;
 
+class Restaurant;
+class Deliveryperson;
+
 class Order {
 protected:
-    Restaurant restaurant;
+    Restaurant* restaurant;
     Date date{};
     int orderTime;
     vector<Product> products;
     float orderPrice;
 public:
     Order() = default;
-    Order(Restaurant restaurant, Date date, int orderTime, vector<Product> products, float orderPrice);
+    Order(Restaurant* restaurant, Date date, int orderTime, vector<Product> products, float orderPrice);
     //Metodos Set
-    void setOrderRestaurant(Restaurant restaurant);
+    void setOrderRestaurant(Restaurant* restaurant);
     void setOrderDate(Date date);
     void setOrderTime(int orderTime);
     void setOrderProducts(vector<Product> products);
     void setOrderPrice(float orderPrice);
     //Metodos Get
-    Restaurant getRestaurant() const;
+    Restaurant* getRestaurant() const;
     Date getOrderDate() const;
     int getOrderTime() const;
     vector<Product> getOrderProducts() const;
@@ -40,22 +43,22 @@ public:
 class Delivery: Order {
 private:
     float deliveryPrice;
-    Deliveryperson deliveryperson;
+    Deliveryperson* deliveryperson;
     bool success;
     int deliveryTime;
     string notes;
 public:
     Delivery() = default;
-    Delivery(float deliveryPrice, Deliveryperson deliveryperson, bool success, int deliveryTime, string notes);
+    Delivery(float deliveryPrice, Deliveryperson* deliveryperson, bool success, int deliveryTime, string notes);
     //Metodos Set
     void setDeliveryPrice(float deliveryPrice);
-    void setDeliveryPerson(float deliveryPerson);
+    void setDeliveryPerson(Deliveryperson* deliveryperson);
     void setSuccess(bool success);
     void setDeliveryTime(int deliveryTime);
     void setDeliveryNotes(string notes);
     //Metodos Get
     float getDeliveryPrice() const;
-    Deliveryperson getDeliveryPerson() const;
+    Deliveryperson* getDeliveryPerson() const;
     bool getSuccess() const;
     int getDeliveryTime() const;
     string getDeliveryNotes() const;

@@ -1,6 +1,6 @@
 #include "Client.h"
 
-Client::Client(string name, Base base, Address address, int nif, bool black_listed) {
+Client::Client(string name, Base* base, Address address, int nif, bool black_listed) {
     this->name=name;
     this->base=base;
     this->address=address;
@@ -13,7 +13,7 @@ void Client::setClientName(string name) {
     this->name = name;
 }
 
-void Client::setBase(Base base) {
+void Client::setBase(Base* base) {
     this->base = base;
 }
 
@@ -34,7 +34,7 @@ string Client::getClientName() const {
     return name;
 }
 
-Base Client::getBase() const {
+Base* Client::getBase() const {
     return base;
 }
 

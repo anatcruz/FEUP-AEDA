@@ -1,6 +1,6 @@
 #include "Base.h"
 
-Base::Base(Location location, Admin manager, vector<Client> clients, vector<Restaurant> restaurants,
+Base::Base(Location location, Admin* manager, vector<Client*> clients, vector<Restaurant*> restaurants,
            vector<string> municipalities) {
     this->location=location;
     this->manager=manager;
@@ -14,15 +14,15 @@ void Base::setBaseLocation(Location location) {
     this->location = location;
 }
 
-void Base::setBaseManager(Admin manager) {
+void Base::setBaseManager(Admin* manager) {
     this->manager = manager;
 }
 
-void Base::setBaseClients(vector<Client> clients) {
+void Base::setBaseClients(vector<Client*> clients) {
     this->clients = clients;
 }
 
-void Base::setBaseRestaurants(vector<Restaurant> restaurants) {
+void Base::setBaseRestaurants(vector<Restaurant*> restaurants) {
     this->restaurants = restaurants;
 }
 
@@ -35,15 +35,15 @@ Location Base::getBaseLocation() const {
     return location;
 }
 
-Admin Base::getBaseManager() const {
+Admin* Base::getBaseManager() const {
     return manager;
 }
 
-vector<Client> Base::getBaseClients() const {
+vector<Client*> Base::getBaseClients() const {
     return clients;
 }
 
-vector<Restaurant> Base::getBaseRestaurants() const {
+vector<Restaurant*> Base::getBaseRestaurants() const {
     return restaurants;
 }
 

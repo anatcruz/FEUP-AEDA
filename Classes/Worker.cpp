@@ -62,7 +62,7 @@ string Admin::getWorkerDescription() const {
 
 //CLASS DELIVERYPERSON
 
-Deliveryperson::Deliveryperson(Vehicle vehicle, vector<Order> orders):Worker(name, nif, birthdate, salary) {
+Deliveryperson::Deliveryperson(Vehicle vehicle, vector<Order*> orders):Worker(name, nif, birthdate, salary) {
     this->vehicle=vehicle;
     this->orders=orders;
 }
@@ -72,7 +72,7 @@ void Deliveryperson::setVehicle(Vehicle vehicle) {
     this->vehicle = vehicle;
 }
 
-void Deliveryperson::setDeliverypersonOrders(vector<Order> orders) {
+void Deliveryperson::setDeliverypersonOrders(vector<Order*> orders) {
     this->orders = orders;
 }
 
@@ -81,6 +81,6 @@ Vehicle Deliveryperson::getVehicle() const {
     return vehicle;
 }
 
-vector<Order> Deliveryperson::getDeliverypersonOrders() const {
+vector<Order*> Deliveryperson::getDeliverypersonOrders() const {
     return orders;
 }

@@ -3,23 +3,23 @@
 
 #include "Address.h"
 #include <utility>
-#include "utils.h"
+#include "../utils.h"
 
 using namespace std;
 
 class Location {
 private:
     Address address;
-    pair<int,int> coords;
+    pair<float,float> coords;
 public:
     Location() = default;
     Location(Address address, pair<float, float> coords);
     //Metodos Set
     void setLocationAddress(Address address);
-    void setLocationCoords(pair<int,int> coords);
+    void setLocationCoords(pair<float,float> coords);
     //Metodos Get
     Address getLocationAddress() const;
-    pair <int,int> getLocationCoords() const;
+    pair <float,float> getLocationCoords() const;
     //Other Methods
 
 };

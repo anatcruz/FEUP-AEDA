@@ -1,7 +1,7 @@
 #include "Restaurant.h"
 
-Restaurant::Restaurant(Address address, vector<string> cuisine, vector<Product> products, vector<Order> orders,
-                       Base base) {
+Restaurant::Restaurant(Address address, vector<string> cuisine, vector<Product> products, vector<Order*> orders,
+                       Base* base) {
     this->address=address;
     this->cuisine=cuisine;
     this->products=products;
@@ -23,11 +23,11 @@ void Restaurant::setRestaurantProducts(vector<Product> products) {
     this->products=products;
 }
 
-void Restaurant::setRestaurantOrders(vector<Order> orders) {
+void Restaurant::setRestaurantOrders(vector<Order*> orders) {
     this->orders=orders;
 }
 
-void Restaurant::setRestaurantBase(Base base) {
+void Restaurant::setRestaurantBase(Base* base) {
     this->base=base;
 }
 
@@ -43,11 +43,11 @@ vector<Product> Restaurant::getRestaurantProducts() const {
     return products;
 }
 
-vector<Order> Restaurant::getRestaurantOrders() const {
+vector<Order*> Restaurant::getRestaurantOrders() const {
     return orders;
 }
 
-Base Restaurant::getRestaurantBase() const {
+Base* Restaurant::getRestaurantBase() const {
     return base;
 }
 
