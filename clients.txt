@@ -1,0 +1,2 @@
+Name;Base;Address;NIF;BlackListed
+Andre;Porto;Rua da Lagoa,1624,1esq,4460-349,Matosinhos;123456789;False

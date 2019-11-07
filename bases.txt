@@ -1,0 +1,3 @@
+Location;Manager;Clients;Restaurants
+Rua Fixe,469,8dir,4250-469,Porto/41.14961000,-8.61099000;workers.txt;clients.txt;restaurants.txt;municipalities.txt
+Rua Fixolas,694,-,2605-006,Lisboa/38.79224000,-9.27894700;workers.txt;clients.txt;restaurants.txt;municipalities.txt

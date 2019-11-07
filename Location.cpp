@@ -1,6 +1,6 @@
 #include "Location.h"
 
-Location::Location(Address address, pair<int, int> coords) {
+Location::Location(Address address, pair<float, float> coords) {
     this->address=address;
     this->coords=coords;
 }
