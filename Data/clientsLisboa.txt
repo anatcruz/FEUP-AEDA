@@ -1,0 +1,23 @@
+Luisa
+Lisboa
+Rua de Julião Barra,55,1frente,1495-016,Oeiras
+666666666
+1
+-----
+Zé
+Lisboa
+Rua de Dia,43,-,2670-678,Loures
+777777777
+0
+-----
+José
+Lisboa
+Rua de Ramada,21,8tras,1675-056,Odivelas
+888888888
+0
+-----
+Madjé
+Lisboa
+Rua Peligrosa,879,1esq,1675-669,Amadora
+999999999
+1

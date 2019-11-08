@@ -91,6 +91,7 @@ ostream &operator<<(ostream &out, const Restaurant &restaurant){
             out << restaurant.orders.at(i);
     }
     out << setw(4) << left << '|' << "Base: " << restaurant.base->getBaseLocation() <<endl;
+    return out;
 }
 
 

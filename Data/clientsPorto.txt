@@ -1,0 +1,23 @@
+Xavale Acefalo
+Porto
+Rua Fernando Costa,110,3dir,4450-043,Matosinhos
+222222222
+1
+-----
+Mariana Silva
+Porto
+Rua de Dio,555,1,1tras,4400-034,Vila Nova de Gaia
+333333333
+0
+-----
+RP do Bar da Biblio
+Porto
+Rua de Trás para a Frente,403,4420-456,Gondomar
+444444444
+1
+-----
+Maya
+Porto
+Rua Avelino,6,-,4470-007,Maia
+555555555
+1

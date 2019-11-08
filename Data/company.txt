@@ -1,2 +1,9 @@
-Name;Location;Capital;NIF;Email;Phone;Workers;Bases
-UghEats Food Delivery;Rua Dr. Roberto Frias,-,-,4200-465,Porto,41.17800000,-8.59800000;100000;987654321;ugheats@gmail.com;966666666;workers.txt;bases.txt
+UghEats Food Delivery
+Rua Dr. Roberto Frias,sn,-,4200-465,Porto
+41.178000,-8.598000
+1000000000000000000000000000000
+111111111
+ugheats@sapo.pt
+96666666
+workers.txt
+bases.txt

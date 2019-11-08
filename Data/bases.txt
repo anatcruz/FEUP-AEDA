@@ -1,3 +1,20 @@
-Location;Manager;Clients;Restaurants
-Rua Fixe,469,8dir,4250-469,Porto/41.14961000,-8.61099000;workers.txt;clients.txt;restaurants.txt;municipalities.txt
-Rua Fixolas,694,-,2605-006,Lisboa/38.79224000,-9.27894700;workers.txt;clients.txt;restaurants.txt;municipalities.txt
+Rua Ruada,69,1esq,4460-420,Porto
+41.184204,-8.658562
+123456789
+clientsPorto.txt
+restaurantsPorto.txt
+Porto,Matosinhos,Gondomar,Maia,Vila Nova de Gaia
+-----
+Rua Mais Ruada,96,rc,1900-003,Lisboa
+38.739519,-9.131115
+987654321
+clientsLisboa.txt
+restaurantLisboa.txt
+Lisboa,Loures,Odivelas,Amadora,Oeiras
+-----
+Rua Mais Que Ruada,420,-,8000-304,Faro
+37.012445,-7.934704
+123459876
+clientsFaro.txt
+restaurantFaro.txt
+Faro,Olhão,Loulé,São Brás de Alportel
