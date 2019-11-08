@@ -24,6 +24,7 @@ public:
     string getCuisine() const;
     float getPrice() const;
     //Other Methods
+    friend ostream& operator<<(ostream& out, const Product &product);
 };
 
 

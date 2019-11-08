@@ -31,6 +31,7 @@ public:
     string getPostCode() const;
     string getMunicipality() const;
     //Other Methods
+    friend ostream& operator<<(ostream& out, const Address &address);
 };
 
 

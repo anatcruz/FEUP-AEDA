@@ -38,7 +38,7 @@ public:
     vector<Restaurant*> getBaseRestaurants() const;
     vector<string> getBaseMunicipalities() const;
     //Other Methods
-
+    friend ostream& operator<<(ostream& out, const Base &base);
 };
 
 

@@ -21,7 +21,7 @@ public:
     Address getLocationAddress() const;
     pair <float,float> getLocationCoords() const;
     //Other Methods
-
+    friend ostream& operator<<(ostream& out, const Location &location);
 };
 
 

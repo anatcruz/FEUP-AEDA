@@ -25,7 +25,7 @@ public:
     int getMonth() const;
     int getYear() const;
     //Other Methods
-
+    friend ostream& operator<<(ostream& out, const Date & date);
 };
 
 bool validDate(string date);

@@ -34,7 +34,7 @@ public:
     int getClientNif() const;
     bool getBlack_listed();
     //Other Methods
-
+    friend ostream& operator<<(ostream& out, const Client & client);
 };
 
 

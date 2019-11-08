@@ -80,4 +80,28 @@ vector<Base> Company::getCompanyBases() const {
 
 //Other Methods
 
-
+ostream& operator<<(ostream& out, const Company &company){
+    out << setw(2) << ' ' << company.name << endl;
+    out << "/" << endl;
+    out << setw(4) << left << '|' << "Location: " << company.location << endl;
+    out << setw(4) << left << '|' << "Capital: " << company.capital << endl;
+    out << setw(4) << left << '|' << "NIF: " << company.nif << endl;
+    out << setw(4) << left << '|' << "Email: " << company.email << endl;
+    out << setw(4) << left << '|' << "Phone Number: " << company.phone << endl;
+    out << setw(4) << left << '|' << "Workers: ";
+    for(int i=0 ; i< company.workers.size() ; i++){
+        if (i == company.workers.size() - 1)
+            out << company.workers.at(i);
+        else
+            out << company.workers.at(i);
+    }
+    out << setw(4) << left << '|' << "Bases: ";
+    for(int i=0 ; i<company.bases.size() ; i++){
+        if (i == company.bases.size() - 1)
+            out << company.bases.at(i);
+        else
+            out << company.bases.at(i);
+    }
+    out << "\\_" << endl;
+    return out;
+}

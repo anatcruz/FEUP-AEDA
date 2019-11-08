@@ -52,7 +52,13 @@ bool Client::getBlack_listed() {
 
 //Other Methods
 
-
-
-
-
+ostream& operator<<(ostream& out, const Client &client){
+    out << "/" << endl;
+    out << setw(4) << left << '|' << "Name: " << client.name << endl;
+    out << setw(4) << left << '|' << "Base: "<< client.base->getBaseLocation() << endl;
+    out << setw(4) << left << '|' << "Address: " << client.address << endl;
+    out << setw(4) << left << '|' << "NIF: " << right << setfill('0') << setw(9) << client.nif << setfill(' ') <<endl;
+    out << setw(4) << left << '|' << "Blacklisted: " << client.black_listed << endl;
+    out << "\\_" << endl;
+    return out;
+}

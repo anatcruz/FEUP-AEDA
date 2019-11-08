@@ -42,7 +42,7 @@ public:
     vector<Worker> getCompanyWorkers() const;
     vector<Base> getCompanyBases() const;
     //Other Methods
-
+    friend ostream& operator<<(ostream& out, const Company &company);
 };
 
 #endif //AEDA_UGHEATS_COMPANY_H

@@ -23,6 +23,8 @@ public:
     string getManufacturer() const;
     string getType() const;
     Date getPurchaseDate() const;
+    //Other Methods
+    friend ostream& operator<<(ostream& out, const Vehicle &vehicle);
 };
 
 

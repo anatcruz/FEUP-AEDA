@@ -1,7 +1,8 @@
 #include "Restaurant.h"
 
-Restaurant::Restaurant(Address address, vector<string> cuisine, vector<Product> products, vector<Order*> orders,
+Restaurant::Restaurant(string name, Address address, vector<string> cuisine, vector<Product> products, vector<Order*> orders,
                        Base* base) {
+    this->name=name;
     this->address=address;
     this->cuisine=cuisine;
     this->products=products;
@@ -11,6 +12,11 @@ Restaurant::Restaurant(Address address, vector<string> cuisine, vector<Product> 
 
 
 //Metodos Set
+
+void Restaurant::setRestaurantName(string name) {
+    this->name=name;
+}
+
 void Restaurant::setRestaurantAddress(Address address) {
     this->address=address;
 }
@@ -29,6 +35,12 @@ void Restaurant::setRestaurantOrders(vector<Order*> orders) {
 
 void Restaurant::setRestaurantBase(Base* base) {
     this->base=base;
+}
+
+//Metodos Get
+
+string Restaurant::getRestaurantName() const {
+    return name;
 }
 
 Address Restaurant::getRestaurantAddress() const {
@@ -50,5 +62,37 @@ vector<Order*> Restaurant::getRestaurantOrders() const {
 Base* Restaurant::getRestaurantBase() const {
     return base;
 }
+
+//Other Methods
+
+ostream &operator<<(ostream &out, const Restaurant &restaurant){
+    out << setw(2) << ' ' << restaurant.name << endl;
+    out << "/" << endl;
+    out << setw(4) << left << '|' << "Address: " << restaurant.address << endl;
+    out << setw(4) << left << '|' << "Cuisine type: ";
+    for(int i=0 ; i< restaurant.cuisine.size() ; i++){
+        if (i == restaurant.cuisine.size() - 1)
+            out << restaurant.cuisine.at(i);
+        else
+            out << restaurant.cuisine.at(i);
+    }
+    out << setw(4) << left << '|' << "Products: ";
+    for(int i=0 ; i< restaurant.products.size() ; i++){
+        if (i == restaurant.products.size() - 1)
+            out << restaurant.products.at(i);
+        else
+            out << restaurant.products.at(i);
+    }
+    out << setw(4) << left << '|' << "Orders: ";
+    for(int i=0 ; i< restaurant.orders.size() ; i++){
+        if (i == restaurant.orders.size() - 1)
+            out << restaurant.orders.at(i);
+        else
+            out << restaurant.orders.at(i);
+    }
+    out << setw(4) << left << '|' << "Base: " << restaurant.base->getBaseLocation() <<endl;
+}
+
+
 
 

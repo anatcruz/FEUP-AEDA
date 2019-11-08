@@ -41,6 +41,13 @@ int Date::getYear() const {
 
 //Other Methods
 
+ostream& operator<<(ostream& out, const Date & date){
+    out << setfill('0') << right << setw(4) << to_string(date.year);
+    out << "/" << setfill('0') << setw(2) << to_string(date.month);
+    out << "/" << setfill('0') << setw(2) << to_string(date.day);
+    return out;
+}
+
 bool validDate(string date) {
     if (date.empty())
         return false;
