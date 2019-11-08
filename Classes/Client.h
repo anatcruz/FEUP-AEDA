@@ -4,11 +4,13 @@
 #include <string>
 #include "Base.h"
 #include "Address.h"
+#include "Order.h"
 #include "../utils.h"
 
 using namespace std;
 
 class Base;
+class Order;
 
 class Client {
 private:
@@ -17,6 +19,7 @@ private:
     Address address;
     int nif;
     bool black_listed;
+    vector<Order> orders; //TODO editar funçoes e ficheiros de clientes
 
 public:
     Client() = default;
