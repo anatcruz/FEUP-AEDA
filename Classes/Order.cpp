@@ -2,7 +2,7 @@
 
 //CLASS ORDER
 
-Order::Order(Restaurant* restaurant, Date date, int orderTime, vector<Product> products, float orderPrice, Client* client) {
+Order::Order(Restaurant* restaurant, Client* client, Date date, int orderTime, vector<Product> products, float orderPrice) {
     this->restaurant=restaurant;
     this->date=date;
     this->orderTime=orderTime;
@@ -66,7 +66,7 @@ Client *Order::getOrderClient() const {
 
 //CLASE DELIVERY
 
-Delivery::Delivery(float deliveryPrice, Deliveryperson* deliveryperson, bool success, int deliveryTime, string notes):Order(restaurant, date, orderTime, products, orderPrice){
+Delivery::Delivery(float deliveryPrice, Deliveryperson* deliveryperson, bool success, int deliveryTime, string notes):Order(restaurant, client, date, orderTime, products, orderPrice){
     this->deliveryPrice=deliveryPrice;
     this->deliveryperson=deliveryperson;
     this->success=success;
