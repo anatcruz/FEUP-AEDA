@@ -3,6 +3,9 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
+#include <iostream>
+#include <fstream>
 #include "Location.h"
 #include "Worker.h"
 #include "Base.h"
@@ -18,11 +21,12 @@ private:
     int nif;
     string email;
     string phone;
-    vector<Worker> workers;
+    vector<Worker*> workers;
     vector<Base> bases;
 public:
     Company() = default;
-    Company(string name, Location location, double capital, int nif, string email, string phone, vector<Worker> workers, vector<Base> bases);
+    Company(string name, Location location, double capital, int nif, string email, string phone, vector<Worker*> workers, vector<Base> bases);
+    Company(string companytxt);
     //Metodos Set
     void setCompanyName(string name);
     void setCompanyLocation(Location location);
@@ -30,7 +34,7 @@ public:
     void setCompanyNif(int nif);
     void setCompanyEmail(string email);
     void setCompanyPhone(string phone);
-    void setCompanyWorkers(vector<Worker> workers);
+    void setCompanyWorkers(vector<Worker*> workers);
     void setCompanyBases(vector<Base> bases);
     //Metodos Get
     string getCompanyName() const;
@@ -39,7 +43,7 @@ public:
     int getCompanyNif() const;
     string getCompanyEmail() const;
     string getCompanyPhone() const;
-    vector<Worker> getCompanyWorkers() const;
+    vector<Worker*> getCompanyWorkers() const;
     vector<Base> getCompanyBases() const;
     //Other Methods
     friend ostream& operator<<(ostream& out, const Company &company);

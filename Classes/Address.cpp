@@ -8,9 +8,9 @@ Address::Address(string street, string door, string floor, string postcode, stri
     this->municipality=municipality;
 }
 
-Address::Address(string fullAddress, char delim) {
+Address::Address(string fullAddress) {
     vector<string> temp;
-    temp = strToVect(fullAddress, delim);
+    temp = strToVect(fullAddress, ',');
     street = temp.at(0);
     door = temp.at(1);
     floor = temp.at(2);

@@ -1,7 +1,7 @@
 #include "Company.h"
 
 Company::Company(string name, Location location, double capital, int nif, string email, string phone,
-                 vector<Worker> workers, vector<Base> bases) {
+                 vector<Worker*> workers, vector<Base> bases) {
     this->name=name;
     this->location=location;
     this->capital=capital;
@@ -12,9 +12,8 @@ Company::Company(string name, Location location, double capital, int nif, string
     this->bases=bases;
 }
 
-//Metodos Set
 void Company::setCompanyName(string name) {
-    this->name = name;
+    this->name=name;
 }
 
 void Company::setCompanyLocation(Location location) {
@@ -37,7 +36,7 @@ void Company::setCompanyPhone(string phone) {
     this->phone = phone;
 }
 
-void Company::setCompanyWorkers(vector<Worker> workers) {
+void Company::setCompanyWorkers(vector<Worker*> workers) {
     this->workers = workers;
 }
 
@@ -70,7 +69,7 @@ string Company::getCompanyPhone() const {
     return phone;
 }
 
-vector<Worker> Company::getCompanyWorkers() const {
+vector<Worker*> Company::getCompanyWorkers() const {
     return workers;
 }
 
@@ -104,4 +103,35 @@ ostream& operator<<(ostream& out, const Company &company){
     }
     out << "\\_" << endl;
     return out;
+}
+
+Company::Company(string fileName){
+    ifstream company_file;
+    company_file.open(fileName);
+    string address;
+    string coords;
+    string str;
+    string workersFile;
+    string basesFile;
+
+    if (company_file.fail())
+    {
+        cerr << "Error opening file " << fileName << endl;
+        exit(1);
+    }
+
+    getline(company_file, name);
+    getline(company_file, address);
+    getline(company_file, coords);
+    location = Location(Address(address),makeCoords(coords));
+    getline(company_file, str);
+    capital = stod(str);
+    getline(company_file,str);
+    nif=stoi(str);
+    getline(company_file, email);
+    getline(company_file, phone);
+    getline(company_file, workersFile);
+    getline(company_file, basesFile);
+
+
 }
