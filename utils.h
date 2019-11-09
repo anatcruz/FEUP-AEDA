@@ -18,5 +18,8 @@ string trim(string &str);
 //Vector/String conversions
 vector<string> strToVect(const string &str, char delim = ' ');
 
+//Make a pair of coords from a string
+pair<float,float> makeCoords(const string str);
+
 
 #endif //AEDA_UGHEATS_UTILS_H

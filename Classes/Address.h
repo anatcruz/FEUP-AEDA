@@ -17,7 +17,7 @@ private:
 public:
     Address() = default;
     Address(string street, string door, string floor, string postcode, string municipality);
-    Address(string fullAddress, char delim = '/');
+    Address(string fullAddress);
     //Metodos Set
     void setStreet(string street);
     void setDoor(string door);
