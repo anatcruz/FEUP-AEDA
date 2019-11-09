@@ -62,3 +62,7 @@ ostream& operator<<(ostream& out, const Client &client){
     out << "\\_" << endl;
     return out;
 }
+
+
+
+

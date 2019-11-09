@@ -2,6 +2,7 @@
 #define AEDA_UGHEATS_CLIENT_H
 
 #include <string>
+#include <vector>
 #include "Base.h"
 #include "Address.h"
 #include "Order.h"
@@ -19,7 +20,6 @@ private:
     Address address;
     int nif;
     bool black_listed;
-    vector<Order> orders; //TODO editar funçoes e ficheiros de clientes
 
 public:
     Client() = default;

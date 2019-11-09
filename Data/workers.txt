@@ -1,0 +1,21 @@
+Worker
+Joao Silva
+321654987
+12/02/1985
+600
+-----
+Admin
+Sara Lopes
+426831578
+14/11/1974
+900
+Manager de Faro
+-----
+Deliveryperson
+Rui Carlos
+678554966
+16/05/1989
+749
+Mercedes
+Carro
+12/04/2002
