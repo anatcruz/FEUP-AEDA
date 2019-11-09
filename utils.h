@@ -21,5 +21,15 @@ vector<string> strToVect(const string &str, char delim = ' ');
 //Make a pair of coords from a string
 pair<float,float> makeCoords(const string str);
 
+//Menu utilities
+void line(int size, char ch = '-');
+
+void cinERR(const string &message);
+
+void getOption(int &dest, const string &message = "Option: ");
+
+//NIF verification
+//bool validNIF(string const &nif);
+
 
 #endif //AEDA_UGHEATS_UTILS_H

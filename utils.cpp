@@ -32,3 +32,44 @@ pair<float,float> makeCoords(const string str){
     coords.second=stof(temp.at(1));
     return coords;
 }
+
+//Menu utilities
+void line(int size, char ch) {
+    // Prints a line of specified size with specified character
+    cout << setfill(ch) << setw(size) << "" << endl << setfill(' ');
+}
+
+void cinERR(const string &message) {
+    // Outputs an error message and clears cin flags
+    cerr << message;
+    cout << endl;
+    cin.clear();
+}
+
+void getOption(int &dest, const string &message) {
+    // Tries to get a valid int option from cin to use in a switch-case
+    string str;
+
+    while (true) {
+        try {
+            cout << endl << message;
+            getline(cin, str);
+            cout << endl;
+            dest = stoi(str);
+            break;
+        }
+        catch (invalid_argument) {
+            str = "";
+            cinERR("ERROR: Invalid entry, try again");
+        }
+    }
+}
+
+
+//NIF verification
+/*
+bool validNIF(string const &nif) {
+    if (nif.length() != 9 || !isNumeric(nif))
+        return false;
+    return true;
+}*/
