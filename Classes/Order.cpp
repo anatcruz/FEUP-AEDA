@@ -61,12 +61,14 @@ Client *Order::getOrderClient() const {
     return client;
 }
 
+
+
 //Other Methods
 
 
 //CLASE DELIVERY
 
-Delivery::Delivery(float deliveryPrice, Deliveryperson* deliveryperson, bool success, int deliveryTime, string notes):Order(restaurant, date, orderTime, products, orderPrice){
+Delivery::Delivery(Restaurant* restaurant, Date date, int orderTime, vector<Product> products, float orderPrice, Client* client, float deliveryPrice, Deliveryperson* deliveryperson, bool success, int deliveryTime, string notes):Order(restaurant, date, orderTime, products, orderPrice, client){
     this->deliveryPrice=deliveryPrice;
     this->deliveryperson=deliveryperson;
     this->success=success;

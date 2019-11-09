@@ -45,7 +45,7 @@ public:
 
 };
 
-class Delivery: Order {
+class Delivery: public Order {
 private:
     float deliveryPrice;
     Deliveryperson* deliveryperson;
@@ -54,7 +54,7 @@ private:
     string notes;
 public:
     Delivery() = default;
-    Delivery(float deliveryPrice, Deliveryperson* deliveryperson, bool success, int deliveryTime, string notes);
+    Delivery(Restaurant* restaurant, Date date, int orderTime, vector<Product> products, float orderPrice, Client* client, float deliveryPrice, Deliveryperson* deliveryperson, bool success, int deliveryTime, string notes);
     //Metodos Set
     void setDeliveryPrice(float deliveryPrice);
     void setDeliveryPerson(Deliveryperson* deliveryperson);
