@@ -1,8 +1,9 @@
-Worker
+Admin
 Joao Silva
 321654987
 12/02/1985
 600
+Contabilista
 -----
 Admin
 Sara Lopes

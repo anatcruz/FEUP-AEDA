@@ -105,11 +105,14 @@ ostream& operator<<(ostream& out, const Company &company){
     return out;
 }
 
-Company::Company(string fileName){
+Company::Company(const string fileName){
+
+    //Read from company.txt
     ifstream company_file;
     company_file.open(fileName);
-    string address;
-    string coords;
+
+    Address address;
+    pair<float,float> coords;
     string str;
     string workersFile;
     string basesFile;
@@ -121,9 +124,11 @@ Company::Company(string fileName){
     }
 
     getline(company_file, name);
-    getline(company_file, address);
-    getline(company_file, coords);
-    location = Location(Address(address),makeCoords(coords));
+    getline(company_file, str);
+    address = Address(str);
+    getline(company_file, str);
+    coords = makeCoords(str);
+    location = Location(address, coords);
     getline(company_file, str);
     capital = stod(str);
     getline(company_file,str);
@@ -133,5 +138,75 @@ Company::Company(string fileName){
     getline(company_file, workersFile);
     getline(company_file, basesFile);
 
+    company_file.close();
 
+
+    //Read from workers.txt
+    ifstream workers_file;
+    workers_file.open(workersFile);
+
+    if (workers_file.fail())
+    {
+        cerr << "Error opening file " << fileName << endl;
+        exit(1);
+    }
+
+    while(getline(workers_file, str)){
+        if(str == "Admin"){
+            Admin *a = new Admin;
+            getline(workers_file, str); //Name
+            a->setWorkerName(str);
+            getline(workers_file, str); //Nif
+            a->setWorkerNif(stoi(str));
+            getline(workers_file, str); //Birthdate
+            a->setWorkerBirthdate(Date(str));
+            getline(workers_file, str); //Salary
+            a->setWorkerSalary(stod(str));
+            getline(workers_file, str); //Description
+            a->setWorkerDescription(str);
+            workers.push_back(a);
+        }
+        else if(str == "Deliveryperson"){
+            Deliveryperson *d = new Deliveryperson;
+            getline(workers_file, str); //Name
+            d->setWorkerName(str);
+            getline(workers_file, str); //Nif
+            d->setWorkerNif(stoi(str));
+            getline(workers_file, str); //Birthdate
+            d->setWorkerBirthdate(Date(str));
+            getline(workers_file, str); //Salary
+            d->setWorkerSalary(stod(str));
+            Vehicle v;
+            getline(workers_file, str); //Vehicle Manufacturer
+            v.setManufacturer(str);
+            getline(workers_file, str); //Vehicle Type
+            v.setType(str);
+            getline(workers_file, str); //Vehicle purchaseDate
+            v.setPurchaseDate(Date(str));
+            d->setVehicle(v);
+            workers.push_back(d);
+        }
+        getline(workers_file, str); //Discard delimiter
+    }
+
+    workers_file.close();
+
+
+    //Read from bases.txt
+    ifstream bases_file;
+    bases_file.open(basesFile);
+
+    if(bases_file.fail())
+    {
+        cerr << "Error opening file " << fileName << endl;
+        exit(1);
+    }
+
+    while(getline(bases_file, str)){
+        Base *b = new Base;
+        address = Address(str);
+        getline(bases_file, str);
+        coords = makeCoords(str);
+        b->setBaseLocation(Location(address,coords));
+    }
 }
