@@ -42,9 +42,21 @@ double Worker::getWorkerSalary() const {
     return salary;
 }
 
+void Worker::print(ostream &out) const {
+    out << "/" << endl;
+    out << setw(4) << left << '|' << "Name: " << name << endl;
+    out << setw(4) << left << '|' << "NIF: " << right << setfill('0') << setw(9) << nif << setfill(' ') << endl;
+    out << setw(4) << left << '|' << "Birthdate: " << birthdate << endl;
+    out << setw(4) << left << '|' << "Salary: " << salary << endl;
+    out << "\\_" << endl;
+}
+
+//Other Methods
+
+
 //CLASS ADMIN
 
-Admin::Admin(string description):Worker(name, nif, birthdate, salary) {
+Admin::Admin(string name, int nif, Date birthdate, double salary, string description):Worker(name, nif, birthdate, salary) {
     this->description=description;
 }
 
@@ -58,13 +70,19 @@ string Admin::getWorkerDescription() const {
     return description;
 }
 
+//Other Methods
+ostream &operator<<(ostream &out, const Admin &admin) {
+    admin.print(out);
+    out << setw(4) << left << '|' << "Description: " << admin.description << endl;
+    out << "\\_" << endl;
+    return out;
+}
 
 
 //CLASS DELIVERYPERSON
 
-Deliveryperson::Deliveryperson(Vehicle vehicle, vector<Order*> orders):Worker(name, nif, birthdate, salary) {
+Deliveryperson::Deliveryperson(string name, int nif, Date birthdate, double salary, Vehicle vehicle):Worker(name, nif, birthdate, salary) {
     this->vehicle=vehicle;
-    this->orders=orders;
 }
 
 //Metodos Set
@@ -72,15 +90,16 @@ void Deliveryperson::setVehicle(Vehicle vehicle) {
     this->vehicle = vehicle;
 }
 
-void Deliveryperson::setDeliverypersonOrders(vector<Order*> orders) {
-    this->orders = orders;
-}
-
 //Metodos Get
 Vehicle Deliveryperson::getVehicle() const {
     return vehicle;
 }
 
-vector<Order*> Deliveryperson::getDeliverypersonOrders() const {
-    return orders;
+//Other Methods
+ostream &operator<<(ostream &out, const Deliveryperson &deliveryperson) {
+    deliveryperson.print(out);
+    out << setw(4) << left << '|' << "Vehicle: " << deliveryperson.vehicle << endl;
+    out << "\\_" << endl;
+    return out;
 }
+

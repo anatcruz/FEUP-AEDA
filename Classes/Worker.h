@@ -31,33 +31,36 @@ public:
     int getWorkerNif() const;
     Date getWorkerBirthdate() const;
     double getWorkerSalary() const;
+    //Other Methods
+    virtual void print(ostream &out) const;
 };
 
-class Admin: Worker {
+class Admin: public Worker {
 protected:
     string description;
 public:
     Admin() = default;
-    Admin(string description);
+    Admin(string name, int nif, Date birthdate, double salary, string description);
     //Metodos Set
     void setWorkerDescription(string description);
     //Metodos Get
     string getWorkerDescription() const;
+    //Other Methods
+    friend ostream& operator<<(ostream& out, const Admin &admin);
 };
 
-class Deliveryperson: Worker {
+class Deliveryperson: public Worker {
 protected:
     Vehicle vehicle;
-    vector<Order*> orders;
 public:
     Deliveryperson() = default;
-    Deliveryperson(Vehicle vehicle, vector<Order*> orders);
+    Deliveryperson(string name, int nif, Date birthdate, double salary, Vehicle vehicle);
     //Metodos Set
     void setVehicle(Vehicle vehicle);
-    void setDeliverypersonOrders(vector<Order*> orders);
     //Metodos Get
     Vehicle getVehicle() const;
-    vector<Order*> getDeliverypersonOrders() const;
+    //Other Methods
+    friend ostream& operator<<(ostream& out, const Deliveryperson &deliveryperson);
 };
 
 
