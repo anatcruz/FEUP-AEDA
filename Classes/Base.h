@@ -39,6 +39,8 @@ public:
     vector<string> getBaseMunicipalities() const;
     //Other Methods
     friend ostream& operator<<(ostream& out, const Base &base);
+    void addClientToBase(const Client &client);
+    void addRestaurantToBase(const Restaurant &restaurant);
 };
 
 

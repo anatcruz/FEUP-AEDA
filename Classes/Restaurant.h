@@ -29,6 +29,7 @@ public:
     void setRestaurantName(string name);
     void setRestaurantAddress(Address address);
     void setRestaurantCuisine(vector<string> cuisine);
+    void setRestaurantCuisine(string cuisine);
     void setRestaurantProducts(vector<Product> products);
     void setRestaurantOrders(vector<Order*> orders);
     void setRestaurantBase(Base* base);
@@ -41,6 +42,7 @@ public:
     Base* getRestaurantBase() const;
     //Other Methods
     friend ostream& operator<<(ostream& out, const Restaurant &restaurant);
+    void addProductsToRestaurant(const Product &product);
 };
 
 
