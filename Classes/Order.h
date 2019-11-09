@@ -7,12 +7,14 @@
 #include "Date.h"
 #include "Product.h"
 #include "Worker.h"
+#include "Client.h"
 #include "../utils.h"
 
 using namespace std;
 
 class Restaurant;
 class Deliveryperson;
+class Client;
 
 class Order {
 protected:
