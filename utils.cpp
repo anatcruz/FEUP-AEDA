@@ -10,8 +10,6 @@ string trim(string &str) {
     return str.substr(str_init, str_range);
 }
 
-
-
 vector<string> strToVect(const string &str, char delim) {
     vector<string> result;
     string tmp;
@@ -24,4 +22,13 @@ vector<string> strToVect(const string &str, char delim) {
         ss >> ws;
     }
     return result;
+}
+
+pair<float,float> makeCoords(const string str){
+    pair<float,float> coords;
+    vector<string> temp;
+    temp = strToVect(str,',');
+    coords.first=stof(temp.at(0));
+    coords.second=stof(temp.at(1));
+    return coords;
 }
