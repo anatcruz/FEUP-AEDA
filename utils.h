@@ -12,6 +12,9 @@
 
 using namespace std;
 
+// Checks if a string is made up exclusively by numbers
+bool isNumeric(const string &str);
+
 // Removes whitespace from both ends of a string
 string trim(string &str);
 
@@ -29,7 +32,6 @@ void cinERR(const string &message);
 void getOption(int &dest, const string &message = "Option: ");
 
 //NIF verification
-//bool validNIF(string const &nif);
-
+bool validNIF(string const &nif);
 
 #endif //AEDA_UGHEATS_UTILS_H

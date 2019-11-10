@@ -1,5 +1,14 @@
 #include "utils.h"
 
+bool isNumeric(const string &str) {
+    if (str.empty())
+        return false;
+    for (int i = 0; i < str.length(); i++)
+        if (!isdigit(str[i]))
+            return false;
+    return true;
+}
+
 string trim(string &str) {
     auto str_init = str.find_first_not_of(" \t");
     if (str_init == string::npos)
@@ -67,9 +76,8 @@ void getOption(int &dest, const string &message) {
 
 
 //NIF verification
-/*
 bool validNIF(string const &nif) {
     if (nif.length() != 9 || !isNumeric(nif))
         return false;
     return true;
-}*/
+}
