@@ -122,14 +122,10 @@ ostream& operator<<(ostream& out, const Company &company){
 }
 
 Company::Company(string fileName){
-
+    string str;
     //Read from company.txt
     ifstream company_file;
     company_file.open(fileName);
-
-    Address address;
-    pair<float,float> coords;
-    string str;
 
     if (company_file.fail())
     {
@@ -139,10 +135,7 @@ Company::Company(string fileName){
 
     getline(company_file, name);
     getline(company_file, str);
-    address = Address(str);
-    getline(company_file, str);
-    coords = makeCoords(str);
-    location = Location(address, coords);
+    location = Location(str);
     getline(company_file, str);
     capital = stod(str);
     getline(company_file,str);
@@ -219,10 +212,7 @@ Company::Company(string fileName){
     while(getline(bases_file, str)){
         Base b;
 
-        address = Address(str);
-        getline(bases_file, str);
-        coords = makeCoords(str);
-        b.setBaseLocation(Location(address,coords));   //Base Location
+        b.setBaseLocation(Location(str));   //Base Location
         getline(bases_file, str);
         auto it = find_if(workers.begin(),workers.end(), [=](Worker* w){return w->getWorkerNif() == stoi(str);}); //Get Admin for this base
         b.setBaseManager((Admin*)*(it));
@@ -298,24 +288,82 @@ Company::Company(string fileName){
     bases_file.close();
 }
 
-void updateClientsFile(Base &base){
-    vector<Client> temp = base.getBaseClients();
-    string file = base.getBaseClientsFile();
-    ofstream out_file;
+void updateCompanyFile(Company &company){
+    ofstream out_file("company.txt");
 
-    out_file.open(file);
+    out_file<< company.getCompanyName()<<endl;
+    out_file<< company.getCompanyLocation() << endl;
+    out_file<< company.getCompanyCapital() << endl;
+    out_file<< company.getCompanyNif() << endl;
+    out_file<< company.getCompanyEmail() << endl;
+    out_file<< company.getCompanyWorkersFile() << endl;
+    out_file<<company.getCompanyBasesFile()<<endl;
+
+    out_file.close();
+}
+
+void updateBasesFile(Company &company){
+    vector<Base> temp = company.getCompanyBases();
+    string file = company.getCompanyBasesFile();
+    ofstream out_file(file);
 
     for(int i = 0; i < temp.size(); i++){
-        out_file<<temp.at(i).getClientName();
-        out_file<<temp.at(i).getBase()->getBaseLocation();
-        out_file<<temp.at(i).getClientAddress();
-        out_file<<temp.at(i).getClientNif();
-        out_file<<temp.at(i).getBlack_listed();
+        out_file<<temp.at(i).getBaseLocation() <<endl;
+        out_file<<temp.at(i).getBaseManager()->getWorkerNif() <<endl;
+        out_file<<temp.at(i).getBaseClientsFile() <<endl;
+        out_file<<temp.at(i).getBaseRestaurantsFile() << endl;
+        for(int j=0; j<temp.at(i).getBaseMunicipalities().size(); j++){
+            if(j==temp.at(i).getBaseMunicipalities().size()-1)
+                out_file<<temp.at(i).getBaseMunicipalities().at(j) << endl;
+            else
+                out_file<<temp.at(i).getBaseMunicipalities().at(j) << ",";
+        }
         if(i!=temp.size()-1)
             out_file<<"-----"<<endl;
     }
 
     out_file.close();
+}
+
+/*void updateWorkersFile(Company &company){
+    vector<Worker*> temp = company.getCompanyWorkers();
+    string file = company.getCompanyWorkersFile();
+    ofstream out_file(file);
+
+    for(int i = 0; i < temp.size(); i++){
+        out_file<<temp.at(i).get
+    }
+}*/
+
+void updateClientsFile(Base &base){
+    vector<Client> temp = base.getBaseClients();
+    string file = base.getBaseClientsFile();
+    ofstream out_file(file);
+
+    for(int i = 0; i < temp.size(); i++){
+        out_file<<temp.at(i).getClientName() <<endl;
+        out_file<<temp.at(i).getBase()->getBaseLocation()<<endl;
+        out_file<<temp.at(i).getClientAddress()<<endl;
+        out_file<<temp.at(i).getClientNif()<<endl;
+        out_file<<temp.at(i).getBlack_listed()<<endl;
+        if(i!=temp.size()-1)
+            out_file<<"-----"<<endl;
+    }
+
+    out_file.close();
+}
+
+void viewClientOrdersHistory(Client &client){
+    Base *base = client.getBase();
+    for(int i=0;i<base->getBaseRestaurants().size();i++){
+        Restaurant r = base->getBaseRestaurants().at(i);
+        for(int j=0;j<r.getRestaurantOrders().size();j++){
+            Order* o = r.getRestaurantOrders().at(j);
+            if(o->getOrderClient()->getClientNif()==client.getClientNif()){
+                cout<<o;
+            }
+        }
+    }
 }
 
 bool createClientAccount(Company &company, Base &base){
@@ -514,5 +562,4 @@ bool deleteClientAccount(Client &client){
 
     return true;
 }
-
 

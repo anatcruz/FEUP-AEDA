@@ -13,6 +13,7 @@ private:
     pair<float,float> coords;
 public:
     Location() = default;
+    Location(string location);
     Location(Address address, pair<float, float> coords);
     //Metodos Set
     void setLocationAddress(Address address);

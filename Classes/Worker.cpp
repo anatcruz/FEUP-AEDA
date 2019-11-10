@@ -48,7 +48,6 @@ void Worker::print(ostream &out) const {
     out << setw(4) << left << '|' << "NIF: " << right << setfill('0') << setw(9) << nif << setfill(' ') << endl;
     out << setw(4) << left << '|' << "Birthdate: " << birthdate << endl;
     out << setw(4) << left << '|' << "Salary: " << salary << endl;
-    out << "\\_" << endl;
 }
 
 //Other Methods
