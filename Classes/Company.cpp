@@ -297,3 +297,77 @@ Company::Company(string fileName){
 
     bases_file.close();
 }
+
+bool createClient(Company &company, Base &base){
+    vector<Client> temp_clients = base.getBaseClients();
+    Client new_client;
+    string name, str_nif,street_name,door,floor,postcode,municipality;
+    Address address;
+    unsigned nif;
+    bool black_listed;
+
+    while(true){
+        cout << "Nif (* - cancel): ";
+        getline(cin,str_nif);
+
+        if(validNIF(str_nif)){
+            nif = stoi(str_nif);
+            break;
+        }
+        else if(str_nif == "*")
+            return false;
+        cinERR("ERROR: Invalid NIF, try again!");
+    }
+
+    if (searchClientbyNif(nif,temp_clients)){
+        cinERR("ERROR: It already exits a client with the given nif!");
+        return false;
+    }
+
+    new_client.setClientNif(nif);
+
+    cout << "Municipality: ";
+    getline(cin,municipality);
+    if (searchbyMunicipality(municipality,base))
+        address.setMunicipality(municipality);
+
+    else{
+        cinERR("ERROR: You cant sign up in this base!");
+        return false;
+    }
+
+    cout << "Name: (* - cancel): ";
+    getline(cin,name);
+    if(name == "*")
+        return false;
+    else
+        new_client.setClientName(trim(name));
+
+    cout << "Address: " << endl;
+    cout << "-Street name: ";
+    getline(cin,street_name);
+    address.setStreet(trim(street_name));
+    cout << "-Door number: ";
+    getline(cin,door);
+    address.setDoor(trim(door));
+    cout << "-Floor number (- none): ";
+    getline(cin,floor);
+    address.setFloor(trim(floor));
+    while(true){
+        cout << "Postcode: ";
+        getline(cin,postcode);
+
+        if(validPostcode(trim(postcode)))
+            break;
+
+        cinERR("ERROR: Invalid Postcode, try again!");
+    }
+    address.setPostCode(trim(postcode));
+    new_client.setClientAddress(address);
+    new_client.setBlack_listed(false);
+    temp_clients.push_back(new_client);
+    base.setBaseClients(temp_clients);
+    return true;
+}
+
+

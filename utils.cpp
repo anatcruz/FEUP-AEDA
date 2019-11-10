@@ -74,10 +74,17 @@ void getOption(int &dest, const string &message) {
     }
 }
 
-
-//NIF verification
 bool validNIF(string const &nif) {
-    if (nif.length() != 9 || !isNumeric(nif))
+    return !(nif.length() != 9 || !isNumeric(nif));
+}
+
+bool validPostcode(string const &postcode){
+    if(!isNumeric(postcode.substr(0,4)))
         return false;
-    return true;
+    if (postcode.substr(4,1) != "-")
+        return false;
+    if (!isNumeric(postcode.substr(5,3)))
+        return false;
+    return postcode.size() == 8;
+
 }

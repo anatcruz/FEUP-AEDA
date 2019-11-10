@@ -106,4 +106,10 @@ void Base::addRestaurantToBase(const Restaurant &restaurant) {
     restaurants.push_back(restaurant);
 }
 
-
+bool searchbyMunicipality(string municipality, Base &base){
+    for (int i = 0; i < base.getBaseMunicipalities().size(); i++){
+        if (base.getBaseMunicipalities().at(i) == municipality)
+            return true;
+    }
+    return false;
+}

@@ -34,4 +34,7 @@ void getOption(int &dest, const string &message = "Option: ");
 //NIF verification
 bool validNIF(string const &nif);
 
+//Postcode verification
+bool validPostcode(string const &postcode);
+
 #endif //AEDA_UGHEATS_UTILS_H

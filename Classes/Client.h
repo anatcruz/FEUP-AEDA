@@ -40,5 +40,8 @@ public:
     friend ostream& operator<<(ostream& out, const Client & client);
 };
 
+//Verifica se um cliente existe no vetor
+bool searchClientbyNif(int nif, vector<Client> clients);
+
 
 #endif //AEDA_UGHEATS_CLIENT_H
