@@ -3,25 +3,26 @@
 
 #include <string>
 #include <vector>
+#include <functional>
 #include "../utils.h"
 
 using namespace std;
 
-typedef void (*function)();
+//typedef void (*function)();
 
 class Menu {
 private:
     string name;
-    vector<pair<string, function>> options;
+    vector<pair<string, function<void()>>> options;
 public:
     Menu(string name);
     void start();
     void display();
     string getName();
-    vector<pair<string, function>> getOptions();
+    vector<pair<string, function<void()>>> getOptions();
     void setName(string name);
-    void setOptions(vector<pair<string, function>> options);
-    void addOption(string option, function func);
+    void setOptions(vector<pair<string, function<void()>>> options);
+    void addOption(string option, function<void()> func);
 };
 
 

@@ -8,8 +8,9 @@
 
 using namespace std;
 
-void Menu::addOption(string option, function func) {
-    pair<string, void (*)()> opt;
+
+void Menu::addOption(string option, function<void()> func) {
+    pair<string, function<void()>> opt;
     opt.first = option;
     opt.second = func;
     options.push_back(opt);
@@ -24,11 +25,11 @@ Menu::Menu(string name) {
     this->name = name;
 }
 
-void Menu::setOptions(vector<pair<string, function>> options) {
+void Menu::setOptions(vector<pair<string, function<void()>>> options) {
     this->options = options;
 }
 
-vector<pair<string, function>> Menu::getOptions() {
+vector<pair<string, function<void()>>> Menu::getOptions() {
     return options;
 }
 
@@ -41,10 +42,16 @@ void Menu::display() {
     }
     // Por convenção, a opção 0 é sempre fechar/voltar
     cout << endl << "0. " << options.at(0).first << endl;
+}
+
+void Menu::start() {
     int opt;
     while (true) {
+        this->display();
         getOption(opt);
-        if (opt >= 0 && opt < options.size()) {
+        if (opt > 0 && opt < options.size()) {
+            options.at(opt).second();
+        } else if (opt == 0) {
             options.at(opt).second();
             break;
         } else {

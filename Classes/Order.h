@@ -26,7 +26,7 @@ protected:
     float orderPrice;
 public:
     Order() = default;
-    Order(Restaurant* restaurant, Client* client, Date date, int orderTime, vector<Product> products, float orderPrice);
+    Order(Restaurant* restaurant, Date date, int orderTime, vector<Product> products, float orderPrice, Client* client);
     //Metodos Set
     void setOrderRestaurant(Restaurant* restaurant);
     void setOrderDate(Date date);
