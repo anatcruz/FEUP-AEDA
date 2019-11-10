@@ -6,7 +6,7 @@ Location::Location(Address address, pair<float, float> coords) {
 }
 
 Location::Location(string location) {
-    vector<string> temp, temp2;
+    vector<string> temp;
     Address address;
     pair<float,float> coords;
     temp = strToVect(location, ',');
@@ -14,9 +14,9 @@ Location::Location(string location) {
     address.setDoor(temp.at(1));
     address.setFloor(temp.at(2));
     address.setPostCode(temp.at(3));
-    temp2 = strToVect(temp.at(4),'/');
-    address.setMunicipality(temp2.at(0));
-    coords = makeCoords(temp2.at(1));
+    address.setMunicipality(temp.at(4));
+    coords.first = stof(temp.at(5));
+    coords.second = stof(temp.at(6));
     this->address=address;
     this->coords=coords;
 }
