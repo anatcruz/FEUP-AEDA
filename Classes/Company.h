@@ -58,6 +58,6 @@ public:
 //Funçoes de clientes
 void updateClientsFile(Base &base);
 bool createClientAccount(Company &company, Base &base);
-bool editClientInfo(Client &client);
+bool editClientInfo(Company &company, Client &client);
 bool deleteClientAccount(Client &client);
 #endif //AEDA_UGHEATS_COMPANY_H

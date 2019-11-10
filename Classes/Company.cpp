@@ -348,7 +348,7 @@ bool createClientAccount(Company &company, Base &base){
 
     cout << "Municipality: ";
     getline(cin,municipality);
-    if (searchbyMunicipality(municipality,base))
+    if (searchbyMunicipality(municipality,base.getBaseMunicipalities()))
         address.setMunicipality(municipality);
 
     else{
@@ -390,10 +390,20 @@ bool createClientAccount(Company &company, Base &base){
     return true;
 }
 
-/*bool editClientInfo(Client &client){
+bool editClientInfo(Company &company, Client &client){
+    Base *current_base = client.getBase();
+    Base new_base;
     int opt;
-    string str;
-    bool infoChanged=false;
+    string new_name,street_name,door,floor,postcode,municipality;
+    bool infoChanged=false,changedBase=false;
+    Address new_address;
+    auto it_client = current_base->getBaseClients().begin();
+
+    for (auto it = current_base->getBaseClients().begin(); it != current_base->getBaseClients().end(); it++ ){
+        if((*it) == client)
+            it_client = it;
+    }
+
     do{
         cout << "Select which information you want to modify:" << endl;
         cout << "1: Name" << endl;
@@ -407,26 +417,72 @@ bool createClientAccount(Company &company, Base &base){
             case 1:
                 cout << "Current Name: " << client.getClientName() << endl;
                 cout << "New name (* - cancel): ";
-                getline(cin,str);
-                if(str=="*")
+                getline(cin,new_name);
+                if(new_name == "*")
                     break;
-                client.setClientName(trim(str));
+                client.setClientName(trim(new_name));
                 infoChanged=true;
                 break;
             case 2:
                 cout << "Current address: " << client.getClientAddress();
-                cout << "New address (* - cancel): ";
-                getline(cin,str);
-                if(str=="*")
-                    break;
-                Address address = Address(trim(str));
+                cout << "New address: " << endl;
+                cout << "-Municipality: ";
+                getline(cin,municipality);
+                if (searchbyMunicipality(municipality,client.getBase()->getBaseMunicipalities())){
+                    new_address.setMunicipality(municipality);
+                }
+                else{
+                    cinERR("ERROR: You cant stay in this base!");
+                    if (!exitsBase(company.getCompanyBases(),municipality)){
+                        cinERR("ERROR: We dont have services for that municipality!");
+                        cout << "Changes were undone!";
+                        return false;
+                    }
+                    else{
+                        for(int i = 0; i < company.getCompanyBases().size(); i++){
+                            if(searchbyMunicipality(municipality, company.getCompanyBases().at(i).getBaseMunicipalities())) {
+                                client.setBase(&company.getCompanyBases().at(i));
+                                new_address.setMunicipality(municipality);
+                                changedBase = true;
+                                new_base = company.getCompanyBases().at(i);
+                                cout << "You changed for the base: " << new_base.getBaseLocation();
+                            }
+                        }
+                    }
+                }
+                cout << "-Street name: ";
+                getline(cin,street_name);
+                new_address.setStreet(trim(street_name));
+                cout << "-Door number: ";
+                getline(cin,door);
+                new_address.setDoor(trim(door));
+                cout << "-Floor number (- none): ";
+                getline(cin,floor);
+                new_address.setFloor(trim(floor));
+                while(true){
+                    cout << "Postcode: ";
+                    getline(cin,postcode);
+
+                    if(validPostcode(trim(postcode)))
+                        break;
+
+                    cinERR("ERROR: Invalid Postcode, try again!");
+                }
+                new_address.setPostCode(trim(postcode));
+                infoChanged=true;
+                break;
+
         }
 
     }while(opt!=0);
 
+    if(changedBase){
+        new_base.getBaseClients().push_back(client);
+        current_base->getBaseClients().erase(it_client);
+    }
 
-
-}*/
+    return true;
+}
 
 bool deleteClientAccount(Client &client){
     string str;
