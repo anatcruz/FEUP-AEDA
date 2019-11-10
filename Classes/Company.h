@@ -55,4 +55,9 @@ public:
     friend ostream& operator<<(ostream& out, const Company &company);
 };
 
+//Funçoes de clientes
+void updateClientsFile(Base &base);
+bool createClientAccount(Company &company, Base &base);
+bool editClientInfo(Client &client);
+bool deleteClientAccount(Client &client);
 #endif //AEDA_UGHEATS_COMPANY_H

@@ -121,95 +121,6 @@ ostream& operator<<(ostream& out, const Company &company){
     return out;
 }
 
-/*bool editClientInfo(Client &client){
-    int opt;
-    string str;
-    bool infoChanged=false;
-    do{
-        cout << "Select which information you want to modify:" << endl;
-        cout << "1: Name" << endl;
-        cout << "2: Address" << endl;
-        cout << "0: Return" << endl;
-        getOption(opt);
-
-        switch(opt){
-            case 0:
-                break;
-            case 1:
-                cout << "Current Name: " << client.getClientName() << endl;
-                cout << "New name (* - cancel): ";
-                getline(cin,str);
-                if(str=="*")
-                    break;
-                client.setClientName(trim(str));
-                infoChanged=true;
-                break;
-            case 2:
-                cout << "Current address: " << client.getClientAddress();
-                cout << "New address (* - cancel): ";
-                getline(cin,str);
-                if(str=="*")
-                    break;
-                Address address = Address(trim(str));
-        }
-
-    }while(opt!=0);
-
-
-
-}*/
-
-bool deleteClientAccount(Client &client){
-    string str;
-    Base *base = client.getBase();
-
-    cout << "Are you sure you want to delete your account? (Y/N): ";
-    while(true){
-        try{
-            getline(cin, str);
-            if(trim(str)=="Y"){
-                for (int i=0; i<base->getBaseClients().size(); i++){
-                    if(base->getBaseClients().at(i).getClientNif()==client.getClientNif()){
-                        base->getBaseClients().erase(base->getBaseClients().begin()+i);
-                        break;
-                    }
-                }
-                break;
-            }
-            else if(trim(str)=="N"){
-                cout<<"Account not deleted"<<endl;
-                return false;
-            }
-        }
-        catch (invalid_argument){
-            cinERR("ERROR: Invalid input, try again! ");
-        }
-    }
-
-
-    return true;
-}
-
-void updateClientsFile(Base &base){
-    vector<Client> temp = base.getBaseClients();
-    string file = base.getBaseClientsFile();
-    ofstream out_file;
-
-    out_file.open(file);
-
-    for(int i = 0; i < temp.size(); i++){
-        out_file<<temp.at(i).getClientName();
-        out_file<<temp.at(i).getBase()->getBaseLocation();
-        out_file<<temp.at(i).getClientAddress();
-        out_file<<temp.at(i).getClientNif();
-        out_file<<temp.at(i).getBlack_listed();
-        if(i!=temp.size()-1)
-            out_file<<"-----"<<endl;
-    }
-    
-    out_file.close();
-}
-
 Company::Company(string fileName){
 
     //Read from company.txt
@@ -387,7 +298,27 @@ Company::Company(string fileName){
     bases_file.close();
 }
 
-bool createClient(Company &company, Base &base){
+void updateClientsFile(Base &base){
+    vector<Client> temp = base.getBaseClients();
+    string file = base.getBaseClientsFile();
+    ofstream out_file;
+
+    out_file.open(file);
+
+    for(int i = 0; i < temp.size(); i++){
+        out_file<<temp.at(i).getClientName();
+        out_file<<temp.at(i).getBase()->getBaseLocation();
+        out_file<<temp.at(i).getClientAddress();
+        out_file<<temp.at(i).getClientNif();
+        out_file<<temp.at(i).getBlack_listed();
+        if(i!=temp.size()-1)
+            out_file<<"-----"<<endl;
+    }
+
+    out_file.close();
+}
+
+bool createClientAccount(Company &company, Base &base){
     vector<Client> temp_clients = base.getBaseClients();
     Client new_client;
     string name, str_nif,street_name,door,floor,postcode,municipality;
@@ -456,6 +387,75 @@ bool createClient(Company &company, Base &base){
     new_client.setBlack_listed(false);
     temp_clients.push_back(new_client);
     base.setBaseClients(temp_clients);
+    return true;
+}
+
+/*bool editClientInfo(Client &client){
+    int opt;
+    string str;
+    bool infoChanged=false;
+    do{
+        cout << "Select which information you want to modify:" << endl;
+        cout << "1: Name" << endl;
+        cout << "2: Address" << endl;
+        cout << "0: Return" << endl;
+        getOption(opt);
+
+        switch(opt){
+            case 0:
+                break;
+            case 1:
+                cout << "Current Name: " << client.getClientName() << endl;
+                cout << "New name (* - cancel): ";
+                getline(cin,str);
+                if(str=="*")
+                    break;
+                client.setClientName(trim(str));
+                infoChanged=true;
+                break;
+            case 2:
+                cout << "Current address: " << client.getClientAddress();
+                cout << "New address (* - cancel): ";
+                getline(cin,str);
+                if(str=="*")
+                    break;
+                Address address = Address(trim(str));
+        }
+
+    }while(opt!=0);
+
+
+
+}*/
+
+bool deleteClientAccount(Client &client){
+    string str;
+    Base *base = client.getBase();
+
+    cout << "Are you sure you want to delete your account? (Y/N): ";
+    while(true){
+        try{
+            getline(cin, str);
+            if(trim(str)=="Y"){
+                for (int i=0; i<base->getBaseClients().size(); i++){
+                    if(base->getBaseClients().at(i).getClientNif()==client.getClientNif()){
+                        base->getBaseClients().erase(base->getBaseClients().begin()+i);
+                        break;
+                    }
+                }
+                break;
+            }
+            else if(trim(str)=="N"){
+                cout<<"Account not deleted"<<endl;
+                return false;
+            }
+        }
+        catch (invalid_argument){
+            cinERR("ERROR: Invalid input, try again! ");
+        }
+    }
+
+
     return true;
 }
 
