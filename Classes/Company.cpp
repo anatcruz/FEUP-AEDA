@@ -105,7 +105,7 @@ ostream& operator<<(ostream& out, const Company &company){
     return out;
 }
 
-Company::Company(const string fileName){
+Company::Company(string fileName){
 
     //Read from company.txt
     ifstream company_file;
@@ -203,10 +203,81 @@ Company::Company(const string fileName){
     }
 
     while(getline(bases_file, str)){
-        Base *b = new Base;
+        Base b;
+
         address = Address(str);
         getline(bases_file, str);
         coords = makeCoords(str);
-        b->setBaseLocation(Location(address,coords));
+        b.setBaseLocation(Location(address,coords));   //Base Location
+        getline(bases_file, str);
+        auto it = find_if(workers.begin(),workers.end(), [=](Worker* w){return w->getWorkerNif() == stoi(str);}); //Get Admin for this base
+        b.setBaseManager((Admin*)*(it));
+
+        //Get Clients
+        getline(bases_file, str);
+        ifstream clients_file(str);
+        while(getline(clients_file, str)){
+            Client c;
+            c.setClientName(str);   //Client Name
+            getline(clients_file, str);
+            c.setBase(&b);   //Base
+            getline(clients_file, str);
+            c.setClientAddress(Address(str));   //Address
+            getline(clients_file, str);
+            c.setClientNif(stoi(str));  //Nif
+            getline(clients_file, str);
+            c.setBlack_listed(stoi(str));   //BlackListed
+
+            b.addClientToBase(c);
+
+            getline(clients_file, str); //Discard delimiter
+        }
+        clients_file.close();
+
+        //Get Restaurants
+        getline(bases_file,str);
+        ifstream restaurants_file(str);
+        while(getline(restaurants_file, str)){
+            Restaurant r;
+            r.setRestaurantName(str);   //Name
+            getline(restaurants_file, str);
+            r.setRestaurantAddress(Address(str));   //Address
+            getline(restaurants_file, str);
+            r.setRestaurantCuisine(strToVect(str));    //Cuisine
+            
+            //Get Products
+            getline(restaurants_file, str);
+            ifstream products_file(str);
+            while(getline(products_file, str)){
+                Product p;
+                p.setProductName(str);
+                getline(products_file, str);
+                p.setCuisine(str);
+                getline(products_file, str);
+                p.setPrice(stof(str));
+                r.addProductsToRestaurant(p);
+
+                getline(restaurants_file, str); //Discard delimiter
+            }
+            products_file.close();
+
+            getline(restaurants_file, str);
+            r.setRestaurantBase(&b); //Restaurant Base
+
+            b.addRestaurantToBase(r);
+
+            getline(restaurants_file, str); //Discard delimiter
+        }
+        restaurants_file.close();
+
+        getline(bases_file,str);
+        b.setBaseMunicipalities(strToVect(str)); //Base Municipalities
+
+        bases.push_back(b);
+
+        getline(bases_file,str);    //Discard delimiter
     }
+
+
+    bases_file.close();
 }

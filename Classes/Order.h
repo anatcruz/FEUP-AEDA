@@ -20,7 +20,7 @@ class Order {
 protected:
     Restaurant* restaurant;
     Client* client;
-    Date date{};
+    Date date;
     int orderTime;
     vector<Product> products;
     float orderPrice;
@@ -42,6 +42,7 @@ public:
     float getOrderPrice() const;
     Client* getOrderClient() const;
     //Other Methods
+    virtual void print(ostream &out) const;
 
 };
 
@@ -54,7 +55,7 @@ private:
     string notes;
 public:
     Delivery() = default;
-    Delivery(Restaurant* restaurant, Date date, int orderTime, vector<Product> products, float orderPrice, Client* client, float deliveryPrice, Deliveryperson* deliveryperson, bool success, int deliveryTime, string notes);
+    Delivery(Restaurant* restaurant, Client* client, Date date, int orderTime, vector<Product> products, float orderPrice, float deliveryPrice, Deliveryperson* deliveryperson, bool success, int deliveryTime, string notes);
     //Metodos Set
     void setDeliveryPrice(float deliveryPrice);
     void setDeliveryPerson(Deliveryperson* deliveryperson);
@@ -68,6 +69,7 @@ public:
     int getDeliveryTime() const;
     string getDeliveryNotes() const;
     //Other Methods
+    friend ostream& operator<<(ostream& out, const Delivery &delivery);
 
 };
 

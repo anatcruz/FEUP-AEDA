@@ -25,6 +25,10 @@ void Restaurant::setRestaurantCuisine(vector<string> cuisine) {
     this->cuisine=cuisine;
 }
 
+void Restaurant::setRestaurantCuisine(string cuisine){
+    this->cuisine=strToVect(cuisine,',');
+}
+
 void Restaurant::setRestaurantProducts(vector<Product> products) {
     this->products=products;
 }
@@ -92,6 +96,10 @@ ostream &operator<<(ostream &out, const Restaurant &restaurant){
     }
     out << setw(4) << left << '|' << "Base: " << restaurant.base->getBaseLocation() <<endl;
     return out;
+}
+
+void Restaurant::addProductsToRestaurant(const Product &product) {
+    products.push_back(product);
 }
 
 

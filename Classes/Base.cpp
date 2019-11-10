@@ -81,3 +81,11 @@ ostream& operator<<(ostream& out, const Base &base){
     out << "\\_" << endl;
     return out;
 }
+
+void Base::addClientToBase(const Client &client) {
+    clients.push_back(client);
+}
+
+void Base::addRestaurantToBase(const Restaurant &restaurant) {
+    restaurants.push_back(restaurant);
+}

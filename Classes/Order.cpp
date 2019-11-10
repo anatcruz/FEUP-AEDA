@@ -2,13 +2,14 @@
 
 //CLASS ORDER
 
-Order::Order(Restaurant* restaurant, Date date, int orderTime, vector<Product> products, float orderPrice, Client* client) {
+Order::Order(Restaurant* restaurant,Client* client, Date date, int orderTime, vector<Product> products, float orderPrice) {
     this->restaurant=restaurant;
+    this->client = client;
     this->date=date;
     this->orderTime=orderTime;
     this->products=products;
     this->orderPrice=orderPrice;
-    this->client = client;
+
 }
 
 //Metodos Set
@@ -62,12 +63,27 @@ Client *Order::getOrderClient() const {
 }
 
 //Other Methods
-
+void Order::print(ostream &out) const {
+    out << "/" << endl;
+    out << setw(4) << left << '|' << "Restaurant: " << restaurant << endl;
+    out << setw(4) << left << '|' << "Client: "<< client << endl;
+    out << setw(4) << left << '|' << "Date: " << date << endl;
+    out << setw(4) << left << '|' << "Order time: " << orderTime << endl;
+    out << setw(4) << left << '|' << "Products: ";
+    for(int i=0 ; i< products.size() ; i++){
+        if (i == products.size() - 1)
+            out << products.at(i);
+        else
+            out << products.at(i);
+    }
+    out << setw(4) << left << '|' << "Order price: " << orderPrice << endl;
+    out << "\\_" << endl;
+}
 
 //CLASE DELIVERY
 
 
-Delivery::Delivery(Restaurant* restaurant, Date date, int orderTime, vector<Product> products, float orderPrice, Client* client, float deliveryPrice, Deliveryperson* deliveryperson, bool success, int deliveryTime, string notes):Order(restaurant, date, orderTime, products, orderPrice, client){
+Delivery::Delivery(Restaurant* restaurant,Client* client, Date date, int orderTime, vector<Product> products, float orderPrice, float deliveryPrice, Deliveryperson* deliveryperson, bool success, int deliveryTime, string notes):Order(restaurant, client, date, orderTime, products, orderPrice){
     this->deliveryPrice=deliveryPrice;
     this->deliveryperson=deliveryperson;
     this->success=success;
@@ -115,5 +131,17 @@ int Delivery::getDeliveryTime() const {
 
 string Delivery::getDeliveryNotes() const {
     return notes;
+}
+
+//Other Methods
+ostream &operator<<(ostream &out, const Delivery &delivery) {
+    delivery.print(out);
+    out << setw(4) << left << '|' << "Delivery price: "<< delivery.deliveryPrice << endl;
+    out << setw(4) << left << '|' << "Delivery person: " << delivery.deliveryperson << endl;
+    out << setw(4) << left << '|' << "Sucess: " << delivery.success << endl;
+    out << setw(4) << left << '|' << "Delivery time: " << delivery.deliveryTime << endl;
+    out << setw(4) << left << '|' << "Notes: " << delivery.notes << endl;
+    out << "\\_" << endl;
+    return out;
 }
 
