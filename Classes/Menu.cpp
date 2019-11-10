@@ -55,7 +55,7 @@ void Menu::start() {
             options.at(opt).second();
             break;
         } else {
-            cout << "Invalid option, try again.";
+            cout << "Invalid option, try again.\n" << endl;
         }
     }
 }
