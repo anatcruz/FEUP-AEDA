@@ -56,7 +56,10 @@ public:
 };
 
 //Funçoes de clientes
+void updateCompanyFile(Company &company);
+void updateBasesFile(Company &company);
 void updateClientsFile(Base &base);
+void viewClientOrdersHistory(Client &client);
 bool createClientAccount(Company &company, Base &base);
 bool editClientInfo(Company &company, Client &client);
 bool deleteClientAccount(Client &client);
