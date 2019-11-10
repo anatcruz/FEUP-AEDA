@@ -72,5 +72,6 @@ bool searchClientbyNif(int nif, vector<Client> clients){
     return false;
 }
 
-
-
+bool Client::operator==(Client &c2) {
+    return nif == c2.getClientNif();
+}

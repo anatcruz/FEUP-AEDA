@@ -38,6 +38,7 @@ public:
     bool getBlack_listed();
     //Other Methods
     friend ostream& operator<<(ostream& out, const Client & client);
+    bool operator==(Client& c2);
 };
 
 //Verifica se um cliente existe no vetor
