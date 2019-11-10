@@ -12,7 +12,7 @@ Rua de Dio,555,1,1tras,4400-034,Vila Nova de Gaia
 -----
 RP do Bar da Biblio
 Porto
-Rua de Trás para a Frente,403,4420-456,Gondomar
+Rua de Trás para a Frente,403,-,4420-456,Gondomar
 444444444
 1
 -----

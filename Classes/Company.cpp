@@ -153,7 +153,7 @@ Company::Company(string fileName){
 */
     while(getline(workers_file, str)){
         if(str == "Admin"){
-            Admin *a = new Admin;
+            Admin *a = new Admin();
             getline(workers_file, str); //Name
             a->setWorkerName(str);
             getline(workers_file, str); //Nif
@@ -167,7 +167,7 @@ Company::Company(string fileName){
             workers.push_back(a);
         }
         else if(str == "Deliveryperson"){
-            Deliveryperson *d = new Deliveryperson;
+            Deliveryperson *d = new Deliveryperson();
             getline(workers_file, str); //Name
             d->setWorkerName(str);
             getline(workers_file, str); //Nif
@@ -244,7 +244,7 @@ Company::Company(string fileName){
             r.setRestaurantAddress(Address(str));   //Address
             getline(restaurants_file, str);
             r.setRestaurantCuisine(strToVect(str));    //Cuisine
-            
+
             //Get Products
             getline(restaurants_file, str);
             ifstream products_file(str);
@@ -257,7 +257,7 @@ Company::Company(string fileName){
                 p.setPrice(stof(str));
                 r.addProductsToRestaurant(p);
 
-                getline(restaurants_file, str); //Discard delimiter
+                getline(products_file, str); //Discard delimiter
             }
             products_file.close();
 
@@ -284,6 +284,6 @@ Company::Company(string fileName){
 
 Company::~Company() {
     for (int i = 0; i < workers.size(); i++) {
-        free(workers.at(i));
+        delete workers.at(i);
     }
 }

@@ -39,5 +39,6 @@ int main() {
 
     // Start!
     startMenu.start();
+
     return 0;
 }

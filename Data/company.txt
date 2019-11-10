@@ -5,5 +5,5 @@ Rua Dr. Roberto Frias,sn,-,4200-465,Porto
 111111111
 ugheats@sapo.pt
 96666666
-workers.txt
-bases.txt
+/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/workers.txt
+/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/bases.txt

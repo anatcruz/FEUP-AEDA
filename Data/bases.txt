@@ -1,20 +1,20 @@
 Rua Ruada,69,1esq,4460-420,Porto
 41.184204,-8.658562
-123456789
-clientsPorto.txt
-restaurantsPorto.txt
+321654987
+/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/clientsPorto.txt
+/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/restaurantsPorto.txt
 Porto,Matosinhos,Gondomar,Maia,Vila Nova de Gaia
 -----
 Rua Mais Ruada,96,rc,1900-003,Lisboa
 38.739519,-9.131115
-987654321
-clientsLisboa.txt
-restaurantLisboa.txt
+321654987
+/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/clientsLisboa.txt
+/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/restaurantLisboa.txt
 Lisboa,Loures,Odivelas,Amadora,Oeiras
 -----
 Rua Mais Que Ruada,420,-,8000-304,Faro
 37.012445,-7.934704
-123459876
-clientsFaro.txt
-restaurantFaro.txt
+321654987
+/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/clientsFaro.txt
+/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/restaurantFaro.txt
 Faro,Olhão,Loulé,São Brás de Alportel
