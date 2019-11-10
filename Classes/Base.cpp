@@ -30,6 +30,14 @@ void Base::setBaseMunicipalities(vector<string> municipalities) {
     this->municipalities = municipalities;
 }
 
+void Base::setBaseClientsFile(string clientsFile) {
+    this->clientsFile=clientsFile;
+}
+
+void Base::setBaseRestaurantsFile(string restaurantsFile) {
+    this->restaurantsFile=restaurantsFile;
+}
+
 //Metodos Get
 Location Base::getBaseLocation() const {
     return location;
@@ -49,6 +57,14 @@ vector<Restaurant> Base::getBaseRestaurants() const {
 
 vector<string> Base::getBaseMunicipalities() const {
     return municipalities;
+}
+
+string Base::getBaseClientsFile() const {
+    return clientsFile;
+}
+
+string Base::getBaseRestaurantsFile() const {
+    return restaurantsFile;
 }
 
 //Other Methods
@@ -89,3 +105,5 @@ void Base::addClientToBase(const Client &client) {
 void Base::addRestaurantToBase(const Restaurant &restaurant) {
     restaurants.push_back(restaurant);
 }
+
+

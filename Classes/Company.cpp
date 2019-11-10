@@ -44,6 +44,14 @@ void Company::setCompanyBases(vector<Base> bases) {
     this->bases = bases;
 }
 
+void Company::setCompanyWorkersFile(string workersFile) {
+    this->workersFile=workersFile;
+}
+
+void Company::setCompanyBasesFile(string basesFile) {
+    this->basesFile=basesFile;
+}
+
 //Metodos Get
 string Company::getCompanyName() const {
     return name;
@@ -75,6 +83,14 @@ vector<Worker*> Company::getCompanyWorkers() const {
 
 vector<Base> Company::getCompanyBases() const {
     return bases;
+}
+
+string Company::getCompanyWorkersFile() const {
+    return workersFile;
+}
+
+string Company::getCompanyBasesFile() const {
+    return basesFile;
 }
 
 //Other Methods
@@ -114,8 +130,6 @@ Company::Company(string fileName){
     Address address;
     pair<float,float> coords;
     string str;
-    string workersFile;
-    string basesFile;
 
     if (company_file.fail())
     {
@@ -215,6 +229,7 @@ Company::Company(string fileName){
 
         //Get Clients
         getline(bases_file, str);
+        b.setBaseClientsFile(str);
         ifstream clients_file(str);
         while(getline(clients_file, str)){
             Client c;
@@ -236,6 +251,7 @@ Company::Company(string fileName){
 
         //Get Restaurants
         getline(bases_file,str);
+        b.setBaseRestaurantsFile(str);
         ifstream restaurants_file(str);
         while(getline(restaurants_file, str)){
             Restaurant r;

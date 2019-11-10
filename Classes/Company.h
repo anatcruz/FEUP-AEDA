@@ -23,6 +23,8 @@ private:
     string phone;
     vector<Worker*> workers;
     vector<Base> bases;
+    string workersFile;
+    string basesFile;
 public:
     Company() = default;
     Company(string name, Location location, double capital, int nif, string email, string phone, vector<Worker*> workers, vector<Base> bases);
@@ -36,6 +38,8 @@ public:
     void setCompanyPhone(string phone);
     void setCompanyWorkers(vector<Worker*> workers);
     void setCompanyBases(vector<Base> bases);
+    void setCompanyWorkersFile(string workersFile);
+    void setCompanyBasesFile(string basesFile);
     //Metodos Get
     string getCompanyName() const;
     Location getCompanyLocation() const;
@@ -45,6 +49,8 @@ public:
     string getCompanyPhone() const;
     vector<Worker*> getCompanyWorkers() const;
     vector<Base> getCompanyBases() const;
+    string getCompanyWorkersFile() const;
+    string getCompanyBasesFile() const;
     //Other Methods
     friend ostream& operator<<(ostream& out, const Company &company);
 };
