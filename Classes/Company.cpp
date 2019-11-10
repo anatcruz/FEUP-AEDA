@@ -108,20 +108,20 @@ ostream& operator<<(ostream& out, const Company &company){
 Company::Company(string fileName){
 
     //Read from company.txt
-    ifstream company_file;
-    company_file.open(fileName);
+    ifstream company_file(fileName);
+//    company_file.open();
 
     Address address;
     pair<float,float> coords;
     string str;
     string workersFile;
     string basesFile;
-
+/*
     if (company_file.fail())
     {
         cerr << "Error opening file " << fileName << endl;
         exit(1);
-    }
+    }*/
 
     getline(company_file, name);
     getline(company_file, str);
@@ -144,13 +144,13 @@ Company::Company(string fileName){
     //Read from workers.txt
     ifstream workers_file;
     workers_file.open(workersFile);
-
+/*
     if (workers_file.fail())
     {
         cerr << "Error opening file " << fileName << endl;
         exit(1);
     }
-
+*/
     while(getline(workers_file, str)){
         if(str == "Admin"){
             Admin *a = new Admin;
@@ -195,13 +195,13 @@ Company::Company(string fileName){
     //Read from bases.txt
     ifstream bases_file;
     bases_file.open(basesFile);
-
+/*
     if(bases_file.fail())
     {
         cerr << "Error opening file " << fileName << endl;
         exit(1);
     }
-
+*/
     while(getline(bases_file, str)){
         Base b;
 
@@ -280,4 +280,10 @@ Company::Company(string fileName){
 
 
     bases_file.close();
+}
+
+Company::~Company() {
+    for (int i = 0; i < workers.size(); i++) {
+        free(workers.at(i));
+    }
 }

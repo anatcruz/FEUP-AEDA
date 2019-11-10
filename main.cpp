@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Classes/Menu.h"
+#include "Classes/Company.h"
 
 using namespace std;
 
@@ -14,6 +15,8 @@ Menu* wrapper;
 
 
 int main() {
+    Company ugh("/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/company.txt");
+
     // Start program message
     line(35);
     cout << setw(35) << setfill (' ') << "Ugh-Eats v1.0" << endl;

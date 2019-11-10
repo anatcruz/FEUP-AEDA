@@ -27,6 +27,7 @@ public:
     Company() = default;
     Company(string name, Location location, double capital, int nif, string email, string phone, vector<Worker*> workers, vector<Base> bases);
     Company(string fileName);
+    ~Company();
     //Metodos Set
     void setCompanyName(string name);
     void setCompanyLocation(Location location);
