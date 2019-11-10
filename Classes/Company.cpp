@@ -124,27 +124,22 @@ ostream& operator<<(ostream& out, const Company &company){
 Company::Company(string fileName){
 
     //Read from company.txt
-    ifstream company_file(fileName);
-//    company_file.open();
+    ifstream company_file;
+    company_file.open(fileName);
 
     Address address;
     pair<float,float> coords;
     string str;
-    string workersFile;
-    string basesFile;
-    /*
-    if (company_file.fail())
+
+    if (!company_file.is_open())
     {
         cerr << "Error opening file " << fileName << endl;
         exit(1);
-    }*/
+    }
 
     getline(company_file, name);
     getline(company_file, str);
-    address = Address(str);
-    getline(company_file, str);
-    coords = makeCoords(str);
-    location = Location(address, coords);
+    location = Location(str);
     getline(company_file, str);
     capital = stod(str);
     getline(company_file,str);
@@ -160,16 +155,16 @@ Company::Company(string fileName){
     //Read from workers.txt
     ifstream workers_file;
     workers_file.open(workersFile);
-/*
+
     if (workers_file.fail())
     {
         cerr << "Error opening file " << fileName << endl;
         exit(1);
     }
-*/
+
     while(getline(workers_file, str)){
         if(str == "Admin"){
-            Admin *a = new Admin();
+            Admin *a = new Admin;
             getline(workers_file, str); //Name
             a->setWorkerName(str);
             getline(workers_file, str); //Nif
@@ -183,7 +178,7 @@ Company::Company(string fileName){
             workers.push_back(a);
         }
         else if(str == "Deliveryperson"){
-            Deliveryperson *d = new Deliveryperson();
+            Deliveryperson *d = new Deliveryperson;
             getline(workers_file, str); //Name
             d->setWorkerName(str);
             getline(workers_file, str); //Nif
@@ -211,20 +206,17 @@ Company::Company(string fileName){
     //Read from bases.txt
     ifstream bases_file;
     bases_file.open(basesFile);
-/*
-    if(bases_file.fail())
+
+    if(!bases_file.is_open())
     {
         cerr << "Error opening file " << fileName << endl;
         exit(1);
     }
-*/
+
     while(getline(bases_file, str)){
         Base b;
 
-        address = Address(str);
-        getline(bases_file, str);
-        coords = makeCoords(str);
-        b.setBaseLocation(Location(address,coords));   //Base Location
+        b.setBaseLocation(Location(str));   //Base Location
         getline(bases_file, str);
         auto it = find_if(workers.begin(),workers.end(), [=](Worker* w){return w->getWorkerNif() == stoi(str);}); //Get Admin for this base
         b.setBaseManager((Admin*)*(it));
@@ -262,7 +254,7 @@ Company::Company(string fileName){
             r.setRestaurantAddress(Address(str));   //Address
             getline(restaurants_file, str);
             r.setRestaurantCuisine(strToVect(str));    //Cuisine
-
+            
             //Get Products
             getline(restaurants_file, str);
             ifstream products_file(str);
@@ -304,4 +296,279 @@ Company::~Company() {
     for (int i = 0; i < workers.size(); i++) {
         delete workers.at(i);
     }
+}
+
+void updateCompanyFile(Company &company){
+    ofstream out_file("company.txt");
+
+    out_file<< company.getCompanyName()<<endl;
+    out_file<< company.getCompanyLocation() << endl;
+    out_file<< company.getCompanyCapital() << endl;
+    out_file<< company.getCompanyNif() << endl;
+    out_file<< company.getCompanyEmail() << endl;
+    out_file<< company.getCompanyWorkersFile() << endl;
+    out_file<<company.getCompanyBasesFile()<<endl;
+
+    out_file.close();
+}
+
+void updateBasesFile(Company &company){
+    vector<Base> temp = company.getCompanyBases();
+    string file = company.getCompanyBasesFile();
+    ofstream out_file(file);
+
+    for(int i = 0; i < temp.size(); i++){
+        out_file<<temp.at(i).getBaseLocation() <<endl;
+        out_file<<temp.at(i).getBaseManager()->getWorkerNif() <<endl;
+        out_file<<temp.at(i).getBaseClientsFile() <<endl;
+        out_file<<temp.at(i).getBaseRestaurantsFile() << endl;
+        for(int j=0; j<temp.at(i).getBaseMunicipalities().size(); j++){
+            if(j==temp.at(i).getBaseMunicipalities().size()-1)
+                out_file<<temp.at(i).getBaseMunicipalities().at(j) << endl;
+            else
+                out_file<<temp.at(i).getBaseMunicipalities().at(j) << ",";
+        }
+        if(i!=temp.size()-1)
+            out_file<<"-----"<<endl;
+    }
+
+    out_file.close();
+}
+
+/*void updateWorkersFile(Company &company){
+    vector<Worker*> temp = company.getCompanyWorkers();
+    string file = company.getCompanyWorkersFile();
+    ofstream out_file(file);
+
+    for(int i = 0; i < temp.size(); i++){
+        out_file<<temp.at(i).get
+    }
+}*/
+
+void updateClientsFile(Base &base){
+    vector<Client> temp = base.getBaseClients();
+    string file = base.getBaseClientsFile();
+    ofstream out_file(file);
+
+    for(int i = 0; i < temp.size(); i++){
+        out_file<<temp.at(i).getClientName() <<endl;
+        out_file<<temp.at(i).getBase()->getBaseLocation()<<endl;
+        out_file<<temp.at(i).getClientAddress()<<endl;
+        out_file<<temp.at(i).getClientNif()<<endl;
+        out_file<<temp.at(i).getBlack_listed()<<endl;
+        if(i!=temp.size()-1)
+            out_file<<"-----"<<endl;
+    }
+
+    out_file.close();
+}
+
+void viewClientOrdersHistory(Client &client){
+    Base *base = client.getBase();
+    for(int i=0;i<base->getBaseRestaurants().size();i++){
+        Restaurant r = base->getBaseRestaurants().at(i);
+        for(int j=0;j<r.getRestaurantOrders().size();j++){
+            Order* o = r.getRestaurantOrders().at(j);
+            if(o->getOrderClient()->getClientNif()==client.getClientNif()){
+                cout<<o;
+            }
+        }
+    }
+}
+
+bool createClientAccount(Company &company, Base &base){
+    vector<Client> temp_clients = base.getBaseClients();
+    Client new_client;
+    string name, str_nif,street_name,door,floor,postcode,municipality;
+    Address address;
+    unsigned nif;
+    bool black_listed;
+
+    while(true){
+        cout << "Nif (* - cancel): ";
+        getline(cin,str_nif);
+
+        if(validNIF(str_nif)){
+            nif = stoi(str_nif);
+            break;
+        }
+        else if(str_nif == "*")
+            return false;
+        cinERR("ERROR: Invalid NIF, try again!");
+    }
+
+    if (searchClientbyNif(nif,temp_clients)){
+        cinERR("ERROR: It already exits a client with the given nif!");
+        return false;
+    }
+
+    new_client.setClientNif(nif);
+
+    cout << "Municipality: ";
+    getline(cin,municipality);
+    if (searchbyMunicipality(municipality,base.getBaseMunicipalities()))
+        address.setMunicipality(municipality);
+
+    else{
+        cinERR("ERROR: You cant sign up in this base!");
+        return false;
+    }
+
+    cout << "Name: (* - cancel): ";
+    getline(cin,name);
+    if(name == "*")
+        return false;
+    else
+        new_client.setClientName(trim(name));
+
+    cout << "Address: " << endl;
+    cout << "-Street name: ";
+    getline(cin,street_name);
+    address.setStreet(trim(street_name));
+    cout << "-Door number: ";
+    getline(cin,door);
+    address.setDoor(trim(door));
+    cout << "-Floor number (- none): ";
+    getline(cin,floor);
+    address.setFloor(trim(floor));
+    while(true){
+        cout << "Postcode: ";
+        getline(cin,postcode);
+
+        if(validPostcode(trim(postcode)))
+            break;
+
+        cinERR("ERROR: Invalid Postcode, try again!");
+    }
+    address.setPostCode(trim(postcode));
+    new_client.setClientAddress(address);
+    new_client.setBlack_listed(false);
+    temp_clients.push_back(new_client);
+    base.setBaseClients(temp_clients);
+    return true;
+}
+
+bool editClientInfo(Company &company, Client &client){
+    Base *current_base = client.getBase();
+    Base new_base;
+    int opt;
+    string new_name,street_name,door,floor,postcode,municipality;
+    bool infoChanged=false,changedBase=false;
+    Address new_address;
+    auto it_client = current_base->getBaseClients().begin();
+
+    for (auto it = current_base->getBaseClients().begin(); it != current_base->getBaseClients().end(); it++ ){
+        if((*it) == client)
+            it_client = it;
+    }
+
+    do{
+        cout << "Select which information you want to modify:" << endl;
+        cout << "1: Name" << endl;
+        cout << "2: Address" << endl;
+        cout << "0: Return" << endl;
+        getOption(opt);
+
+        switch(opt){
+            case 0:
+                break;
+            case 1:
+                cout << "Current Name: " << client.getClientName() << endl;
+                cout << "New name (* - cancel): ";
+                getline(cin,new_name);
+                if(new_name == "*")
+                    break;
+                client.setClientName(trim(new_name));
+                infoChanged=true;
+                break;
+            case 2:
+                cout << "Current address: " << client.getClientAddress();
+                cout << "New address: " << endl;
+                cout << "-Municipality: ";
+                getline(cin,municipality);
+                if (searchbyMunicipality(municipality,client.getBase()->getBaseMunicipalities())){
+                    new_address.setMunicipality(municipality);
+                }
+                else{
+                    cinERR("ERROR: You cant stay in this base!");
+                    if (!exitsBase(company.getCompanyBases(),municipality)){
+                        cinERR("ERROR: We dont have services for that municipality!");
+                        cout << "Changes were undone!";
+                        return false;
+                    }
+                    else{
+                        for(int i = 0; i < company.getCompanyBases().size(); i++){
+                            if(searchbyMunicipality(municipality, company.getCompanyBases().at(i).getBaseMunicipalities())) {
+                                client.setBase(&company.getCompanyBases().at(i));
+                                new_address.setMunicipality(municipality);
+                                changedBase = true;
+                                new_base = company.getCompanyBases().at(i);
+                                cout << "You changed for the base: " << new_base.getBaseLocation();
+                            }
+                        }
+                    }
+                }
+                cout << "-Street name: ";
+                getline(cin,street_name);
+                new_address.setStreet(trim(street_name));
+                cout << "-Door number: ";
+                getline(cin,door);
+                new_address.setDoor(trim(door));
+                cout << "-Floor number (- none): ";
+                getline(cin,floor);
+                new_address.setFloor(trim(floor));
+                while(true){
+                    cout << "Postcode: ";
+                    getline(cin,postcode);
+
+                    if(validPostcode(trim(postcode)))
+                        break;
+
+                    cinERR("ERROR: Invalid Postcode, try again!");
+                }
+                new_address.setPostCode(trim(postcode));
+                infoChanged=true;
+                break;
+
+        }
+
+    }while(opt!=0);
+
+    if(changedBase){
+        new_base.getBaseClients().push_back(client);
+        current_base->getBaseClients().erase(it_client);
+    }
+
+    return true;
+}
+
+bool deleteClientAccount(Client &client){
+    string str;
+    Base *base = client.getBase();
+
+    cout << "Are you sure you want to delete your account? (Y/N): ";
+    while(true){
+        try{
+            getline(cin, str);
+            if(trim(str)=="Y"){
+                for (int i=0; i<base->getBaseClients().size(); i++){
+                    if(base->getBaseClients().at(i).getClientNif()==client.getClientNif()){
+                        base->getBaseClients().erase(base->getBaseClients().begin()+i);
+                        break;
+                    }
+                }
+                break;
+            }
+            else if(trim(str)=="N"){
+                cout<<"Account not deleted"<<endl;
+                return false;
+            }
+        }
+        catch (invalid_argument){
+            cinERR("ERROR: Invalid input, try again! ");
+        }
+    }
+
+
+    return true;
 }

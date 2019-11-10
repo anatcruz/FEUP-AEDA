@@ -5,6 +5,22 @@ Location::Location(Address address, pair<float, float> coords) {
     this->coords=coords;
 }
 
+Location::Location(string location) {
+    vector<string> temp, temp2;
+    Address address;
+    pair<float,float> coords;
+    temp = strToVect(location, ',');
+    address.setStreet(temp.at(0));
+    address.setDoor(temp.at(1));
+    address.setFloor(temp.at(2));
+    address.setPostCode(temp.at(3));
+    temp2 = strToVect(temp.at(4),'/');
+    address.setMunicipality(temp2.at(0));
+    coords = makeCoords(temp2.at(1));
+    this->address=address;
+    this->coords=coords;
+}
+
 //Metodos Set
 void Location::setLocationAddress(Address address) {
     this->address = address;
@@ -29,4 +45,5 @@ ostream& operator<<(ostream& out, const Location &location){
     out << location.address << " / " << location.coords.first << ", " << location.coords.second;
     return out;
 }
+
 

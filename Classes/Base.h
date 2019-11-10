@@ -50,5 +50,9 @@ public:
     void addRestaurantToBase(const Restaurant &restaurant);
 };
 
+//Verifica se o municipio esta entre o vetor de municipios
+bool searchbyMunicipality(string municipality, vector<string> municipalities);
+//Dado um munipio diz se existe uma base com esse municipio
+bool exitsBase(vector<Base> bases, string municipality);
 
 #endif //AEDA_UGHEATS_BASE_H

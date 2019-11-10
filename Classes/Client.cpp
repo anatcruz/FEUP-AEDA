@@ -63,6 +63,15 @@ ostream& operator<<(ostream& out, const Client &client){
     return out;
 }
 
+bool searchClientbyNif(int nif, vector<Client> clients){
+    for(int i = 0; i < clients.size(); i++){
+        if (clients.at(i).getClientNif() == nif)
+            return true;
 
+    }
+    return false;
+}
 
-
+bool Client::operator==(Client &c2) {
+    return nif == c2.getClientNif();
+}

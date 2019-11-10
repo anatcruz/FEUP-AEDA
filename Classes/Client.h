@@ -38,7 +38,11 @@ public:
     bool getBlack_listed();
     //Other Methods
     friend ostream& operator<<(ostream& out, const Client & client);
+    bool operator==(Client& c2);
 };
+
+//Verifica se um cliente existe no vetor
+bool searchClientbyNif(int nif, vector<Client> clients);
 
 
 #endif //AEDA_UGHEATS_CLIENT_H

@@ -106,4 +106,18 @@ void Base::addRestaurantToBase(const Restaurant &restaurant) {
     restaurants.push_back(restaurant);
 }
 
+bool searchbyMunicipality(string municipality, vector<string> municipalities){
+    for (int i = 0; i < municipalities.size(); i++){
+        if (municipalities.at(i) == municipality)
+            return true;
+    }
+    return false;
+}
 
+bool exitsBase(vector<Base> bases, string municipality){
+    for(int i = 0; i < bases.size(); i++){
+        if(searchbyMunicipality(municipality, bases.at(i).getBaseMunicipalities()))
+            return true;
+    }
+    return false;
+}
