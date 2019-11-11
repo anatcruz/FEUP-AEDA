@@ -598,3 +598,64 @@ bool deleteClientAccount(Client &client){
 
     return true;
 }
+
+bool makeOrder(Client &client){
+    string str;
+    int opt;
+    Base *base = client.getBase();
+
+    do{
+        cout << "-----Order Menu----" << endl;
+        cout << "Search by:" << endl;
+        cout << "1: Municipalities" << endl;
+        cout << "2: Restaurants" << endl;
+        cout << "3: Price" << endl;
+        cout << "4: Cuisine" << endl;
+        cout << "0: Return" << endl;
+        getOption(opt);
+        switch(opt){
+            case 0:
+                break;
+            case 1:
+                return makeOrderByMunicipality(client, *base);
+        }
+    }while(opt!=0);
+}//TODO Editar TRANSFORMAR EM MENU
+
+bool makeOrderByMunicipality(Client &client, Base &base){
+    string str, municipality;
+    int opt;
+
+    cout << "Enter the municipality you want to order from: ";
+    getline(cin, str);
+    municipality = trim(str);
+    if(!searchbyMunicipality(municipality,base.getBaseMunicipalities())){
+        cinERR("ERROR: We don't have services for that municipality! Can't make order");
+        return false;
+    }
+    else{
+        for(int i=0;i<base.getBaseRestaurants().size();i++){
+            if(base.getBaseRestaurants().at(i).getRestaurantAddress().getMunicipality()==municipality){
+                cout <<  i+1 << ": " << base.getBaseRestaurants().at(i) << endl;
+            }
+        }
+        cout << "0 - cancel order" << endl;
+        cout << "Option: ";
+
+        while(true){
+            getOption(opt);
+            if(opt>0 && opt<=base.getBaseRestaurants().size()){
+                string rest_name = base.getBaseRestaurants().at(opt-1).getRestaurantName();
+                find_if(base.getBaseRestaurants().begin(), base.getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == rest_name;});
+
+            }
+            else if(opt==0){
+                cout << "Order canceled successfully" << endl;
+                return false;
+            }
+            else{
+                cout << "ERROR: Invalid restaurant choice! Try again: ";
+            }
+        }
+    }
+}//TODO juntar com a função da teté
