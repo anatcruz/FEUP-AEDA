@@ -71,6 +71,10 @@ bool createClientAccount(Company &company);
 bool editClientInfo(Company &company, Client &client);
 bool deleteClientAccount(Client &client);
 
-// Order functions
-bool makeOrderByMunicipality(Client &client, Base &base);
+//Funçoes de fazer encomendas
+bool makeOrderDelivery(Client &client, Restaurant *restaurant);
+bool makeOrderDeliveryByRestaurant(Client &client, Base &base);
+bool makeOrderDeliveryByMunicipality(Client &client, Base &base);
+bool makeOrderDeliveryByPrice(Client &client);
+bool makeOrderDeliveryByCuisine(Client &client);
 #endif //AEDA_UGHEATS_COMPANY_H
