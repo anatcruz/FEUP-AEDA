@@ -594,6 +594,67 @@ bool editClientInfo(Company &company, Client &client){
     return true;
 }
 
+//TODO transform this into a delivery,still unfinished
+bool makeOrder(Client &client, Restaurant *restaurant){
+    int opt;
+    vector<Product> products_ordered={};
+    float order_price=0;
+    Order new_order;
+
+    cout << "Choose the product you want" << endl;
+    cout << "Products: " << endl;
+    for (int i = 0; i < restaurant->getRestaurantProducts().size(); i++){
+        cout << i+1 << ": " << restaurant->getRestaurantProducts().at(i) << endl;
+    }
+    cout << "0 - finish/cancel order" << endl;
+    cout << "Option: ";
+
+    do{
+        getOption(opt);
+        if(opt>0 && opt<=restaurant->getRestaurantProducts().size()){
+            products_ordered.push_back(restaurant->getRestaurantProducts().at(opt-1));
+        }
+        else {
+            cout << "ERROR: Invalid product choice!Try again: ";
+        }
+
+    }while(opt != 0);
+
+    //se o vetor esta vazio quer dizer que o utilizador nao selecionou nenhum produto e a opçao foi 0
+    if(products_ordered.empty()){
+        cout << "Your order was canceled!" << endl;
+        return false;
+    }
+
+    for (int i = 0; i < products_ordered.size(); i++){
+        order_price += products_ordered.at(i).getPrice();
+        }
+
+    //criar a nova encomenda
+    new_order.setOrderPrice(order_price);
+    new_order.setOrderProducts(products_ordered);
+    new_order.setOrderRestaurant(restaurant);
+    new_order.setOrderClient(&client);
+
+
+}
+//TODO finish with the function above
+bool makeOrderByRestaurant(Client &client, Base &base){
+    string restaurant_name;
+
+    cout << "Insert the name of the restaurant: ";
+    getline(cin,restaurant_name);
+
+    auto it = find_if(base.getBaseRestaurants().begin(),base.getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == restaurant_name;});
+
+    if(it == base.getBaseRestaurants().end()){
+        cinERR("ERROR: That restaurant does not exist in your base!");
+        return false;
+    }
+    else{
+
+    }
+}
 bool deleteClientAccount(Client &client){
     string str;
     Base *base = client.getBase();
@@ -624,3 +685,64 @@ bool deleteClientAccount(Client &client){
 
     return true;
 }
+
+bool makeOrder(Client &client){
+    string str;
+    int opt;
+    Base *base = client.getBase();
+
+    do{
+        cout << "-----Order Menu----" << endl;
+        cout << "Search by:" << endl;
+        cout << "1: Municipalities" << endl;
+        cout << "2: Restaurants" << endl;
+        cout << "3: Price" << endl;
+        cout << "4: Cuisine" << endl;
+        cout << "0: Return" << endl;
+        getOption(opt);
+        switch(opt){
+            case 0:
+                break;
+            case 1:
+                return makeOrderByMunicipality(client, *base);
+        }
+    }while(opt!=0);
+}//TODO Editar TRANSFORMAR EM MENU
+
+bool makeOrderByMunicipality(Client &client, Base &base){
+    string str, municipality;
+    int opt;
+
+    cout << "Enter the municipality you want to order from: ";
+    getline(cin, str);
+    municipality = trim(str);
+    if(!searchbyMunicipality(municipality,base.getBaseMunicipalities())){
+        cinERR("ERROR: We don't have services for that municipality! Can't make order");
+        return false;
+    }
+    else{
+        for(int i=0;i<base.getBaseRestaurants().size();i++){
+            if(base.getBaseRestaurants().at(i).getRestaurantAddress().getMunicipality()==municipality){
+                cout <<  i+1 << ": " << base.getBaseRestaurants().at(i) << endl;
+            }
+        }
+        cout << "0 - cancel order" << endl;
+        cout << "Option: ";
+
+        while(true){
+            getOption(opt);
+            if(opt>0 && opt<=base.getBaseRestaurants().size()){
+                string rest_name = base.getBaseRestaurants().at(opt-1).getRestaurantName();
+                find_if(base.getBaseRestaurants().begin(), base.getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == rest_name;});
+
+            }
+            else if(opt==0){
+                cout << "Order canceled successfully" << endl;
+                return false;
+            }
+            else{
+                cout << "ERROR: Invalid restaurant choice! Try again: ";
+            }
+        }
+    }
+}//TODO juntar com a função da teté
