@@ -6,7 +6,7 @@ Rua Fernando Costa,110,3dir,4450-043,Matosinhos
 -----
 Mariana Silva
 Porto
-Rua de Dio,555,1,1tras,4400-034,Vila Nova de Gaia
+Rua de Dio,555,1,1tras,4400-034
 333333333
 0
 -----
@@ -21,3 +21,9 @@ Porto
 Rua Avelino,6,-,4470-007,Maia
 555555555
 1
+-----
+Dioos
+Porto
+Ruaa,12,21,4100-009,Porto
+300300300
+0

@@ -311,7 +311,7 @@ Company::Company(const string &filesPath){
         restaurants_file.close();
 
         getline(bases_file,str);
-        b.setBaseMunicipalities(strToVect(str)); //Base Municipalities
+        b.setBaseMunicipalities(strToVect(str, ',')); //Base Municipalities
 
         bases.push_back(b);
 
@@ -354,12 +354,12 @@ void updateBasesFile(Company &company){
         out_file<<temp.at(i).getBaseRestaurantsFile() << endl;
         for(int j=0; j<temp.at(i).getBaseMunicipalities().size(); j++){
             if(j==temp.at(i).getBaseMunicipalities().size()-1)
-                out_file<<temp.at(i).getBaseMunicipalities().at(j) << endl;
+                out_file<<temp.at(i).getBaseMunicipalities().at(j);
             else
                 out_file<<temp.at(i).getBaseMunicipalities().at(j) << ",";
         }
         if(i!=temp.size()-1)
-            out_file<<"-----"<<endl;
+            out_file<<endl << "-----"<<endl;
     }
 
     out_file.close();
@@ -382,12 +382,12 @@ void updateClientsFile(Base &base){
 
     for(int i = 0; i < temp.size(); i++){
         out_file<<temp.at(i).getClientName() <<endl;
-        out_file<<temp.at(i).getBase()->getBaseLocation()<<endl;
+        out_file<<base.getBaseLocation().getLocationAddress().getMunicipality()<<endl;
         out_file<<temp.at(i).getClientAddress()<<endl;
         out_file<<temp.at(i).getClientNif()<<endl;
-        out_file<<temp.at(i).getBlack_listed()<<endl;
+        out_file<<temp.at(i).getBlack_listed();
         if(i!=temp.size()-1)
-            out_file<<"-----"<<endl;
+            out_file<<endl << "-----"<<endl;
     }
 
     out_file.close();
@@ -402,7 +402,25 @@ void viewClientOrdersHistory(Client &client){
     }
 }
 
-bool createClientAccount(Company &company, Base &base){
+bool createClientAccount(Company &company){
+    vector<Base> companyBases = company.getCompanyBases();
+    Base base;
+    cout << "Select a base:" << endl;
+    for (int i = 0; i < companyBases.size(); i++) {
+        cout << i + 1 << ". " << companyBases.at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
+    }
+    int base_idx;
+    getOption(base_idx, "Base: ");
+    if (base_idx > 0 && base_idx <= companyBases.size()) {
+        base = companyBases.at(base_idx - 1);
+    } else {
+        cinERR("Base does not exist!");
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
+        return false;
+    }
+    base_idx--;
     vector<Client> temp_clients = base.getBaseClients();
     Client new_client;
     string name, str_nif,street_name,door,floor,postcode,municipality;
@@ -425,6 +443,9 @@ bool createClientAccount(Company &company, Base &base){
 
     if (searchClientbyNif(nif,temp_clients)){
         cinERR("ERROR: It already exits a client with the given nif!");
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
         return false;
     }
 
@@ -432,11 +453,14 @@ bool createClientAccount(Company &company, Base &base){
 
     cout << "Municipality: ";
     getline(cin,municipality);
-    if (find(base.getBaseMunicipalities().begin(), base.getBaseMunicipalities().end(), municipality) !=
-        base.getBaseMunicipalities().end()) {
+    vector<string> municipalities = base.getBaseMunicipalities();
+    if (find(municipalities.begin(), municipalities.end(), municipality) != municipalities.end()) {
         address.setMunicipality(municipality);
     } else{
         cinERR("ERROR: You cant sign up in this base!");
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
         return false;
     }
 
@@ -471,6 +495,8 @@ bool createClientAccount(Company &company, Base &base){
     new_client.setBlack_listed(false);
     temp_clients.push_back(new_client);
     base.setBaseClients(temp_clients);
+    companyBases.at(base_idx) = base;
+    company.setCompanyBases(companyBases);
     return true;
 }
 

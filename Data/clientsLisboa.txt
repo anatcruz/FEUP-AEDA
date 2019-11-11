@@ -1,23 +1,29 @@
 Luisa
 Lisboa
-Rua de Juli√£o Barra,55,1frente,1495-016,Oeiras
+Rua de Juli„o Barra,55,1frente,1495-016,Oeiras
 666666666
 1
 -----
-Z√©
+ZÈ
 Lisboa
 Rua de Dia,43,-,2670-678,Loures
 777777777
 0
 -----
-Jos√©
+JosÈ
 Lisboa
 Rua de Ramada,21,8tras,1675-056,Odivelas
 888888888
 0
 -----
-Madj√©
+MadjÈ
 Lisboa
 Rua Peligrosa,879,1esq,1675-669,Amadora
 999999999
 1
+-----
+Mafalsa Dantos
+Lisboa
+Av da Liberdade,20,5,2400-333,Lisboa
+222111222
+0
