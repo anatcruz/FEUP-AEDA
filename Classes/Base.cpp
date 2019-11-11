@@ -75,6 +75,10 @@ string Base::getBaseRestaurantsFile() const {
     return restaurantsFile;
 }
 
+vector<Client>* Base::getBaseClientsAddr() {
+    return &clients;
+}
+
 //Other Methods
 
 ostream& operator<<(ostream& out, const Base &base){

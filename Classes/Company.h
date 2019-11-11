@@ -52,6 +52,7 @@ public:
     string getCompanyPhone() const;
     vector<Worker*> getCompanyWorkers() const;
     vector<Base> getCompanyBases() const;
+    vector<Base>* getCompanyBasesAddr();
     string getCompanyWorkersFile() const;
     string getCompanyBasesFile() const;
     string getCompanyFile() const;
@@ -61,6 +62,7 @@ public:
 
 
 //Funçoes de clientes
+Client* clientLogin(Company &company);
 void updateCompanyFile(Company &company);
 void updateBasesFile(Company &company);
 void updateClientsFile(Base &base);
@@ -68,4 +70,7 @@ void viewClientOrdersHistory(Client &client);
 bool createClientAccount(Company &company);
 bool editClientInfo(Company &company, Client &client);
 bool deleteClientAccount(Client &client);
+
+// Order functions
+bool makeOrderByMunicipality(Client &client, Base &base);
 #endif //AEDA_UGHEATS_COMPANY_H

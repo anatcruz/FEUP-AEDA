@@ -328,6 +328,47 @@ Company::~Company() {
     }
 }
 
+Client* clientLogin(Company &company) {
+    vector<Base>* companyBases = company.getCompanyBasesAddr();
+    Base* base;
+    cout << "Select a base:" << endl;
+    for (int i = 0; i < companyBases->size(); i++) {
+        cout << i + 1 << ". " << companyBases->at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
+    }
+    int base_idx;
+    getOption(base_idx, "Base: ");
+    if (base_idx > 0 && base_idx <= companyBases->size()) {
+        base = &companyBases->at(base_idx - 1);
+    } else {
+        cinERR("Base does not exist!");
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
+        return nullptr;
+    }
+    base_idx--;
+    string nif_str;
+    while (true) {
+        cout << "NIF: ";
+        getline(cin, nif_str);
+        if (validNIF(nif_str)) {
+            auto it = find_if(base->getBaseClientsAddr()->begin(), base->getBaseClientsAddr()->end(),
+                    [&](Client &c){return c.getClientNif() == stoi(nif_str);});
+            if (it != base->getBaseClientsAddr()->end()) {
+                return &*it;
+            } else {
+                cinERR("Client does not exist, try again!"); //TODO add cancel
+            }
+        } else {
+            cinERR("Invalid NIF, try again!");
+        }
+    }
+}
+
+vector<Base>* Company::getCompanyBasesAddr() {
+    return &bases;
+}
+
 void updateCompanyFile(Company &company){
     ofstream out_file(company.filePath + company.getCompanyFile());
 
@@ -498,7 +539,7 @@ bool createClientAccount(Company &company){
     companyBases.at(base_idx) = base;
     company.setCompanyBases(companyBases);
     return true;
-}
+} // She works
 
 bool editClientInfo(Company &company, Client &client){
     Base *current_base = client.getBase();
@@ -686,28 +727,6 @@ bool deleteClientAccount(Client &client){
     return true;
 }
 
-bool makeOrder(Client &client){
-    string str;
-    int opt;
-    Base *base = client.getBase();
-
-    do{
-        cout << "-----Order Menu----" << endl;
-        cout << "Search by:" << endl;
-        cout << "1: Municipalities" << endl;
-        cout << "2: Restaurants" << endl;
-        cout << "3: Price" << endl;
-        cout << "4: Cuisine" << endl;
-        cout << "0: Return" << endl;
-        getOption(opt);
-        switch(opt){
-            case 0:
-                break;
-            case 1:
-                return makeOrderByMunicipality(client, *base);
-        }
-    }while(opt!=0);
-}//TODO Editar TRANSFORMAR EM MENU
 
 bool makeOrderByMunicipality(Client &client, Base &base){
     string str, municipality;

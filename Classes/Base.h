@@ -42,6 +42,7 @@ public:
     Location getBaseLocation() const;
     Admin* getBaseManager() const;
     vector<Client> getBaseClients() const;
+    vector<Client>* getBaseClientsAddr();
     vector<Restaurant> getBaseRestaurants() const;
     vector<Order*> getBaseOrders() const;
     vector<string> getBaseMunicipalities() const;
