@@ -19,6 +19,7 @@ void Product::setPrice(float price) {
     this->price = price;
 }
 
+
 //Metodos Get
 string Product::getProductName() const {
     return name;
@@ -31,6 +32,7 @@ string Product::getCuisine() const {
 float Product::getPrice() const {
     return price;
 }
+
 
 //Other Methods
 

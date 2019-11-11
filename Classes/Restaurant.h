@@ -22,6 +22,7 @@ private:
     vector<Product> products;
     vector<Order*> orders;
     Base* base;
+    string productsFile;
 public:
     Restaurant() = default;
     Restaurant(string name, Address address, vector<string> cuisine, vector<Product> products, vector<Order*> orders, Base* base);
@@ -33,6 +34,7 @@ public:
     void setRestaurantProducts(vector<Product> products);
     void setRestaurantOrders(vector<Order*> orders);
     void setRestaurantBase(Base* base);
+    void setProductsFile(string productsFile);
     //Metodos Get
     string getRestaurantName() const;
     Address getRestaurantAddress() const;
@@ -40,6 +42,7 @@ public:
     vector<Product> getRestaurantProducts() const;
     vector<Order*> getRestaurantOrders() const;
     Base* getRestaurantBase() const;
+    string getProductsFile() const;
     //Other Methods
     friend ostream& operator<<(ostream& out, const Restaurant &restaurant);
     void addProductsToRestaurant(const Product &product);

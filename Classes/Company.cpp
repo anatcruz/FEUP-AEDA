@@ -93,6 +93,10 @@ string Company::getCompanyBasesFile() const {
     return basesFile;
 }
 
+string Company::getCompanyFile() const {
+    return companyFile;
+}
+
 //Other Methods
 
 ostream& operator<<(ostream& out, const Company &company){
@@ -121,11 +125,15 @@ ostream& operator<<(ostream& out, const Company &company){
     return out;
 }
 
-Company::Company(string fileName){
+string Company::filePath = "";
 
+Company::Company(const string &filesPath){
+    filePath = filesPath;
     //Read from company.txt
     ifstream company_file;
-    company_file.open(fileName);
+    company_file.open(filePath + "company.txt");
+
+    companyFile = "company.txt";
 
     Address address;
     pair<float,float> coords;
@@ -133,7 +141,7 @@ Company::Company(string fileName){
 
     if (!company_file.is_open())
     {
-        cerr << "Error opening file " << fileName << endl;
+        cerr << "Error opening file " << companyFile << endl;
         exit(1);
     }
 
@@ -154,11 +162,11 @@ Company::Company(string fileName){
 
     //Read from workers.txt
     ifstream workers_file;
-    workers_file.open(workersFile);
+    workers_file.open(filePath + workersFile);
 
     if (workers_file.fail())
     {
-        cerr << "Error opening file " << fileName << endl;
+        cerr << "Error opening file " << filePath + workersFile << endl;
         exit(1);
     }
 
@@ -205,11 +213,11 @@ Company::Company(string fileName){
 
     //Read from bases.txt
     ifstream bases_file;
-    bases_file.open(basesFile);
+    bases_file.open(filePath + basesFile);
 
     if(!bases_file.is_open())
     {
-        cerr << "Error opening file " << fileName << endl;
+        cerr << "Error opening file " << filePath + basesFile << endl;
         exit(1);
     }
 
@@ -224,7 +232,14 @@ Company::Company(string fileName){
         //Get Clients
         getline(bases_file, str);
         b.setBaseClientsFile(str);
-        ifstream clients_file(str);
+        ifstream clients_file(filePath + str);
+
+        if(!clients_file.is_open())
+        {
+            cerr << "Error opening file " << filePath + str << endl;
+            exit(1);
+        }
+
         while(getline(clients_file, str)){
             Client c;
             c.setClientName(str);   //Client Name
@@ -246,7 +261,14 @@ Company::Company(string fileName){
         //Get Restaurants
         getline(bases_file,str);
         b.setBaseRestaurantsFile(str);
-        ifstream restaurants_file(str);
+        ifstream restaurants_file(filePath + str);
+
+        if(!restaurants_file.is_open())
+        {
+            cerr << "Error opening file " << filePath + str << endl;
+            exit(1);
+        }
+
         while(getline(restaurants_file, str)){
             Restaurant r;
             r.setRestaurantName(str);   //Name
@@ -257,7 +279,15 @@ Company::Company(string fileName){
             
             //Get Products
             getline(restaurants_file, str);
-            ifstream products_file(str);
+            r.setProductsFile(str);
+            ifstream products_file(filePath + str);
+
+            if(!products_file.is_open())
+            {
+                cerr << "Error opening file " << filePath + str << endl;
+                exit(1);
+            }
+
             while(getline(products_file, str)){
                 Product p;
                 p.setProductName(str);
@@ -299,22 +329,22 @@ Company::~Company() {
 }
 
 void updateCompanyFile(Company &company){
-    ofstream out_file("company.txt");
+    ofstream out_file(company.filePath + company.getCompanyFile());
 
     out_file<< company.getCompanyName()<<endl;
     out_file<< company.getCompanyLocation() << endl;
     out_file<< company.getCompanyCapital() << endl;
-    out_file<< company.getCompanyNif() << endl;
+    out_file<< right << setw(9) << setfill('0') << company.getCompanyNif() << endl;
     out_file<< company.getCompanyEmail() << endl;
+    out_file<< company.getCompanyPhone() << endl;
     out_file<< company.getCompanyWorkersFile() << endl;
-    out_file<<company.getCompanyBasesFile()<<endl;
-
+    out_file<<company.getCompanyBasesFile();
     out_file.close();
 }
 
 void updateBasesFile(Company &company){
     vector<Base> temp = company.getCompanyBases();
-    string file = company.getCompanyBasesFile();
+    string file = company.filePath + company.getCompanyBasesFile();
     ofstream out_file(file);
 
     for(int i = 0; i < temp.size(); i++){
@@ -347,7 +377,7 @@ void updateBasesFile(Company &company){
 
 void updateClientsFile(Base &base){
     vector<Client> temp = base.getBaseClients();
-    string file = base.getBaseClientsFile();
+    string file = Company::filePath + base.getBaseClientsFile();
     ofstream out_file(file);
 
     for(int i = 0; i < temp.size(); i++){
@@ -406,10 +436,10 @@ bool createClientAccount(Company &company, Base &base){
 
     cout << "Municipality: ";
     getline(cin,municipality);
-    if (searchbyMunicipality(municipality,base.getBaseMunicipalities()))
+    if (find(base.getBaseMunicipalities().begin(), base.getBaseMunicipalities().end(), municipality) !=
+        base.getBaseMunicipalities().end()) {
         address.setMunicipality(municipality);
-
-    else{
+    } else{
         cinERR("ERROR: You cant sign up in this base!");
         return false;
     }

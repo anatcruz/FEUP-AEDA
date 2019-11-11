@@ -23,12 +23,14 @@ private:
     string phone;
     vector<Worker*> workers;
     vector<Base> bases;
+    string companyFile;
     string workersFile;
     string basesFile;
 public:
+    static string filePath;
     Company() = default;
     Company(string name, Location location, double capital, int nif, string email, string phone, vector<Worker*> workers, vector<Base> bases);
-    Company(string fileName);
+    Company(const string &filesPath);
     ~Company();
     //Metodos Set
     void setCompanyName(string name);
@@ -52,9 +54,11 @@ public:
     vector<Base> getCompanyBases() const;
     string getCompanyWorkersFile() const;
     string getCompanyBasesFile() const;
+    string getCompanyFile() const;
     //Other Methods
     friend ostream& operator<<(ostream& out, const Company &company);
 };
+
 
 //Funçoes de clientes
 void updateCompanyFile(Company &company);

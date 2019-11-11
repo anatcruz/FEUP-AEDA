@@ -63,6 +63,6 @@ string Address::getMunicipality() const {
 //Other Methods
 
 ostream& operator<<(ostream& out, const Address &address){
-    out << address.street + ", " + address.door + ", " + address.floor + ", " + address.postcode + ", " + address.municipality;
+    out << address.street + "," + address.door + "," + address.floor + "," + address.postcode + "," + address.municipality;
     return out;
 }

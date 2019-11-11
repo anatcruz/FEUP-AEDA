@@ -15,7 +15,7 @@ Menu* wrapper;
 
 
 int main() {
-    Company ugh("/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/company.txt");
+    Company ugh("/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/");
 
     // Start program message
     line(35);
@@ -39,6 +39,5 @@ int main() {
 
     // Start!
     startMenu.start();
-
     return 0;
 }

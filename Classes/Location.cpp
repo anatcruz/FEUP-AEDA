@@ -42,7 +42,7 @@ pair<float, float> Location::getLocationCoords() const {
 //Other Methods
 
 ostream& operator<<(ostream& out, const Location &location){
-    out << location.address << " / " << location.coords.first << ", " << location.coords.second;
+    out << location.address << "," << location.coords.first << "," << location.coords.second;
     return out;
 }
 

@@ -41,6 +41,11 @@ void Restaurant::setRestaurantBase(Base* base) {
     this->base=base;
 }
 
+void Restaurant::setProductsFile(string productsFile) {
+    this->productsFile = productsFile;
+}
+
+
 //Metodos Get
 
 string Restaurant::getRestaurantName() const {
@@ -65,6 +70,10 @@ vector<Order*> Restaurant::getRestaurantOrders() const {
 
 Base* Restaurant::getRestaurantBase() const {
     return base;
+}
+
+string Restaurant::getProductsFile() const {
+    return productsFile;
 }
 
 //Other Methods

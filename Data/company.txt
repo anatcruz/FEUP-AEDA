@@ -1,8 +1,8 @@
 UghEats Food Delivery
-Rua Dr. Roberto Frias,sn,-,4200-465,Porto,41.178000,-8.598000
-1000000000000000000000000000000
-111111111
+Rua Dr. Roberto Frias,sn,-,4200-465,Porto,41.178,-8.598
+1e+30
+123321123
 ugheats@sapo.pt
 96666666
-/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/workers.txt
-/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/bases.txt
+workers.txt
+bases.txt

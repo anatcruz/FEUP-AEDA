@@ -11,7 +11,6 @@ private:
     string name;
     string cuisine;
     float price;
-
 public:
     Product() = default;
     Product(string name, string cuisine, float price);

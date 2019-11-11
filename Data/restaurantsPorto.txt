@@ -1,11 +1,11 @@
 McDonalds
 Estrada da Circunvalação,8114-8116,-,4200-163,Porto
 Fast food,Vegetariano,Sobremesas
-/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/productsMcDonalds.txt
+productsMcDonalds.txt
 Porto
 -----
 Pedra Alta
 Rua Baixa Fofa,544,-,4465-855,Porto
 Marisco,Peixe,Grelhados
-/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/productsPedraAlta.txt
+productsPedraAlta.txt
 Porto
