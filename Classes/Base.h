@@ -20,6 +20,7 @@ private:
     Admin* manager;
     vector<Client> clients;
     vector<Restaurant> restaurants;
+    vector<Order*> orders;
     vector<string> municipalities;
     string clientsFile;
     string restaurantsFile;
@@ -33,6 +34,7 @@ public:
     void setBaseManager(Admin* manager);
     void setBaseClients(vector<Client> clients);
     void setBaseRestaurants(vector<Restaurant> restaurants);
+    void setBaseOrders(vector<Order*> orders);
     void setBaseMunicipalities(vector<string> municipalities);
     void setBaseClientsFile(string clientsFile);
     void setBaseRestaurantsFile(string restaurantsFile);
@@ -41,6 +43,7 @@ public:
     Admin* getBaseManager() const;
     vector<Client> getBaseClients() const;
     vector<Restaurant> getBaseRestaurants() const;
+    vector<Order*> getBaseOrders() const;
     vector<string> getBaseMunicipalities() const;
     string getBaseClientsFile() const;
     string getBaseRestaurantsFile() const;

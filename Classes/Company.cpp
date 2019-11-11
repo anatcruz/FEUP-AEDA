@@ -395,13 +395,9 @@ void updateClientsFile(Base &base){
 
 void viewClientOrdersHistory(Client &client){
     Base *base = client.getBase();
-    for(int i=0;i<base->getBaseRestaurants().size();i++){
-        Restaurant r = base->getBaseRestaurants().at(i);
-        for(int j=0;j<r.getRestaurantOrders().size();j++){
-            Order* o = r.getRestaurantOrders().at(j);
-            if(o->getOrderClient()->getClientNif()==client.getClientNif()){
-                cout<<o;
-            }
+    for(int i=0;i<base->getBaseOrders().size();i++){
+        if(base->getBaseOrders().at(i)->getOrderClient()->getClientNif()==client.getClientNif()){
+            cout<<base->getBaseOrders().at(i);
         }
     }
 }

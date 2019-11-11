@@ -26,6 +26,10 @@ void Base::setBaseRestaurants(vector<Restaurant> restaurants) {
     this->restaurants = restaurants;
 }
 
+void Base::setBaseOrders(vector<Order *> orders) {
+    this->orders=orders;
+}
+
 void Base::setBaseMunicipalities(vector<string> municipalities) {
     this->municipalities = municipalities;
 }
@@ -53,6 +57,10 @@ vector<Client> Base::getBaseClients() const {
 
 vector<Restaurant> Base::getBaseRestaurants() const {
     return restaurants;
+}
+
+vector<Order*> Base::getBaseOrders() const {
+    return orders;
 }
 
 vector<string> Base::getBaseMunicipalities() const {

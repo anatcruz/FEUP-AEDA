@@ -1,12 +1,10 @@
 #include "Restaurant.h"
 
-Restaurant::Restaurant(string name, Address address, vector<string> cuisine, vector<Product> products, vector<Order*> orders,
-                       Base* base) {
+Restaurant::Restaurant(string name, Address address, vector<string> cuisine, vector<Product> products, Base* base) {
     this->name=name;
     this->address=address;
     this->cuisine=cuisine;
     this->products=products;
-    this->orders=orders;
     this->base=base;
 }
 
@@ -31,10 +29,6 @@ void Restaurant::setRestaurantCuisine(string cuisine){
 
 void Restaurant::setRestaurantProducts(vector<Product> products) {
     this->products=products;
-}
-
-void Restaurant::setRestaurantOrders(vector<Order*> orders) {
-    this->orders=orders;
 }
 
 void Restaurant::setRestaurantBase(Base* base) {
@@ -62,10 +56,6 @@ vector<string> Restaurant::getRestaurantCuisine() const {
 
 vector<Product> Restaurant::getRestaurantProducts() const {
     return products;
-}
-
-vector<Order*> Restaurant::getRestaurantOrders() const {
-    return orders;
 }
 
 Base* Restaurant::getRestaurantBase() const {
@@ -97,11 +87,11 @@ ostream &operator<<(ostream &out, const Restaurant &restaurant){
             out << restaurant.products.at(i);
     }
     out << setw(4) << left << '|' << "Orders: ";
-    for(int i=0 ; i< restaurant.orders.size() ; i++){
-        if (i == restaurant.orders.size() - 1)
-            out << restaurant.orders.at(i);
+    for(int i=0 ; i< restaurant.base->getBaseOrders().size() ; i++){
+        if (i == restaurant.base->getBaseOrders().size() - 1)
+            out << restaurant.base->getBaseOrders().at(i);
         else
-            out << restaurant.orders.at(i);
+            out << restaurant.base->getBaseOrders().at(i);
     }
     out << setw(4) << left << '|' << "Base: " << restaurant.base->getBaseLocation() <<endl;
     return out;
