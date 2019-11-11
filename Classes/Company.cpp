@@ -752,7 +752,7 @@ bool makeOrderByMunicipality(Client &client, Base &base){
             getOption(opt);
             if(opt>0 && opt<=base.getBaseRestaurants().size()){
                 string rest_name = base.getBaseRestaurants().at(opt-1).getRestaurantName();
-                find_if(base.getBaseRestaurants().begin(), base.getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == rest_name;});
+                auto it = find_if(base.getBaseRestaurants().begin(), base.getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == rest_name;});
 
             }
             else if(opt==0){
@@ -765,3 +765,97 @@ bool makeOrderByMunicipality(Client &client, Base &base){
         }
     }
 }//TODO juntar com a função da teté
+
+void showAllClients(Company &company){
+    cout << "-----All Clients' Information-----\n"<<endl;
+    for(int i=0;i<company.getCompanyBases().size();i++){
+        for(int j=0; j<company.getCompanyBases().at(i).getBaseClients().size();j++){
+            cout<<company.getCompanyBases().at(i).getBaseClients().at(j) << endl;
+        }
+    }
+}
+
+void showClientsByBase(Company &company){
+    int opt;
+    cout << "Select from which base you want to see clients' information:" << endl;
+    cout << "1: Porto" << endl;
+    cout << "2: Lisboa" << endl;
+    cout << "3: Faro" << endl;
+    cout << "0 - cancel" << endl;
+    cout << "Option: ";
+    getOption(opt);
+    while(opt<0 || opt > 3) {
+        cinERR("ERROR: Invalid input, try again! ");
+        cout << "Option: ";
+        getOption(opt);
+    }
+    if(opt==0) {
+        cout << "Canceled successfully!" << endl;
+    }
+    else{
+        for(int i=0; i<company.getCompanyBases().at(opt-1).getBaseClients().size();i++){
+            cout << company.getCompanyBases().at(opt-1).getBaseClients().at(i) << endl;
+        }
+    }
+}
+
+void showSpecificClient(Company &company){
+    string str_nif;
+    int nif;
+
+    while(true){
+        cout << "Nif (* - cancel): ";
+        getline(cin,str_nif);
+        if(validNIF(str_nif)){
+            nif = stoi(str_nif);
+            break;
+        }
+        else if(str_nif == "*"){
+            cout<<"Canceled successfully!"<<endl;
+            return;
+        }
+        cinERR("ERROR: Invalid NIF, try again!");
+    }
+
+    for(int i=0; i<company.getCompanyBases().size(); i++){
+        auto it = find_if(company.getCompanyBases().at(i).getBaseClients().begin(),company.getCompanyBases().at(i).getBaseClients().end(),[&](Client client){return client.getClientNif() == nif;});
+        if (it != company.getCompanyBases().at(i).getBaseClients().end()){
+            cout << *it;
+            return;
+        }
+    }
+    cinERR("ERROR: Client with given nif does not exist!");
+}
+
+void showAllRestaurants(Company &company){
+    cout << "-----All Restaurants' Information-----" << endl;
+    for(int i=0;i<company.getCompanyBases().size();i++){
+        for(int j=0;j<company.getCompanyBases().at(i).getBaseRestaurants().size();j++){
+            cout << company.getCompanyBases().at(i).getBaseRestaurants().at(j) << endl;
+        }
+    }
+}
+
+void showRestaurantsByBase(Company &company){
+    int opt;
+    cout << "Select from which base you want to see restaurants' information:" << endl;
+    cout << "1: Porto" << endl;
+    cout << "2: Lisboa" << endl;
+    cout << "3: Faro" << endl;
+    cout << "0 - cancel" << endl;
+    cout << "Option: ";
+    getOption(opt);
+    while(opt<0 || opt > 3) {
+        cinERR("ERROR: Invalid input, try again! ");
+        cout << "Option: ";
+        getOption(opt);
+    }
+    if(opt==0) {
+        cout << "Canceled successfully!" << endl;
+    }
+    else{
+        for(int i=0; i<company.getCompanyBases().at(opt-1).getBaseRestaurants().size();i++){
+            cout << company.getCompanyBases().at(opt-1).getBaseRestaurants().at(i) << endl;
+        }
+    }
+}
