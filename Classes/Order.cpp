@@ -2,7 +2,7 @@
 
 //CLASS ORDER
 
-Order::Order(Restaurant* restaurant,Client* client, Date date, int orderTime, vector<Product> products, float orderPrice) {
+Order::Order(Restaurant* restaurant,Client* client, Date date, Time orderTime, vector<Product> products, float orderPrice) {
     this->restaurant=restaurant;
     this->client = client;
     this->date=date;
@@ -21,7 +21,7 @@ void Order::setOrderDate(Date date) {
     this->date = date;
 }
 
-void Order::setOrderTime(int orderTime) {
+void Order::setOrderTime(Time orderTime) {
     this->orderTime = orderTime;
 }
 
@@ -46,7 +46,7 @@ Date Order::getOrderDate() const {
     return date;
 }
 
-int Order::getOrderTime() const {
+Time Order::getOrderTime() const {
     return orderTime;
 }
 
@@ -83,7 +83,7 @@ void Order::print(ostream &out) const {
 //CLASE DELIVERY
 
 
-Delivery::Delivery(Restaurant* restaurant,Client* client, Date date, int orderTime, vector<Product> products, float orderPrice, float deliveryPrice, Deliveryperson* deliveryperson, bool success, int deliveryTime, string notes):Order(restaurant, client, date, orderTime, products, orderPrice){
+Delivery::Delivery(Restaurant* restaurant,Client* client, Date date, Time orderTime, vector<Product> products, float orderPrice, float deliveryPrice, Deliveryperson* deliveryperson, bool success, Time deliveryTime, string notes):Order(restaurant, client, date, orderTime, products, orderPrice){
     this->deliveryPrice=deliveryPrice;
     this->deliveryperson=deliveryperson;
     this->success=success;
@@ -104,7 +104,7 @@ void Delivery::setSuccess(bool success) {
     this->success = success;
 }
 
-void Delivery::setDeliveryTime(int deliveryTime) {
+void Delivery::setDeliveryTime(Time deliveryTime) {
     this->deliveryTime = deliveryTime;
 }
 
@@ -125,7 +125,7 @@ bool Delivery::getSuccess() const {
     return success;
 }
 
-int Delivery::getDeliveryTime() const {
+Time Delivery::getDeliveryTime() const {
     return deliveryTime;
 }
 

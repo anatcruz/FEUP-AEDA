@@ -369,6 +369,7 @@ vector<Base>* Company::getCompanyBasesAddr() {
     return &bases;
 }
 
+//Funçoes para dar update a ficheiros
 void updateCompanyFile(Company &company){
     ofstream out_file(company.filePath + company.getCompanyFile());
 
@@ -434,6 +435,7 @@ void updateClientsFile(Base &base){
     out_file.close();
 }
 
+//Funçoes para clientes
 void viewClientOrdersHistory(Client &client){
     Base *base = client.getBase();
     for(int i=0;i<base->getBaseOrders().size();i++){
@@ -635,12 +637,53 @@ bool editClientInfo(Company &company, Client &client){
     return true;
 }
 
-//TODO transform this into a delivery,still unfinished
-bool makeOrder(Client &client, Restaurant *restaurant){
+bool deleteClientAccount(Client &client){
+    string str;
+    Base *base = client.getBase();
+
+    cout << "Are you sure you want to delete your account? (Y/N): ";
+    while(true){
+        try{
+            getline(cin, str);
+            if(trim(str)=="Y"){
+                for (int i=0; i<base->getBaseClients().size(); i++){
+                    if(base->getBaseClients().at(i).getClientNif()==client.getClientNif()){
+                        base->getBaseClients().erase(base->getBaseClients().begin()+i);
+                        break;
+                    }
+                }
+                break;
+            }
+            else if(trim(str)=="N"){
+                cout<<"Account not deleted"<<endl;
+                return false;
+            }
+        }
+        catch (invalid_argument){
+            cinERR("ERROR: Invalid input, try again! ");
+        }
+    }
+
+
+    return true;
+}
+
+//Funçoes de fazer encomendas
+//TODO still unfinished, falta deliverymen!
+bool makeOrderDelivery(Client &client, Restaurant *restaurant){
     int opt;
+    string satisfied, notes = "";
+    bool success;
     vector<Product> products_ordered={};
-    float order_price=0;
+    float order_price=0, delivery_price=0;
     Order new_order;
+    Delivery new_delivery;
+
+    time_t now;
+    time(&now);
+    struct tm* current_t = localtime(&now);
+    new_order.setOrderTime(Time(current_t->tm_hour,current_t->tm_min,current_t->tm_sec));
+    new_order.setOrderDate(Date(current_t->tm_mday,current_t->tm_mon,current_t->tm_year));
 
     cout << "Choose the product you want" << endl;
     cout << "Products: " << endl;
@@ -677,58 +720,39 @@ bool makeOrder(Client &client, Restaurant *restaurant){
     new_order.setOrderRestaurant(restaurant);
     new_order.setOrderClient(&client);
 
+    //criar a entrega
+    if(restaurant->getRestaurantAddress().getMunicipality() == client.getClientAddress().getMunicipality())
+        delivery_price = order_price + 3;
+    else
+        delivery_price = order_price + 5;
+
+
+    cout << "Are you satisfied with your order(YES/NO)?" << endl;
+    cout << "Option: ";
+    getline(cin,satisfied);
+    success = (satisfied == "YES");
+    //new_delivery(new_order,delivery_price,)
 
 }
-//TODO finish with the function above
-bool makeOrderByRestaurant(Client &client, Base &base){
+
+bool makeOrderDeliveryByRestaurant(Client &client, Base &base){
     string restaurant_name;
 
-    cout << "Insert the name of the restaurant: ";
+    cout << "Enter the restaurant you want to order from: ";
     getline(cin,restaurant_name);
 
     auto it = find_if(base.getBaseRestaurants().begin(),base.getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == restaurant_name;});
 
     if(it == base.getBaseRestaurants().end()){
-        cinERR("ERROR: That restaurant does not exist in your base!");
+        cinERR("ERROR: That restaurant does not exist in your base! Cant make order!");
         return false;
     }
     else{
-
+        makeOrderDelivery(client,&(*it));
     }
 }
-bool deleteClientAccount(Client &client){
-    string str;
-    Base *base = client.getBase();
 
-    cout << "Are you sure you want to delete your account? (Y/N): ";
-    while(true){
-        try{
-            getline(cin, str);
-            if(trim(str)=="Y"){
-                for (int i=0; i<base->getBaseClients().size(); i++){
-                    if(base->getBaseClients().at(i).getClientNif()==client.getClientNif()){
-                        base->getBaseClients().erase(base->getBaseClients().begin()+i);
-                        break;
-                    }
-                }
-                break;
-            }
-            else if(trim(str)=="N"){
-                cout<<"Account not deleted"<<endl;
-                return false;
-            }
-        }
-        catch (invalid_argument){
-            cinERR("ERROR: Invalid input, try again! ");
-        }
-    }
-
-
-    return true;
-}
-
-
-bool makeOrderByMunicipality(Client &client, Base &base){
+bool makeOrderDeliveryByMunicipality(Client &client, Base &base){
     string str, municipality;
     int opt;
 
@@ -753,6 +777,7 @@ bool makeOrderByMunicipality(Client &client, Base &base){
             if(opt>0 && opt<=base.getBaseRestaurants().size()){
                 string rest_name = base.getBaseRestaurants().at(opt-1).getRestaurantName();
                 auto it = find_if(base.getBaseRestaurants().begin(), base.getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == rest_name;});
+                makeOrderDelivery(client,&(*it));
 
             }
             else if(opt==0){
