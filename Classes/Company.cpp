@@ -768,7 +768,103 @@ bool makeOrderDeliveryByMunicipality(Client &client, Base &base){
             }
         }
     }
-}//TODO juntar com a função da teté
+}
+
+bool makeOrderDeliveryByPrice(Client &client, Base &base){
+    string price;
+    float limit_price = 0;
+    vector<Product> all_products;
+    vector<Product> select_products;
+    Product order_product;
+    int opt1,opt2;
+    vector<Restaurant> restaurants_available;
+    Order new_order;
+    Delivery new_delivery;
+
+    //preço limite dado pelo utilizador
+    cout << "What is the limit price of the product?" << endl;
+    cout << "Price: ";
+    getline(cin,price);
+    limit_price = stof(price);
+
+    //vetor com todos os produtos de todos os restaurantes com aquele limite
+    for (int i = 0; i < base.getBaseRestaurants().size(); i++){
+        for (int j = 0; j < base.getBaseRestaurants().at(i).getRestaurantProducts().size(); j++){
+            if (base.getBaseRestaurants().at(i).getRestaurantProducts().at(j).getPrice() <= limit_price)
+                select_products.push_back(base.getBaseRestaurants().at(i).getRestaurantProducts().at(j));
+        }
+    }
+    //escolha do produto
+    cout << "Choose the product you want" << endl;
+    cout << "Products: " << endl;
+    for (int i = 0; i < select_products.size(); i++){
+        cout << i+1 << ": " << select_products.at(i) << endl;
+    }
+    cout << "0 - cancel order" << endl;
+    cout << "Option: ";
+
+    do{
+        getOption(opt1);
+        if(opt1>0 && opt1<=select_products.size()){
+            order_product = select_products.at(opt1-1);
+            break;
+        }
+        else {
+            cout << "ERROR: Invalid product choice!Try again: ";
+        }
+
+    }while(opt1 != 0);
+
+    //tratamento da escolha do produto
+    if(opt1 == 0){
+        cout << "Your order was canceled!" << endl;
+        return false;
+    }
+    //para aquele produto, fazer um vetor com os restaurantes que tem esse produto
+    for(int i = 0; i < client.getBase()->getBaseRestaurants().size(); i++){
+        auto it = find_if(client.getBase()->getBaseRestaurants().at(i).getRestaurantProducts().begin(),client.getBase()->getBaseRestaurants().at(i).getRestaurantProducts().end(),[&](Product prod){return prod.getProductName() == order_product.getProductName();});
+        if (it != client.getBase()->getBaseRestaurants().at(i).getRestaurantProducts().end()){
+            restaurants_available.push_back(client.getBase()->getBaseRestaurants().at(i));
+        }
+        else
+            continue;
+    }
+    //se houver so um restaurante com aquele produto
+    if (restaurants_available.size() == 1){
+        cout << "This is the restaurant you are ordering from:" << endl;
+        cout << restaurants_available.at(0);
+        new_order.setOrderRestaurant(&restaurants_available.at(0));
+    }
+    //se houver mais do que um restaurante com aquele produto
+    else{
+        cout << "You have " << restaurants_available.size() << "restaurants to choose from: " << endl;
+        for(int i = 0; i<restaurants_available.size(); i++ ){
+            cout << i+1 << ": " << restaurants_available.at(i) << endl;
+        }
+        cout << "0 - cancel order" << endl;
+        cout << "Option: ";
+        do{
+            getOption(opt2);
+            if(opt2>0 && opt2<=restaurants_available.size()){
+                new_order.setOrderRestaurant(&restaurants_available.at(opt2-1));
+                break;
+            }
+            else {
+                cout << "ERROR: Invalid restaurant choice!Try again: ";
+            }
+
+        }while(opt2 != 0);
+
+        if (opt2 == 0){
+            cout << "Your order was canceled!" << endl;
+            return false;
+        }
+
+    }
+    //TODO so falta criar a order e delivery dado que ja tenho o restaurante,o cliente e o produto
+
+
+}
 
 void showAllClients(Company &company){
     cout << "-----All Clients' Information-----\n"<<endl;
