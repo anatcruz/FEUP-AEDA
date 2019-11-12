@@ -326,9 +326,12 @@ Client* clientLogin(Company &company) {
     for (int i = 0; i < companyBases->size(); i++) {
         cout << i + 1 << ". " << companyBases->at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
     }
+    cout << "0. Go back" << endl;
     int base_idx;
     getOption(base_idx, "Base: ");
-    if (base_idx > 0 && base_idx <= companyBases->size()) {
+    if (base_idx == 0) {
+        return nullptr;
+    } else if (base_idx > 0 && base_idx <= companyBases->size()) {
         base = &companyBases->at(base_idx - 1);
     } else {
         cinERR("Base does not exist!");
@@ -470,9 +473,12 @@ bool createClientAccount(Company &company){
     for (int i = 0; i < companyBases.size(); i++) {
         cout << i + 1 << ". " << companyBases.at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
     }
+    cout << "0. Go back" << endl;
     int base_idx;
     getOption(base_idx, "Base: ");
-    if (base_idx > 0 && base_idx <= companyBases.size()) {
+    if (base_idx == 0) {
+        return false;
+    } else if (base_idx > 0 && base_idx <= companyBases.size()) {
         base = companyBases.at(base_idx - 1);
     } else {
         cinERR("Base does not exist!");
@@ -571,7 +577,7 @@ bool editClientInfo(Company &company, Client &client){
     cout << "Select which information you want to modify:" << endl;
     cout << "1. Name" << endl;
     cout << "2. Address" << endl;
-    cout << "0. Return" << endl;
+    cout << "0. Go back" << endl;
     getOption(opt);
 
     switch(opt){
