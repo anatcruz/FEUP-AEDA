@@ -799,7 +799,7 @@ bool makeOrderDeliveryByPrice(Client &client, Base &base){
     float limit_price = 0;
     vector<Product> all_products;
     vector<Product> select_products;
-    Product order_product;
+    vector<Product> order_product;
     int opt1,opt2;
     vector<Restaurant> restaurants_available;
     Order new_order;
@@ -830,7 +830,8 @@ bool makeOrderDeliveryByPrice(Client &client, Base &base){
     do{
         getOption(opt1);
         if(opt1>0 && opt1<=select_products.size()){
-            order_product = select_products.at(opt1-1);
+            order_product.push_back(select_products.at(opt1-1));
+            new_order.setOrderProducts(order_product);
             break;
         }
         else {
@@ -846,7 +847,7 @@ bool makeOrderDeliveryByPrice(Client &client, Base &base){
     }
     //para aquele produto, fazer um vetor com os restaurantes que tem esse produto
     for(int i = 0; i < client.getBase()->getBaseRestaurants().size(); i++){
-        auto it = find_if(client.getBase()->getBaseRestaurants().at(i).getRestaurantProducts().begin(),client.getBase()->getBaseRestaurants().at(i).getRestaurantProducts().end(),[&](Product prod){return prod.getProductName() == order_product.getProductName();});
+        auto it = find_if(client.getBase()->getBaseRestaurants().at(i).getRestaurantProducts().begin(),client.getBase()->getBaseRestaurants().at(i).getRestaurantProducts().end(),[&](Product prod){return prod.getProductName() == order_product.at(0).getProductName();});
         if (it != client.getBase()->getBaseRestaurants().at(i).getRestaurantProducts().end()){
             restaurants_available.push_back(client.getBase()->getBaseRestaurants().at(i));
         }
@@ -886,6 +887,13 @@ bool makeOrderDeliveryByPrice(Client &client, Base &base){
 
     }
     //TODO so falta criar a order e delivery dado que ja tenho o restaurante,o cliente e o produto
+    new_order.setOrderClient(&client);
+
+    time_t now;
+    time(&now);
+    struct tm* current_t = localtime(&now);
+    new_order.setOrderTime(Time(current_t->tm_hour,current_t->tm_min,current_t->tm_sec));
+    new_order.setOrderDate(Date(current_t->tm_mday,current_t->tm_mon,current_t->tm_year));
 
 
 }
