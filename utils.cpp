@@ -88,3 +88,9 @@ bool validPostcode(string const &postcode){
     return postcode.size() == 8;
 
 }
+
+void enterWait() {
+    string str;
+    cout << "ENTER to go back";
+    getline(cin,str);
+}

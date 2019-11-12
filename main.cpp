@@ -28,7 +28,6 @@ int main() {
 
     // Menu creation
     Menu startMenu("Welcome!");
-    Menu clientLoginMenu("Log-in");
     Menu clientMenu("Ugh-Eats");
     Menu restaurantsMenu("Restaurants");
     Menu clientAccountManagementMenu("Account management");
@@ -37,14 +36,10 @@ int main() {
 
     // startMenu creation
     startMenu.addOption("Exit", faznada);
-    startMenu.addOption("Log-in", [&](){openClient = clientLogin(ugh); if (openClient!= nullptr) {openBase = openClient->getBase();}});
+    startMenu.addOption("Log-in", [&](){openClient = clientLogin(ugh); if (openClient!= nullptr) {openBase = openClient->getBase(); clientMenu.start();}});
     startMenu.addOption("Sign-up", [&](){createClientAccount(ugh);});
     startMenu.addOption("Admin", [&](){adminLoginMenu.start();});
 
-
-    // clientLoginMenu creation
-    clientLoginMenu.addOption("Go back", faznada);
-    clientLoginMenu.addOption("Meow?", [&](){clientMenu.start();});
 
     // clientMenu creation
     clientMenu.addOption("Log-out", faznada);
@@ -62,7 +57,9 @@ int main() {
 
     // clientAccountManagementMenu creation
     clientAccountManagementMenu.addOption("Go back", faznada);
-    clientAccountManagementMenu.addOption("Edit info",faznada);
+    clientAccountManagementMenu.addOption("View info", [&](){cout << *openClient; enterWait();});
+    clientAccountManagementMenu.addOption("Edit info", [&](){editClientInfo(ugh,*openClient);});
+    clientAccountManagementMenu.addOption("Delete account", faznada);
 
 
     // adminLoginMenu creation
@@ -78,13 +75,13 @@ int main() {
 
     // Start!
     startMenu.start();
-    updateBasesFile(ugh);
-    updateCompanyFile(ugh);
-    for (int i = 0; i<ugh.getCompanyBases().size(); i++) {
-        updateClientsFile(ugh.getCompanyBases().at(i));
-        updateWorkersFile(ugh.getCompanyBases().at(i));
-    }
-    cout << *openClient;
-    cout << *openBase;
+//    updateBasesFile(ugh);
+//    updateCompanyFile(ugh);
+//    for (int i = 0; i<ugh.getCompanyBases().size(); i++) {
+//        updateClientsFile(ugh.getCompanyBases().at(i));
+//        updateWorkersFile(ugh.getCompanyBases().at(i));
+//    }
+//    cout << *openClient;
+//    cout << *openBase;
     return 0;
 }

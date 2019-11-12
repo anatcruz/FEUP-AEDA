@@ -567,96 +567,68 @@ bool createClientAccount(Company &company){
 }
 
 bool editClientInfo(Company &company, Client &client){
-    Base *current_base = client.getBase();
-    Base new_base;
     int opt;
-    string new_name,street_name,door,floor,postcode,municipality;
-    bool infoChanged=false,changedBase=false;
-    Address new_address;
-    auto it_client = current_base->getBaseClients().begin();
+    cout << "Select which information you want to modify:" << endl;
+    cout << "1. Name" << endl;
+    cout << "2. Address" << endl;
+    cout << "0. Return" << endl;
+    getOption(opt);
 
-    for (auto it = current_base->getBaseClients().begin(); it != current_base->getBaseClients().end(); it++ ){
-        if((*it) == client)
-            it_client = it;
-    }
-
-    do{
-        cout << "Select which information you want to modify:" << endl;
-        cout << "1: Name" << endl;
-        cout << "2: Address" << endl;
-        cout << "0: Return" << endl;
-        getOption(opt);
-
-        switch(opt){
-            case 0:
-                break;
-            case 1:
-                cout << "Current Name: " << client.getClientName() << endl;
-                cout << "New name (* - cancel): ";
-                getline(cin,new_name);
-                if(new_name == "*")
-                    break;
-                client.setClientName(trim(new_name));
-                infoChanged=true;
-                break;
-            case 2:
-                cout << "Current address: " << client.getClientAddress();
-                cout << "New address: " << endl;
-                cout << "-Municipality: ";
-                getline(cin,municipality);
-                if (searchbyMunicipality(municipality,client.getBase()->getBaseMunicipalities())){
-                    new_address.setMunicipality(municipality);
-                }
-                else{
-                    cinERR("ERROR: You cant stay in this base!");
-                    if (!exitsBase(company.getCompanyBases(),municipality)){
-                        cinERR("ERROR: We dont have services for that municipality!");
-                        cout << "Changes were undone!";
-                        return false;
-                    }
-                    else{
-                        for(int i = 0; i < company.getCompanyBases().size(); i++){
-                            if(searchbyMunicipality(municipality, company.getCompanyBases().at(i).getBaseMunicipalities())) {
-                                client.setBase(&company.getCompanyBases().at(i));
-                                new_address.setMunicipality(municipality);
-                                changedBase = true;
-                                new_base = static_cast<Base &&>(company.getCompanyBases().at(i));
-                                cout << "You changed for the base: " << new_base.getBaseLocation();
-                            }
-                        }
-                    }
-                }
-                cout << "-Street name: ";
-                getline(cin,street_name);
-                new_address.setStreet(trim(street_name));
-                cout << "-Door number: ";
-                getline(cin,door);
-                new_address.setDoor(trim(door));
-                cout << "-Floor number (- none): ";
-                getline(cin,floor);
-                new_address.setFloor(trim(floor));
-                while(true){
-                    cout << "Postcode: ";
-                    getline(cin,postcode);
-
-                    if(validPostcode(trim(postcode)))
-                        break;
-
-                    cinERR("ERROR: Invalid Postcode, try again!");
-                }
-                new_address.setPostCode(trim(postcode));
-                infoChanged=true;
-                break;
-
+    switch(opt){
+        case 0:
+            return false;
+        case 1: {
+            cout << "Current Name: " << client.getClientName() << endl;
+            cout << "New name (* - cancel): ";
+            string new_name;
+            getline(cin, new_name);
+            if (new_name == "*")
+                return false;
+            client.setClientName(trim(new_name));
+            break;
         }
+        case 2: {
+            cout << "Current address: " << client.getClientAddress();
+            Address new_address;
+            string street_name,door,floor,postcode,municipality;
+            cout << "New address: " << endl;
+            cout << "-Municipality: ";
+            getline(cin,municipality);
+            if (searchbyMunicipality(municipality,client.getBase()->getBaseMunicipalities())){
+                new_address.setMunicipality(municipality);
+            }
+            else{
+                cinERR("ERROR: You municipality not reached by base! You must sign up to one of our other"
+                       "bases if it is in their reached areas");
+                cinERR("Changed reverted!");
+            }
+            cout << "-Street name: ";
+            getline(cin,street_name);
+            new_address.setStreet(trim(street_name));
+            cout << "-Door number: ";
+            getline(cin,door);
+            new_address.setDoor(trim(door));
+            cout << "-Floor number (- none): ";
+            getline(cin,floor);
+            new_address.setFloor(trim(floor));
+            while(true){
+                cout << "Postcode: ";
+                getline(cin,postcode);
 
-    }while(opt!=0);
+                if(validPostcode(trim(postcode)))
+                    break;
 
-    if(changedBase){
-        new_base.getBaseClients().push_back(client);
-        current_base->getBaseClients().erase(it_client);
+                cinERR("ERROR: Invalid Postcode, try again!");
+            }
+            new_address.setPostCode(trim(postcode));
+            client.setClientAddress(new_address);
+            break;
+        }
+        default:
+            return false;
     }
-
+    cout << "Information successfully updated!";
+    enterWait();
     return true;
 }
 

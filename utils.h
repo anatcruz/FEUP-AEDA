@@ -37,4 +37,7 @@ bool validNIF(string const &nif);
 //Postcode verification
 bool validPostcode(string const &postcode);
 
+//Just useful
+void enterWait();
+
 #endif //AEDA_UGHEATS_UTILS_H
