@@ -39,3 +39,10 @@ ostream &operator<<(ostream &out, const Time &time) {
     out << ":" << setfill('0') << setw(2) << to_string(time.sec);
     return out;
 }
+
+Time Time::addtime(int min) {
+    this->min += min;
+    this->hour += this->min / 60;
+    this->min %= 60;
+    this->hour %= 24;
+}

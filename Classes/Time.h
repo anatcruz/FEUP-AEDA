@@ -26,6 +26,7 @@ public:
     int getSec() const;
     //Other Methods
     friend ostream& operator<<(ostream& out, const Time &time);
+    Time addtime(int min);
 };
 
 

@@ -66,10 +66,10 @@ bool editClientInfo(Company &company, Client &client);
 bool deleteClientAccount(Client &client);
 
 //Funçoes de fazer encomendas
-bool makeOrderDelivery(Client &client, Restaurant *restaurant);
-bool makeOrderDeliveryByRestaurant(Client &client, Base &base);
-bool makeOrderDeliveryByMunicipality(Client &client, Base &base);
-bool makeOrderDeliveryByPrice(Client &client, Base &base);
+bool makeOrderDelivery(Client &client, Restaurant *restaurant); //TODO finished needs TESTING
+bool makeOrderDeliveryByRestaurant(Client &client, Base &base); //TODO finished needs TESTING
+bool makeOrderDeliveryByMunicipality(Client &client, Base &base); //TODO finished needs TESTING
+bool makeOrderDeliveryByPrice(Client &client, Base &base); //TODO finished needs TESTING
 bool makeOrderDeliveryByCuisine(Client &client, Base &base);
 
 //Funçoes de dar show
