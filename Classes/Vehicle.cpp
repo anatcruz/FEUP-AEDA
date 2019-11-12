@@ -35,7 +35,7 @@ Date Vehicle::getPurchaseDate() const {
 //Other Methods
 
 ostream& operator<<(ostream& out, const Vehicle &vehicle){
-    out << vehicle.manufacturer << ", " << vehicle.type << ", " << vehicle.purchaseDate;
+    out << vehicle.manufacturer << "," << vehicle.type << "," << vehicle.purchaseDate;
     return out;
 }
 
