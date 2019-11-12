@@ -363,6 +363,7 @@ vector<Base>* Company::getCompanyBasesAddr() {
 }
 
 //Funçoes para dar update a ficheiros
+// TODO adicionar variaveis para detetar se é preciso mudar ficheiros
 void updateCompanyFile(Company &company){
     ofstream out_file(company.filePath + company.getCompanyFile());
 
@@ -460,6 +461,7 @@ void viewClientOrdersHistory(Client &client){
         }
     }
 }
+// TODO faltam ficheiros
 
 bool createClientAccount(Company &company){
     vector<Base> companyBases = company.getCompanyBases();
