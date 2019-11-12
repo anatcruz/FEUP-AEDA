@@ -1,0 +1,11 @@
+McDonalds
+Estrada da Circunvalação,8114-8116,-,4200-163,Porto
+Fast food,Vegetariano,Sobremesas
+productsMcDonalds.txt
+Porto
+-----
+Pedra Alta
+Rua Baixa Fofa,544,-,4465-855,Porto
+Marisco,Peixe,Grelhados
+productsPedraAlta.txt
+Porto

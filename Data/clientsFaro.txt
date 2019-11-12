@@ -3,3 +3,33 @@ Faro
 Rua do Olho Bonito,34,3tras,8700-143,Olhão
 456789123
 0
+-----
+Ana Sun
+Faro
+Rua Solarenga,594,3,4444-333,Faro
+112233445
+0
+-----
+Foral
+Faro
+Rua do João,34,-,7777-888,Faro
+888555888
+0
+-----
+Francisca Olhão
+Faro
+Rua Ali,3334,2,5555-444,São Brás de Alportel
+753357753
+0
+-----
+Teresa Frias
+Faro
+Rua Rafada,9,2,1234-444,Olhão
+444555666
+0
+-----
+Guilhermina Suggia
+Faro
+Avenida das Camélias,78,4,5555-999,Loulé
+222444888
+0

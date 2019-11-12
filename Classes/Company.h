@@ -60,6 +60,7 @@ Client* clientLogin(Company &company);
 void updateCompanyFile(Company &company);
 void updateBasesFile(Company &company);
 void updateClientsFile(Base &base);
+void updateWorkersFile(Base &base);
 void viewClientOrdersHistory(Client &client);
 bool createClientAccount(Company &company);
 bool editClientInfo(Company &company, Client &client);

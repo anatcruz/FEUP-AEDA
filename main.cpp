@@ -37,7 +37,7 @@ int main() {
 
     // startMenu creation
     startMenu.addOption("Exit", faznada);
-    startMenu.addOption("Log-in", [&](){openClient = clientLogin(ugh); openBase = openClient->getBase();});
+    startMenu.addOption("Log-in", [&](){openClient = clientLogin(ugh); if (openClient!= nullptr) {openBase = openClient->getBase();}});
     startMenu.addOption("Sign-up", [&](){createClientAccount(ugh);});
     startMenu.addOption("Admin", [&](){adminLoginMenu.start();});
 
@@ -78,7 +78,13 @@ int main() {
 
     // Start!
     startMenu.start();
-//    cout << *openClient;
-//    cout << *openBase;
+    updateBasesFile(ugh);
+    updateCompanyFile(ugh);
+    for (int i = 0; i<ugh.getCompanyBases().size(); i++) {
+        updateClientsFile(ugh.getCompanyBases().at(i));
+        updateWorkersFile(ugh.getCompanyBases().at(i));
+    }
+    cout << *openClient;
+    cout << *openBase;
     return 0;
 }

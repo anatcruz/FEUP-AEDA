@@ -8,9 +8,9 @@ Date::Date(int day, int month, int year) {
 
 Date::Date(string date) {
     vector<string> vdata = strToVect(date, '/');
-    this->day = stoi(vdata.at(2));
+    this->day = stoi(vdata.at(0));
     this->month = stoi(vdata.at(1));
-    this->year = stoi(vdata.at(0));
+    this->year = stoi(vdata.at(2));
 }
 
 //Metodos Set
@@ -42,7 +42,7 @@ int Date::getYear() const {
 //Other Methods
 
 ostream& operator<<(ostream& out, const Date & date){
-    out << setfill('0') << right << setw(2) << to_string(date.day);
+    out << right << setw(2) << setfill('0') << to_string(date.day);
     out << "/" << setfill('0') << setw(2) << to_string(date.month);
     out << "/" << setfill('0') << setw(4) << to_string(date.year);
     return out;

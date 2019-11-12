@@ -27,9 +27,3 @@ Porto
 Ruaa,12,21,4100-009,Porto
 300300300
 0
------
-Rui Maia
-Porto
-Rua A,89,1,7777-888,Maia
-222555
-0

@@ -27,9 +27,3 @@ Lisboa
 Av da Liberdade,20,5,2400-333,Lisboa
 222111222
 0
------
-Lina
-Lisboa
-Rua Lona,34,2,2222-111,Oeiras
-666999666
-0

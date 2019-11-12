@@ -350,7 +350,7 @@ Client* clientLogin(Company &company) {
             if (it != base->getBaseClientsAddr()->end()) {
                 return &*it;
             } else {
-                cinERR("Client does not exist, try again!"); //TODO add cancel
+                cinERR("Client does not exist, try again!");
             }
         } else {
             cinERR("Invalid NIF, try again!");
@@ -402,7 +402,7 @@ void updateBasesFile(Company &company){
 
 void updateWorkersFile(Base &base){
     vector<Worker*> temp = base.getBaseWorkers();
-    string file = base.getBaseWorkersFile();
+    string file = Company::filePath + base.getBaseWorkersFile();
     ofstream out_file(file);
 
     for(int i = 0; i < temp.size(); i++){
@@ -422,6 +422,7 @@ void updateWorkersFile(Base &base){
                 out_file << d->getWorkerName() << endl;
                 out_file << d->getWorkerNif() << endl;
                 out_file << d->getWorkerBirthdate() << endl;
+                out_file << d->getWorkerSalary() << endl;
                 out_file << d->getVehicle().getManufacturer() << endl;
                 out_file << d->getVehicle().getType() << endl;
                 out_file << d->getVehicle().getPurchaseDate();
@@ -551,12 +552,17 @@ bool createClientAccount(Company &company){
     address.setPostCode(trim(postcode));
     new_client.setClientAddress(address);
     new_client.setBlack_listed(false);
+    new_client.setBase(&company.getCompanyBasesAddr()->at(base_idx));
     temp_clients.push_back(new_client);
     base.setBaseClients(temp_clients);
     companyBases.at(base_idx) = static_cast<Base &&>(base);
     company.setCompanyBases(companyBases);
+    cout << "Account successfully created!" << endl;
+    cout << "ENTER to go back";
+    string str;
+    getline(cin, str);
     return true;
-} // TODO see if it still works
+}
 
 bool editClientInfo(Company &company, Client &client){
     Base *current_base = client.getBase();

@@ -1,0 +1,11 @@
+Olivier Avenida
+Rua Júlio César Machado,7,-,1250-135,Lisboa
+Carne,Peixe
+productsOlivierAvenida.txt
+Lisboa
+-----
+Sushi dos Sá Morais
+Rua Latino Coelho,50A,-,1050-180,Lisboa
+Sushi,Carne,Peixe
+productsSushiSaMorais.txt
+Lisboa
