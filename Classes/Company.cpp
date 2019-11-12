@@ -386,15 +386,37 @@ void updateBasesFile(Company &company){
     out_file.close();
 }
 
-/*void updateWorkersFile(Company &company){
-    vector<Worker*> temp = company.getCompanyWorkers();
-    string file = company.getCompanyWorkersFile();
+void updateWorkersFile(Base &base){
+    vector<Worker*> temp = base.getBaseWorkers();
+    string file = base.getBaseWorkersFile();
     ofstream out_file(file);
 
     for(int i = 0; i < temp.size(); i++){
-        out_file<<temp.at(i).get
+        Admin *a = dynamic_cast<Admin *> (temp.at(i));
+        if (a!= NULL){
+            out_file << "Admin" << endl;
+            out_file << a->getWorkerName() << endl;
+            out_file << a->getWorkerNif() << endl;
+            out_file << a->getWorkerBirthdate() << endl;
+            out_file << a->getWorkerSalary() << endl;
+            out_file << a->getWorkerDescription();
+        }
+        else{
+            Deliveryperson *d = dynamic_cast<Deliveryperson *> (temp.at(i));
+            if(d!=NULL){
+                out_file << "Deliveryperson" << endl;
+                out_file << d->getWorkerName() << endl;
+                out_file << d->getWorkerNif() << endl;
+                out_file << d->getWorkerBirthdate() << endl;
+                out_file << d->getVehicle().getManufacturer() << endl;
+                out_file << d->getVehicle().getType() << endl;
+                out_file << d->getVehicle().getPurchaseDate();
+            }
+        }
+        if(i!=temp.size()-1)
+            out_file<<endl << "-----"<<endl;
     }
-}*/
+}
 
 void updateClientsFile(Base &base){
     vector<Client> temp = base.getBaseClients();
@@ -520,7 +542,7 @@ bool createClientAccount(Company &company){
     companyBases.at(base_idx) = static_cast<Base &&>(base);
     company.setCompanyBases(companyBases);
     return true;
-} // TODO see it it still works
+} // TODO see if it still works
 
 bool editClientInfo(Company &company, Client &client){
     Base *current_base = client.getBase();
@@ -626,8 +648,10 @@ bool deleteClientAccount(Client &client){
             getline(cin, str);
             if(trim(str)=="Y"){
                 for (int i=0; i<base->getBaseClients().size(); i++){
-                    if(base->getBaseClients().at(i).getClientNif()==client.getClientNif()){
-                        base->getBaseClients().erase(base->getBaseClients().begin()+i);
+                    vector<Client> temp = base->getBaseClients();
+                    if(temp.at(i).getClientNif()==client.getClientNif()){
+                        temp.erase(base->getBaseClients().begin()+i);
+                        base->setBaseClients(temp);
                         break;
                     }
                 }
