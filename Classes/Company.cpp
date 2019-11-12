@@ -91,18 +91,17 @@ ostream& operator<<(ostream& out, const Company &company){
     out << setw(4) << left << '|' << "Email: " << company.email << endl;
     out << setw(4) << left << '|' << "Phone Number: " << company.phone << endl;
     out << setw(4) << left << '|' << "Workers: ";
-    /*for(int i=0 ; i< company.workers.size() ; i++){
-        if (i == company.workers.size() - 1)
-            out << company.workers.at(i);
+    int total_workers = 0;
+    for (int i = 0; i < company.bases.size(); i++) {
+        total_workers += company.bases.at(i).getBaseWorkers().size();
+    }
+    out << total_workers << endl;
+    out << setw(4) << left << '|' << "Bases: " << company.bases.size() << " bases in";
+    for (int i = 0; i < company.bases.size(); i++) {
+        if (i != company.bases.size() - 1)
+            out << " " << company.bases.at(i).getBaseLocation().getLocationAddress().getMunicipality() << ",";
         else
-            out << company.workers.at(i);
-    }*/
-    out << setw(4) << left << '|' << "Bases: ";
-    for(int i=0 ; i<company.bases.size() ; i++){
-        if (i == company.bases.size() - 1)
-            out << company.bases.at(i);
-        else
-            out << company.bases.at(i);
+            out << " and " << company.bases.at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
     }
     out << "\\_" << endl;
     return out;
@@ -239,7 +238,7 @@ Company::Company(const string &filesPath){
         restaurants_file.close();
 
         //Get workers
-        getline(cin,str);
+        getline(bases_file,str);
         b.setBaseWorkersFile(str);
         ifstream workers_file(filePath + str);
 
