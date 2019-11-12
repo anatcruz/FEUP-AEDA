@@ -55,7 +55,7 @@ int main() {
     // restaurantsMenu
     // TODO message: search by
     restaurantsMenu.addOption("Go back", faznada);
-    restaurantsMenu.addOption("Municipality", [&](){makeOrderByMunicipality(*openClient, *openBase);});
+    restaurantsMenu.addOption("Municipality", faznada);
     restaurantsMenu.addOption("Name", faznada);
     restaurantsMenu.addOption("Price range", faznada);
     restaurantsMenu.addOption("Cuisine", faznada);
@@ -77,7 +77,7 @@ int main() {
     adminMenu.addOption("Finance", faznada);
 
     // Start!
-    startMenu.start();
-
+//    startMenu.start();
+    cout << ugh;
     return 0;
 }
