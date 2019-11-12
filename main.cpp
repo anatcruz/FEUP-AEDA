@@ -31,14 +31,13 @@ int main() {
     Menu clientMenu("Ugh-Eats");
     Menu restaurantsMenu("Restaurants");
     Menu clientAccountManagementMenu("Account management");
-    Menu adminLoginMenu("Admin log-in");
     Menu adminMenu("Ugh-Eats - Admin");
 
     // startMenu creation
     startMenu.addOption("Exit", faznada);
     startMenu.addOption("Log-in", [&](){openClient = clientLogin(ugh); if (openClient!= nullptr) {openBase = openClient->getBase(); clientMenu.start();}});
     startMenu.addOption("Sign-up", [&](){createClientAccount(ugh);});
-    startMenu.addOption("Admin", [&](){adminLoginMenu.start();});
+    startMenu.addOption("Admin", [&](){openWorker = workerLogin(ugh); if (openWorker!= nullptr) {openBase = openWorker->getWorkerBase(); adminMenu.start();}});
 
 
     // clientMenu creation
@@ -62,9 +61,6 @@ int main() {
     clientAccountManagementMenu.addOption("Delete account", [&](){deleteClientAccount(openClient,openBase);});
 
 
-    // adminLoginMenu creation
-    adminLoginMenu.addOption("Go back", faznada);
-    adminLoginMenu.addOption("Woof!", [&](){adminMenu.start();});
 
     // adminMenu creation
     adminMenu.addOption("Log-out", faznada);
@@ -82,6 +78,7 @@ int main() {
 //        updateWorkersFile(ugh.getCompanyBases().at(i));
 //    }
 //    cout << *openClient;
+    openWorker->print(cout);
     cout << *openBase;
     return 0;
 }

@@ -18,7 +18,6 @@ public:
     Menu(string name);
     void start();
     void display();
-    string getName();
     vector<pair<string, function<void()>>> getOptions();
     void setName(string name);
     void setOptions(vector<pair<string, function<void()>>> options);

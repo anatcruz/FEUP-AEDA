@@ -9,6 +9,7 @@
 #include "../utils.h"
 
 class Order;
+class Base;
 
 using namespace std;
 
@@ -18,6 +19,7 @@ protected:
     int nif;
     Date birthdate;
     double salary;
+    Base* base;
 public:
     Worker() = default;
     Worker(string name, int nif, Date birthdate, double salary);
@@ -26,11 +28,13 @@ public:
     void setWorkerNif(int nif);
     void setWorkerBirthdate(Date birthdate);
     void setWorkerSalary(double salary);
+    void setWorkerBase(Base* base);
     //Metodos Get
     string getWorkerName() const;
     int getWorkerNif() const;
     Date getWorkerBirthdate() const;
     double getWorkerSalary() const;
+    Base* getWorkerBase() const;
     //Other Methods
     virtual void print(ostream &out) const;
 };

@@ -8,6 +8,7 @@ Worker::Worker(string name, int nif, Date birthdate, double salary) {
     this->salary=salary;
 }
 
+
 //Metodos Set
 void Worker::setWorkerName(string name) {
     this->name = name;
@@ -24,6 +25,11 @@ void Worker::setWorkerBirthdate(Date birthdate) {
 void Worker::setWorkerSalary(double salary) {
     this->salary = salary;
 }
+
+void Worker::setWorkerBase(Base *base) {
+    this->base = base;
+}
+
 
 //Metodos Get
 string Worker::getWorkerName() const {
@@ -42,6 +48,13 @@ double Worker::getWorkerSalary() const {
     return salary;
 }
 
+Base* Worker::getWorkerBase() const {
+    return base;
+}
+
+
+//Other Methods
+
 void Worker::print(ostream &out) const {
     out << "/" << endl;
     out << setw(4) << left << '|' << "Name: " << name << endl;
@@ -49,9 +62,6 @@ void Worker::print(ostream &out) const {
     out << setw(4) << left << '|' << "Birthdate: " << birthdate << endl;
     out << setw(4) << left << '|' << "Salary: " << salary << endl;
 }
-
-//Other Methods
-
 
 //CLASS ADMIN
 

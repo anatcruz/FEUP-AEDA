@@ -314,10 +314,20 @@ Company::Company(const string &filesPath){
         for (int j = 0; j < bases.at(i).getBaseRestaurants().size(); j++) {
             bases.at(i).getBaseRestaurantsAddr()->at(j).setRestaurantBase(&bases.at(i));
         }
+        for (int j = 0; j < bases.at(i).getBaseWorkers().size(); j++) {
+            bases.at(i).getBaseWorkersAddr()->at(j)->setWorkerBase(&bases.at(i));
+        }
     }
 
     bases_file.close();
 }
+
+vector<Base>* Company::getCompanyBasesAddr() {
+    return &bases;
+}
+
+
+// LogIn
 
 Client* clientLogin(Company &company) {
     vector<Base>* companyBases = company.getCompanyBasesAddr();
@@ -349,7 +359,7 @@ Client* clientLogin(Company &company) {
             return nullptr;
         } else if (validNIF(nif_str)) {
             auto it = find_if(base->getBaseClientsAddr()->begin(), base->getBaseClientsAddr()->end(),
-                    [&](Client &c){return c.getClientNif() == stoi(nif_str);});
+                              [&](Client &c){return c.getClientNif() == stoi(nif_str);});
             if (it != base->getBaseClientsAddr()->end()) {
                 return &*it;
             } else {
@@ -361,12 +371,51 @@ Client* clientLogin(Company &company) {
     }
 }
 
-vector<Base>* Company::getCompanyBasesAddr() {
-    return &bases;
+Worker* workerLogin(Company &company) {
+    vector<Base>* companyBases = company.getCompanyBasesAddr();
+    Base* base;
+    cout << "Select a base:" << endl;
+    for (int i = 0; i < companyBases->size(); i++) {
+        cout << i + 1 << ". " << companyBases->at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
+    }
+    cout << "0. Go back" << endl;
+    int base_idx;
+    getOption(base_idx, "Base: ");
+    if (base_idx == 0) {
+        return nullptr;
+    } else if (base_idx > 0 && base_idx <= companyBases->size()) {
+        base = &companyBases->at(base_idx - 1);
+    } else {
+        cinERR("Base does not exist!");
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
+        return nullptr;
+    }
+    base_idx--;
+    string nif_str;
+    while (true) {
+        cout << "NIF (* - cancel): ";
+        getline(cin, nif_str);
+        if (nif_str == "*") {
+            return nullptr;
+        } else if (validNIF(nif_str)) {
+            auto it = find_if(base->getBaseWorkersAddr()->begin(), base->getBaseWorkersAddr()->end(),
+                              [&](Worker* w){return w->getWorkerNif() == stoi(nif_str);});
+            if (it != base->getBaseWorkersAddr()->end()) {
+                return *it;
+            } else {
+                cinERR("Worker does not exist, try again!");
+            }
+        } else {
+            cinERR("Invalid NIF, try again!");
+        }
+    }
 }
 
-//Funçoes para dar update a ficheiros
-// TODO adicionar variaveis para detetar se é preciso mudar ficheiros
+
+// File updating // TODO adicionar variaveis para detetar se é preciso mudar ficheiros
+
 void updateCompanyFile(Company &company){
     ofstream out_file(company.filePath + company.getCompanyFile());
 
@@ -455,7 +504,9 @@ void updateClientsFile(Base &base){
     out_file.close();
 }
 
-//Funçoes para clientes
+
+// Client functions
+
 void viewClientOrdersHistory(Client &client){
     Base *base = client.getBase();
     for(int i=0;i<base->getBaseOrders().size();i++){
@@ -463,8 +514,7 @@ void viewClientOrdersHistory(Client &client){
             cout<<base->getBaseOrders().at(i);
         }
     }
-}
-// TODO faltam ficheiros
+} // TODO faltam ficheiros
 
 bool createClientAccount(Company &company){
     vector<Base> companyBases = company.getCompanyBases();
@@ -655,7 +705,9 @@ bool deleteClientAccount(Client* client, Base* base){
     return true;
 }
 
-//Funçoes de fazer encomendas
+
+// Order functions
+
 bool makeOrderDelivery(Client &client, Restaurant *restaurant){
     int opt;
     string satisfied, notes = "";
@@ -939,6 +991,9 @@ bool makeOrderDeliveryByPrice(Client &client, Base &base){
 
 }
 
+
+// Show functions
+
 void showAllClients(Company &company){
     cout << "-----All Clients' Information-----\n"<<endl;
     for(int i=0;i<company.getCompanyBases().size();i++){
@@ -1069,6 +1124,9 @@ void showSpecificRestaurant(Company &company){
     }
     cinERR("ERROR: Restaurant with given name does not exist!");
 }
+
+
+// Finance functions
 
 void showCompanyTotalEarnings(Company &company){
     float total=0;

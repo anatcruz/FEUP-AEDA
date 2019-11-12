@@ -54,30 +54,46 @@ public:
     friend ostream& operator<<(ostream& out, const Company &company);
 };
 
+// LogIn
 
-//Funçoes de clientes
 Client* clientLogin(Company &company);
+Worker* workerLogin(Company &company);
+
+
+// File updating
+
 void updateCompanyFile(Company &company);
 void updateBasesFile(Company &company);
 void updateClientsFile(Base &base);
 void updateWorkersFile(Base &base);
+
+
+// Client functions
+
 void viewClientOrdersHistory(Client &client);
 bool createClientAccount(Company &company);
 bool editClientInfo(Company &company, Client &client);
 bool deleteClientAccount(Client* client, Base* base);
 
-//Funçoes de fazer encomendas
+
+// Order functions
+
 bool makeOrderDelivery(Client &client, Restaurant *restaurant); //TODO finished needs TESTING
 bool makeOrderDeliveryByRestaurant(Client &client, Base &base); //TODO finished needs TESTING
 bool makeOrderDeliveryByMunicipality(Client &client, Base &base); //TODO finished needs TESTING
 bool makeOrderDeliveryByPrice(Client &client, Base &base); //TODO finished needs TESTING
 bool makeOrderDeliveryByCuisine(Client &client, Base &base);
 
-//Funçoes de dar show
+
+// Show functions
+
 void showAllClients(Company &company);
 void showClientsByBase(Company &company);
 void showSpecificClient(Company &company);
 void showAllRestaurants(Company &company);
 void showRestaurantsByBase(Company &company);
 void showSpecificRestaurant(Company &company);
+void showCompanyTotalEarnings(Company &company);
+void showEarningByBase(Company &company);
+
 #endif //AEDA_UGHEATS_COMPANY_H
