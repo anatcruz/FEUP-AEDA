@@ -1,12 +1,17 @@
 #include "Base.h"
 
-Base::Base(Location location, Admin* manager, vector<Client> clients, vector<Restaurant> restaurants,
-           vector<string> municipalities) {
+Base::Base(Location location, Admin *manager, vector<Client> clients, vector<Restaurant> restaurants,
+           vector<Worker *> workers, vector<Order *> orders, vector<string> municipalities, string clientsFile, string restaurantsFile, string workersFile){
     this->location=location;
     this->manager=manager;
     this->clients=clients;
     this->restaurants=restaurants;
     this->municipalities=municipalities;
+    this->workers=workers;
+    this->orders=orders;
+    this->clientsFile=clientsFile;
+    this->restaurantsFile=restaurantsFile;
+    this->workersFile=workersFile;
 }
 
 //Metodos Set
@@ -34,12 +39,21 @@ void Base::setBaseMunicipalities(vector<string> municipalities) {
     this->municipalities = municipalities;
 }
 
+
+void Base::setBaseWorkers(vector<Worker *> workers) {
+    this->workers=workers;
+}
+
 void Base::setBaseClientsFile(string clientsFile) {
     this->clientsFile=clientsFile;
 }
 
 void Base::setBaseRestaurantsFile(string restaurantsFile) {
     this->restaurantsFile=restaurantsFile;
+}
+
+void Base::setBaseWorkersFile(string workersFile) {
+    this->workersFile=workersFile;
 }
 
 //Metodos Get
@@ -67,12 +81,20 @@ vector<string> Base::getBaseMunicipalities() const {
     return municipalities;
 }
 
+vector<Worker*> Base::getBaseWorkers() const {
+    return workers;
+}
+
 string Base::getBaseClientsFile() const {
     return clientsFile;
 }
 
 string Base::getBaseRestaurantsFile() const {
     return restaurantsFile;
+}
+
+string Base::getBaseWorkersFile() const {
+    return workersFile;
 }
 
 vector<Client>* Base::getBaseClientsAddr() {
@@ -116,6 +138,10 @@ void Base::addClientToBase(const Client &client) {
 
 void Base::addRestaurantToBase(const Restaurant &restaurant) {
     restaurants.push_back(restaurant);
+}
+
+void Base::addWorkerToBase(Worker *worker){
+    workers.push_back(worker);
 }
 
 bool searchbyMunicipality(string municipality, vector<string> municipalities){

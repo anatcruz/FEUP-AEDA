@@ -1,17 +1,20 @@
 Rua Ruada,69,1esq,4460-420,Porto,41.184204,-8.658562
-321654987
 clientsPorto.txt
 restaurantsPorto.txt
+workersPorto.txt
+321654987
 Porto,Matosinhos,Gondomar,Maia,Vila Nova de Gaia
 -----
 Rua Mais Ruada,96,rc,1900-003,Lisboa,38.739519,-9.131115
-321654987
 clientsLisboa.txt
 restaurantsLisboa.txt
+workersLisboa.txt
+321654986
 Lisboa,Loures,Odivelas,Amadora,Oeiras
 -----
 Rua Mais Que Ruada,420,-,8000-304,Faro,37.012445,-7.934704
-321654987
 clientsFaro.txt
 restaurantsFaro.txt
+workersFaro.txt
+321654985
 Faro,Olhão,Loulé,São Brás de Alportel

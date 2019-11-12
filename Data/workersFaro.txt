@@ -1,0 +1,15 @@
+Admin
+Mariana Silva
+321654985
+27/06/1956
+1000
+Gerente de Faro
+-----
+Deliveryperson
+Manuel Jorge
+684321845
+25/05/1987
+580
+Tucano
+Motociclo
+15/09/1993

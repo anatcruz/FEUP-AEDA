@@ -21,15 +21,13 @@ private:
     int nif;
     string email;
     string phone;
-    vector<Worker*> workers;
     vector<Base> bases;
     string companyFile;
-    string workersFile;
     string basesFile;
 public:
     static string filePath;
     Company() = default;
-    Company(string name, Location location, double capital, int nif, string email, string phone, vector<Worker*> workers, vector<Base> bases);
+    Company(string name, Location location, double capital, int nif, string email, string phone, vector<Base> bases);
     Company(const string &filesPath);
     ~Company();
     //Metodos Set
@@ -39,9 +37,7 @@ public:
     void setCompanyNif(int nif);
     void setCompanyEmail(string email);
     void setCompanyPhone(string phone);
-    void setCompanyWorkers(vector<Worker*> workers);
     void setCompanyBases(vector<Base> bases);
-    void setCompanyWorkersFile(string workersFile);
     void setCompanyBasesFile(string basesFile);
     //Metodos Get
     string getCompanyName() const;
@@ -50,10 +46,8 @@ public:
     int getCompanyNif() const;
     string getCompanyEmail() const;
     string getCompanyPhone() const;
-    vector<Worker*> getCompanyWorkers() const;
     vector<Base> getCompanyBases() const;
     vector<Base>* getCompanyBasesAddr();
-    string getCompanyWorkersFile() const;
     string getCompanyBasesFile() const;
     string getCompanyFile() const;
     //Other Methods

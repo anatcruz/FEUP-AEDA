@@ -4,5 +4,4 @@ Rua Dr. Roberto Frias,sn,-,4200-465,Porto,41.178,-8.598
 123321123
 ugheats@sapo.pt
 96666666
-workers.txt
 bases.txt

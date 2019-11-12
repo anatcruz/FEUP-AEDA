@@ -1,14 +1,12 @@
 #include "Company.h"
 
-Company::Company(string name, Location location, double capital, int nif, string email, string phone,
-                 vector<Worker*> workers, vector<Base> bases) {
+Company::Company(string name, Location location, double capital, int nif, string email, string phone, vector<Base> bases) {
     this->name=name;
     this->location=location;
     this->capital=capital;
     this->nif=nif;
     this->email=email;
     this->phone=phone;
-    this->workers=workers;
     this->bases=bases;
 }
 
@@ -36,16 +34,8 @@ void Company::setCompanyPhone(string phone) {
     this->phone = phone;
 }
 
-void Company::setCompanyWorkers(vector<Worker*> workers) {
-    this->workers = workers;
-}
-
 void Company::setCompanyBases(vector<Base> bases) {
     this->bases = bases;
-}
-
-void Company::setCompanyWorkersFile(string workersFile) {
-    this->workersFile=workersFile;
 }
 
 void Company::setCompanyBasesFile(string basesFile) {
@@ -77,17 +67,10 @@ string Company::getCompanyPhone() const {
     return phone;
 }
 
-vector<Worker*> Company::getCompanyWorkers() const {
-    return workers;
-}
-
 vector<Base> Company::getCompanyBases() const {
     return bases;
 }
 
-string Company::getCompanyWorkersFile() const {
-    return workersFile;
-}
 
 string Company::getCompanyBasesFile() const {
     return basesFile;
@@ -154,61 +137,9 @@ Company::Company(const string &filesPath){
     nif=stoi(str);
     getline(company_file, email);
     getline(company_file, phone);
-    getline(company_file, workersFile);
     getline(company_file, basesFile);
 
     company_file.close();
-
-
-    //Read from workers.txt
-    ifstream workers_file;
-    workers_file.open(filePath + workersFile);
-
-    if (workers_file.fail())
-    {
-        cerr << "Error opening file " << filePath + workersFile << endl;
-        exit(1);
-    }
-
-    while(getline(workers_file, str)){
-        if(str == "Admin"){
-            Admin *a = new Admin;
-            getline(workers_file, str); //Name
-            a->setWorkerName(str);
-            getline(workers_file, str); //Nif
-            a->setWorkerNif(stoi(str));
-            getline(workers_file, str); //Birthdate
-            a->setWorkerBirthdate(Date(str));
-            getline(workers_file, str); //Salary
-            a->setWorkerSalary(stod(str));
-            getline(workers_file, str); //Description
-            a->setWorkerDescription(str);
-            workers.push_back(a);
-        }
-        else if(str == "Deliveryperson"){
-            Deliveryperson *d = new Deliveryperson;
-            getline(workers_file, str); //Name
-            d->setWorkerName(str);
-            getline(workers_file, str); //Nif
-            d->setWorkerNif(stoi(str));
-            getline(workers_file, str); //Birthdate
-            d->setWorkerBirthdate(Date(str));
-            getline(workers_file, str); //Salary
-            d->setWorkerSalary(stod(str));
-            Vehicle v;
-            getline(workers_file, str); //Vehicle Manufacturer
-            v.setManufacturer(str);
-            getline(workers_file, str); //Vehicle Type
-            v.setType(str);
-            getline(workers_file, str); //Vehicle purchaseDate
-            v.setPurchaseDate(Date(str));
-            d->setVehicle(v);
-            workers.push_back(d);
-        }
-        getline(workers_file, str); //Discard delimiter
-    }
-
-    workers_file.close();
 
 
     //Read from bases.txt
@@ -225,9 +156,6 @@ Company::Company(const string &filesPath){
         Base b;
 
         b.setBaseLocation(Location(str));   //Base Location
-        getline(bases_file, str);
-        auto it = find_if(workers.begin(),workers.end(), [=](Worker* w){return w->getWorkerNif() == stoi(str);}); //Get Admin for this base
-        b.setBaseManager((Admin*)*(it));
 
         //Get Clients
         getline(bases_file, str);
@@ -310,6 +238,60 @@ Company::Company(const string &filesPath){
         }
         restaurants_file.close();
 
+        //Get workers
+        getline(cin,str);
+        b.setBaseWorkersFile(str);
+        ifstream workers_file(filePath + str);
+
+        if (workers_file.fail())
+        {
+            cerr << "Error opening file " << filePath + str << endl;
+            exit(1);
+        }
+
+        while(getline(workers_file, str)){
+            if(str == "Admin"){
+                Admin *a = new Admin;
+                getline(workers_file, str); //Name
+                a->setWorkerName(str);
+                getline(workers_file, str); //Nif
+                a->setWorkerNif(stoi(str));
+                getline(workers_file, str); //Birthdate
+                a->setWorkerBirthdate(Date(str));
+                getline(workers_file, str); //Salary
+                a->setWorkerSalary(stod(str));
+                getline(workers_file, str); //Description
+                a->setWorkerDescription(str);
+                b.addWorkerToBase(a);
+            }
+            else if(str == "Deliveryperson"){
+                Deliveryperson *d = new Deliveryperson;
+                getline(workers_file, str); //Name
+                d->setWorkerName(str);
+                getline(workers_file, str); //Nif
+                d->setWorkerNif(stoi(str));
+                getline(workers_file, str); //Birthdate
+                d->setWorkerBirthdate(Date(str));
+                getline(workers_file, str); //Salary
+                d->setWorkerSalary(stod(str));
+                Vehicle v;
+                getline(workers_file, str); //Vehicle Manufacturer
+                v.setManufacturer(str);
+                getline(workers_file, str); //Vehicle Type
+                v.setType(str);
+                getline(workers_file, str); //Vehicle purchaseDate
+                v.setPurchaseDate(Date(str));
+                d->setVehicle(v);
+                b.addWorkerToBase(d);
+            }
+            getline(workers_file, str); //Discard delimiter
+        }
+        workers_file.close();
+
+        getline(bases_file, str);
+        auto it = find_if(b.getBaseWorkers().begin(),b.getBaseWorkers().end(), [=](Worker* w){return w->getWorkerNif() == stoi(str);}); //Get Admin for this base
+        b.setBaseManager((Admin*)*(it));
+
         getline(bases_file,str);
         b.setBaseMunicipalities(strToVect(str, ',')); //Base Municipalities
 
@@ -323,10 +305,7 @@ Company::Company(const string &filesPath){
 }
 
 Company::~Company() {
-    for (int i = 0; i < workers.size(); i++) {
-        delete workers.at(i);
-    }
-}
+}//TODO change destructor
 
 Client* clientLogin(Company &company) {
     vector<Base>* companyBases = company.getCompanyBasesAddr();
@@ -379,7 +358,6 @@ void updateCompanyFile(Company &company){
     out_file<< right << setw(9) << setfill('0') << company.getCompanyNif() << endl;
     out_file<< company.getCompanyEmail() << endl;
     out_file<< company.getCompanyPhone() << endl;
-    out_file<< company.getCompanyWorkersFile() << endl;
     out_file<<company.getCompanyBasesFile();
     out_file.close();
 }
@@ -391,9 +369,10 @@ void updateBasesFile(Company &company){
 
     for(int i = 0; i < temp.size(); i++){
         out_file<<temp.at(i).getBaseLocation() <<endl;
-        out_file<<temp.at(i).getBaseManager()->getWorkerNif() <<endl;
         out_file<<temp.at(i).getBaseClientsFile() <<endl;
         out_file<<temp.at(i).getBaseRestaurantsFile() << endl;
+        out_file<<temp.at(i).getBaseWorkersFile() << endl;
+        out_file<<temp.at(i).getBaseManager()->getWorkerNif() <<endl;
         for(int j=0; j<temp.at(i).getBaseMunicipalities().size(); j++){
             if(j==temp.at(i).getBaseMunicipalities().size()-1)
                 out_file<<temp.at(i).getBaseMunicipalities().at(j);
@@ -538,10 +517,10 @@ bool createClientAccount(Company &company){
     new_client.setBlack_listed(false);
     temp_clients.push_back(new_client);
     base.setBaseClients(temp_clients);
-    companyBases.at(base_idx) = base;
+    companyBases.at(base_idx) = static_cast<Base &&>(base);
     company.setCompanyBases(companyBases);
     return true;
-} // She works
+} // TODO see it it still works
 
 bool editClientInfo(Company &company, Client &client){
     Base *current_base = client.getBase();
@@ -597,7 +576,7 @@ bool editClientInfo(Company &company, Client &client){
                                 client.setBase(&company.getCompanyBases().at(i));
                                 new_address.setMunicipality(municipality);
                                 changedBase = true;
-                                new_base = company.getCompanyBases().at(i);
+                                new_base = static_cast<Base &&>(company.getCompanyBases().at(i));
                                 cout << "You changed for the base: " << new_base.getBaseLocation();
                             }
                         }
@@ -829,7 +808,7 @@ void showSpecificClient(Company &company){
     int nif;
 
     while(true){
-        cout << "Nif (* - cancel): ";
+        cout << "Enter client's nif (* - cancel): ";
         getline(cin,str_nif);
         if(validNIF(str_nif)){
             nif = stoi(str_nif);
@@ -883,4 +862,23 @@ void showRestaurantsByBase(Company &company){
             cout << company.getCompanyBases().at(opt-1).getBaseRestaurants().at(i) << endl;
         }
     }
+}
+
+void showSpecificRestaurant(Company &company){
+    string str,restaurant;
+    cout << "Enter restaurant's name (* - cancel): " ;
+    getline(cin,str);
+    restaurant=trim(str);
+    if(restaurant=="*"){
+        cout<<"Canceled successfully!"<<endl;
+        return;
+    }
+    for(int i=0; i<company.getCompanyBases().size(); i++){
+        auto it = find_if(company.getCompanyBases().at(i).getBaseRestaurants().begin(),company.getCompanyBases().at(i).getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == restaurant;});
+        if (it != company.getCompanyBases().at(i).getBaseRestaurants().end()){
+            cout << *it;
+            return;
+        }
+    }
+    cinERR("ERROR: Restaurant with given name does not exist!");
 }
