@@ -4,7 +4,7 @@ Carne,Peixe
 productsRiaFormosa.txt
 Faro
 -----
-Bell`Antonio
+BellAntonio
 Rua Conselheiro Bivar,52,-,8000-255,Faro
 Pizza
 productsBellAntonio.txt

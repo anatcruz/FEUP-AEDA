@@ -12,8 +12,6 @@ void fazalgo() {
     cout << "eu faço algo" << endl;
 }
 
-Menu* wrapper;
-
 
 int main() {
     Company ugh("/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/");
