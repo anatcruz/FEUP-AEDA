@@ -14,6 +14,7 @@ Base::Base(Location location, Admin *manager, vector<Client> clients, vector<Res
     this->workersFile=workersFile;
 }
 
+
 //Metodos Set
 void Base::setBaseLocation(Location location) {
     this->location = location;
@@ -73,6 +74,10 @@ vector<Restaurant> Base::getBaseRestaurants() const {
     return restaurants;
 }
 
+vector<Restaurant>* Base::getBaseRestaurantsAddr() {
+    return &restaurants;
+}
+
 vector<Order*> Base::getBaseOrders() const {
     return orders;
 }
@@ -83,6 +88,10 @@ vector<string> Base::getBaseMunicipalities() const {
 
 vector<Worker*> Base::getBaseWorkers() const {
     return workers;
+}
+
+vector<Worker*>* Base::getBaseWorkersAddr() {
+    return &workers;
 }
 
 string Base::getBaseClientsFile() const {
@@ -106,27 +115,15 @@ vector<Client>* Base::getBaseClientsAddr() {
 ostream& operator<<(ostream& out, const Base &base){
     out << "/" << endl;
     out << setw(4) << left << '|' << "Location: " << base.location <<endl;
-    out << setw(4) << left << '|' << "Manager: " << base.manager <<endl;
-    out << setw(4) << left << '|' << "Clients: ";
-    for(int i=0 ; i<base.clients.size() ; i++){
-        if (i == base.clients.size() - 1)
-            out << base.clients.at(i);
-        else
-            out << base.clients.at(i);
-    }
-    out << setw(4) << left << '|' << "Restaurants: ";
-    for(int i=0 ; i<base.restaurants.size() ; i++){
-        if (i == base.restaurants.size() - 1)
-            out << base.restaurants.at(i);
-        else
-            out << base.restaurants.at(i);
-    }
+    out << setw(4) << left << '|' << "Manager: " << base.manager->getWorkerName() <<endl;
+    out << setw(4) << left << '|' << "Clients: " << base.clients.size() << endl;
+    out << setw(4) << left << '|' << "Restaurants: " << base.restaurants.size() << endl;
     out << setw(4) << left << '|' << "Municipalities: ";
     for(int i=0 ; i<base.municipalities.size() ; i++){
         if (i == base.municipalities.size() - 1)
-            out << base.municipalities.at(i);
+            out << base.municipalities.at(i) << endl;
         else
-            out << base.municipalities.at(i);
+            out << base.municipalities.at(i) << ", ";
     }
     out << "\\_" << endl;
     return out;

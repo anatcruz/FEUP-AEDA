@@ -32,7 +32,7 @@ public:
     void setBlack_listed(bool black_listed);
     //Metodos Get
     string getClientName() const;
-    Base* getBase() const;
+    Base* getBase();
     Address getClientAddress() const;
     int getClientNif() const;
     bool getBlack_listed();

@@ -10,6 +10,14 @@ Company::Company(string name, Location location, double capital, int nif, string
     this->bases=bases;
 }
 
+Company::~Company() {
+    for (int i = 0; i < bases.size(); i++) {
+        for (int j = 0; j < bases.at(i).getBaseWorkersAddr()->size(); j++) {
+            delete bases.at(i).getBaseWorkersAddr()->at(j);
+        }
+    }
+}
+
 void Company::setCompanyName(string name) {
     this->name=name;
 }
@@ -170,8 +178,7 @@ Company::Company(const string &filesPath){
         while(getline(clients_file, str)){
             Client c;
             c.setClientName(str);   //Client Name
-            getline(clients_file, str);
-            c.setBase(&b);   //Base
+            getline(clients_file, str); //Base
             getline(clients_file, str);
             c.setClientAddress(Address(str));   //Address
             getline(clients_file, str);
@@ -228,8 +235,7 @@ Company::Company(const string &filesPath){
             }
             products_file.close();
 
-            getline(restaurants_file, str);
-            r.setRestaurantBase(&b); //Restaurant Base
+            getline(restaurants_file, str); //Restaurant Base
 
             b.addRestaurantToBase(r);
 
@@ -288,7 +294,8 @@ Company::Company(const string &filesPath){
         workers_file.close();
 
         getline(bases_file, str);
-        auto it = find_if(b.getBaseWorkers().begin(),b.getBaseWorkers().end(), [=](Worker* w){return w->getWorkerNif() == stoi(str);}); //Get Admin for this base
+        vector<Worker*> work = b.getBaseWorkers();
+        auto it = find_if(work.begin(),work.end(), [&](Worker* w){return w->getWorkerNif() == stoi(str);}); //Get Admin for this base
         b.setBaseManager((Admin*)*(it));
 
         getline(bases_file,str);
@@ -296,15 +303,21 @@ Company::Company(const string &filesPath){
 
         bases.push_back(b);
 
+
         getline(bases_file,str);    //Discard delimiter
     }
 
+    for (int i = 0; i < bases.size(); i++) {
+        for (int j = 0; j < bases.at(i).getBaseClients().size(); j++) {
+            bases.at(i).getBaseClientsAddr()->at(j).setBase(&bases.at(i));
+        }
+        for (int j = 0; j < bases.at(i).getBaseRestaurants().size(); j++) {
+            bases.at(i).getBaseRestaurantsAddr()->at(j).setRestaurantBase(&bases.at(i));
+        }
+    }
 
     bases_file.close();
 }
-
-Company::~Company() {
-}//TODO change destructor
 
 Client* clientLogin(Company &company) {
     vector<Base>* companyBases = company.getCompanyBasesAddr();
@@ -327,9 +340,11 @@ Client* clientLogin(Company &company) {
     base_idx--;
     string nif_str;
     while (true) {
-        cout << "NIF: ";
+        cout << "NIF (* - cancel): ";
         getline(cin, nif_str);
-        if (validNIF(nif_str)) {
+        if (nif_str == "*") {
+            return nullptr;
+        } else if (validNIF(nif_str)) {
             auto it = find_if(base->getBaseClientsAddr()->begin(), base->getBaseClientsAddr()->end(),
                     [&](Client &c){return c.getClientNif() == stoi(nif_str);});
             if (it != base->getBaseClientsAddr()->end()) {

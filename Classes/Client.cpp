@@ -34,7 +34,7 @@ string Client::getClientName() const {
     return name;
 }
 
-Base* Client::getBase() const {
+Base* Client::getBase() {
     return base;
 }
 

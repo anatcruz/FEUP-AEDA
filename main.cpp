@@ -37,7 +37,7 @@ int main() {
 
     // startMenu creation
     startMenu.addOption("Exit", faznada);
-    startMenu.addOption("Log-in", [&](){cout << clientLogin(ugh)->getClientName()<<endl;});
+    startMenu.addOption("Log-in", [&](){openClient = clientLogin(ugh); openBase = openClient->getBase();});
     startMenu.addOption("Sign-up", [&](){createClientAccount(ugh);});
     startMenu.addOption("Admin", [&](){adminLoginMenu.start();});
 
@@ -77,7 +77,8 @@ int main() {
     adminMenu.addOption("Finance", faznada);
 
     // Start!
-//    startMenu.start();
-    cout << ugh;
+    startMenu.start();
+//    cout << *openClient;
+//    cout << *openBase;
     return 0;
 }

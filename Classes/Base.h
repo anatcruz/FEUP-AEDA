@@ -49,7 +49,9 @@ public:
     vector<Client> getBaseClients() const;
     vector<Client>* getBaseClientsAddr();
     vector<Restaurant> getBaseRestaurants() const;
+    vector<Restaurant>* getBaseRestaurantsAddr();
     vector<Worker*> getBaseWorkers() const;
+    vector<Worker*>* getBaseWorkersAddr();
     vector<Order*> getBaseOrders() const;
     vector<string> getBaseMunicipalities() const;
     string getBaseWorkersFile() const;
