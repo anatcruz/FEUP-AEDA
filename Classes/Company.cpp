@@ -773,7 +773,6 @@ bool makeOrderDeliveryByMunicipality(Client &client, Base &base){
             }
         }
         cout << "0 - cancel order" << endl;
-        cout << "Option: ";
 
         while(true){
             getOption(opt);
@@ -805,25 +804,35 @@ void showAllClients(Company &company){
 
 void showClientsByBase(Company &company){
     int opt;
-    cout << "Select from which base you want to see clients' information:" << endl;
-    cout << "1: Porto" << endl;
-    cout << "2: Lisboa" << endl;
-    cout << "3: Faro" << endl;
-    cout << "0 - cancel" << endl;
-    cout << "Option: ";
-    getOption(opt);
-    while(opt<0 || opt > 3) {
-        cinERR("ERROR: Invalid input, try again! ");
-        cout << "Option: ";
-        getOption(opt);
+    vector<Base> companyBases = company.getCompanyBases();
+    Base base;
+
+    cout << "Select a base:" << endl;
+    for (int i = 0; i < companyBases.size(); i++) {
+        cout << i + 1 << ". " << companyBases.at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
     }
+    cout << "0 - cancel" << endl;
+    int base_idx;
+    getOption(base_idx, "Base: ");
     if(opt==0) {
         cout << "Canceled successfully!" << endl;
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
+        return;
     }
-    else{
-        for(int i=0; i<company.getCompanyBases().at(opt-1).getBaseClients().size();i++){
-            cout << company.getCompanyBases().at(opt-1).getBaseClients().at(i) << endl;
+    else if(base_idx > 0 && base_idx <= companyBases.size()) {
+        base = companyBases.at(base_idx - 1);
+        for(int i=0; i<base.getBaseClients().size();i++) {
+            cout << base.getBaseClients().at(i) << endl;
         }
+    }
+    else {
+        cinERR("Base does not exist!");
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
+        return;
     }
 }
 
@@ -866,25 +875,33 @@ void showAllRestaurants(Company &company){
 
 void showRestaurantsByBase(Company &company){
     int opt;
-    cout << "Select from which base you want to see restaurants' information:" << endl;
-    cout << "1: Porto" << endl;
-    cout << "2: Lisboa" << endl;
-    cout << "3: Faro" << endl;
-    cout << "0 - cancel" << endl;
-    cout << "Option: ";
-    getOption(opt);
-    while(opt<0 || opt > 3) {
-        cinERR("ERROR: Invalid input, try again! ");
-        cout << "Option: ";
-        getOption(opt);
+    vector<Base> companyBases = company.getCompanyBases();
+    Base base;
+
+    cout << "Select a base:" << endl;
+    for (int i = 0; i < companyBases.size(); i++) {
+        cout << i + 1 << ". " << companyBases.at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
     }
+    cout << "0 - cancel" << endl;
+    int base_idx;
+    getOption(base_idx, "Base: ");
     if(opt==0) {
         cout << "Canceled successfully!" << endl;
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
     }
-    else{
-        for(int i=0; i<company.getCompanyBases().at(opt-1).getBaseRestaurants().size();i++){
-            cout << company.getCompanyBases().at(opt-1).getBaseRestaurants().at(i) << endl;
+    else if(base_idx > 0 && base_idx <= companyBases.size()) {
+        base = companyBases.at(base_idx - 1);
+        for(int i=0; i<base.getBaseRestaurants().size();i++) {
+            cout << base.getBaseRestaurants().at(i) << endl;
         }
+    }
+    else {
+        cinERR("Base does not exist!");
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
     }
 }
 
@@ -905,4 +922,58 @@ void showSpecificRestaurant(Company &company){
         }
     }
     cinERR("ERROR: Restaurant with given name does not exist!");
+}
+
+void showCompanyTotalEarnings(Company &company){
+    float total=0;
+    for(int i=0; i<company.getCompanyBases().size() ; i++){
+        for(int j=0; j<company.getCompanyBases().at(i).getBaseOrders().size(); j++){
+            Delivery *d = dynamic_cast<Delivery *> (company.getCompanyBases().at(i).getBaseOrders().at(j));
+            if(d!=NULL)
+                total += d->getDeliveryPrice();
+        }
+    }
+    cout << "Total company earning: " << total << endl;
+    cout << "ENTER to go back";
+    string str;
+    getline(cin, str);
+}
+
+void showEarningByBase(Company &company){
+    int opt;
+    float total=0;
+    vector<Base> companyBases = company.getCompanyBases();
+    Base base;
+
+    cout << "Select a base:" << endl;
+    for (int i = 0; i < companyBases.size(); i++) {
+        cout << i + 1 << ". " << companyBases.at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
+    }
+    cout << "0 - cancel" << endl;
+    int base_idx;
+    getOption(base_idx, "Base: ");
+    if(opt==0) {
+        cout << "Canceled successfully!" << endl;
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
+    }
+    else if(base_idx > 0 && base_idx <= companyBases.size()) {
+        base = companyBases.at(base_idx - 1);
+        for(int i=0; i<base.getBaseOrders().size();i++) {
+            Delivery *d = dynamic_cast<Delivery *> (base.getBaseOrders().at(i));
+            if(d!=NULL)
+                total += d->getDeliveryPrice();
+        }
+        cout << "Total earnings for this base: " << total << endl;
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
+    }
+    else {
+        cinERR("Base does not exist!");
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
+    }
 }
