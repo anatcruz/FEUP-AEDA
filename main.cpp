@@ -59,7 +59,7 @@ int main() {
     clientAccountManagementMenu.addOption("Go back", faznada);
     clientAccountManagementMenu.addOption("View info", [&](){cout << *openClient; enterWait();});
     clientAccountManagementMenu.addOption("Edit info", [&](){editClientInfo(ugh,*openClient);});
-    clientAccountManagementMenu.addOption("Delete account", faznada);
+    clientAccountManagementMenu.addOption("Delete account", [&](){deleteClientAccount(openClient,openBase);});
 
 
     // adminLoginMenu creation
@@ -82,6 +82,6 @@ int main() {
 //        updateWorkersFile(ugh.getCompanyBases().at(i));
 //    }
 //    cout << *openClient;
-//    cout << *openBase;
+    cout << *openBase;
     return 0;
 }

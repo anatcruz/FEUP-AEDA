@@ -64,7 +64,7 @@ void updateWorkersFile(Base &base);
 void viewClientOrdersHistory(Client &client);
 bool createClientAccount(Company &company);
 bool editClientInfo(Company &company, Client &client);
-bool deleteClientAccount(Client &client);
+bool deleteClientAccount(Client* client, Base* base);
 
 //Funçoes de fazer encomendas
 bool makeOrderDelivery(Client &client, Restaurant *restaurant); //TODO finished needs TESTING

@@ -638,36 +638,20 @@ bool editClientInfo(Company &company, Client &client){
     return true;
 }
 
-bool deleteClientAccount(Client &client){
+bool deleteClientAccount(Client* client, Base* base){
     string str;
-    Base *base = client.getBase();
 
     cout << "Are you sure you want to delete your account? (Y/N): ";
-    while(true){
-        try{
-            getline(cin, str);
-            if(trim(str)=="Y"){
-                for (int i=0; i<base->getBaseClients().size(); i++){
-                    vector<Client> temp = base->getBaseClients();
-                    if(temp.at(i).getClientNif()==client.getClientNif()){
-                        temp.erase(base->getBaseClients().begin()+i);
-                        base->setBaseClients(temp);
-                        break;
-                    }
-                }
-                break;
-            }
-            else if(trim(str)=="N"){
-                cout<<"Account not deleted"<<endl;
-                return false;
-            }
-        }
-        catch (invalid_argument){
-            cinERR("ERROR: Invalid input, try again! ");
-        }
+    getline(cin, str);
+    if(str == "Y"){
+        base->getBaseClientsAddr()->erase(find_if(base->getBaseClientsAddr()->begin(), base->getBaseClientsAddr()->end(),
+                [&](Client &c){return c.getClientNif() == client->getClientNif();}));
+        cout << "Account successfully deleted";
     }
-
-
+    else {
+        cout << "Account not deleted" << endl;
+        return false;
+    }
     return true;
 }
 
