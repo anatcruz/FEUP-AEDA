@@ -66,9 +66,17 @@ bool editClientInfo(Company &company, Client &client);
 bool deleteClientAccount(Client &client);
 
 //Funçoes de fazer encomendas
-bool makeOrderDelivery(Client &client, Restaurant *restaurant);
-bool makeOrderDeliveryByRestaurant(Client &client, Base &base);
-bool makeOrderDeliveryByMunicipality(Client &client, Base &base);
-bool makeOrderDeliveryByPrice(Client &client);
-bool makeOrderDeliveryByCuisine(Client &client);
+bool makeOrderDelivery(Client &client, Restaurant *restaurant); //TODO finished needs TESTING
+bool makeOrderDeliveryByRestaurant(Client &client, Base &base); //TODO finished needs TESTING
+bool makeOrderDeliveryByMunicipality(Client &client, Base &base); //TODO finished needs TESTING
+bool makeOrderDeliveryByPrice(Client &client, Base &base); //TODO finished needs TESTING
+bool makeOrderDeliveryByCuisine(Client &client, Base &base);
+
+//Funçoes de dar show
+void showAllClients(Company &company);
+void showClientsByBase(Company &company);
+void showSpecificClient(Company &company);
+void showAllRestaurants(Company &company);
+void showRestaurantsByBase(Company &company);
+void showSpecificRestaurant(Company &company);
 #endif //AEDA_UGHEATS_COMPANY_H
