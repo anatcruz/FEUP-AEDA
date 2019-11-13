@@ -79,10 +79,23 @@ public:
       * @return the pointer to the base.
 */
     Base* getRestaurantBase() const;
+    /**
+      * @return the products'file.
+*/
     string getProductsFile() const;
+    /** Gives all the orders from a restaurant.
+       * @return the pointer to the orders.
+*/
     vector<Order*> getRestaurantOrders() const;
     //Other Methods
+    /** Displays the Date in a nice format.
+      * @param out is the ostream.
+      * @param date is the Date you want to display.
+     */
     friend ostream& operator<<(ostream& out, const Restaurant &restaurant);
+    /** Updates the orders of a restaurant.
+       * @param product is the product you want to add.
+*/
     void addProductsToRestaurant(const Product &product);
 };
 
