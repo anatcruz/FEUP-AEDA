@@ -94,7 +94,7 @@ public:
      */
     friend ostream& operator<<(ostream& out, const Restaurant &restaurant);
     /** Updates the orders of a restaurant.
-       * @param product is the product you want to add.
+       * @param product is what you want to add.
 */
     void addProductsToRestaurant(const Product &product);
 };
