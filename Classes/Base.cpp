@@ -57,6 +57,10 @@ void Base::setBaseWorkersFile(string workersFile) {
     this->workersFile=workersFile;
 }
 
+void Base::setBaseOrdersFile(string ordersFile) {
+    this->ordersFile = ordersFile;
+}
+
 //Metodos Get
 Location Base::getBaseLocation() const {
     return location;
@@ -108,6 +112,10 @@ string Base::getBaseWorkersFile() const {
 
 vector<Client>* Base::getBaseClientsAddr() {
     return &clients;
+}
+
+string Base::getBaseOrdersFile() const {
+    return ordersFile;
 }
 
 //Other Methods
