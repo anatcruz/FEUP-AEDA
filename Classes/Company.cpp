@@ -696,7 +696,7 @@ bool editClientInfo(Company &company, Client &client){
                 new_address.setMunicipality(municipality);
             }
             else{
-                cinERR("ERROR: You municipality not reached by base! You must sign up to one of our other"
+                cinERR("ERROR: Your municipality is not reached by base! You must sign up to one of our other"
                        "bases if it is in their reached areas");
                 cinERR("Changed reverted!");
             }
@@ -835,6 +835,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant){
     vector<Order*> orders = client.getBase()->getBaseOrders();
     orders.push_back(&new_delivery);
     client.getBase()->setBaseOrders(orders);
+    return true;
 
 }
 
@@ -851,7 +852,7 @@ bool makeOrderDeliveryByRestaurant(Client &client, Base &base){
         return false;
     }
     else{
-        makeOrderDelivery(client,&(*it));
+        return makeOrderDelivery(client,&(*it));
     }
 }
 
@@ -879,7 +880,7 @@ bool makeOrderDeliveryByMunicipality(Client &client, Base &base){
             if(opt>0 && opt<=base.getBaseRestaurants().size()){
                 string rest_name = base.getBaseRestaurants().at(opt-1).getRestaurantName();
                 auto it = find_if(base.getBaseRestaurants().begin(), base.getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == rest_name;});
-                makeOrderDelivery(client,&(*it));
+                return makeOrderDelivery(client,&(*it));
 
             }
             else if(opt==0){
@@ -1033,6 +1034,46 @@ bool makeOrderDeliveryByPrice(Client &client, Base &base){
 
 }
 
+bool makeOrderDeliveryByCuisine(Client &client, Base &base){
+    string user_cuisine;
+    vector<Restaurant> restaurants_available;
+    int opt;
+    Restaurant choosen_restaurant;
+
+    cout << "What type of food are you looking for?" << endl;
+    getline(cin,user_cuisine);
+
+    for(int i = 0; i<base.getBaseRestaurants().size(); i++){
+        auto it = find_if(base.getBaseRestaurants().at(i).getRestaurantCuisine().begin(),base.getBaseRestaurants().at(i).getRestaurantCuisine().end(),[&](string cus){return cus == user_cuisine;});
+        if (it != base.getBaseRestaurants().at(i).getRestaurantCuisine().end())
+            restaurants_available.push_back(base.getBaseRestaurants().at(i));
+
+    }
+    cout << "These are the restaurants with that type of food:" << endl;
+    for (int i = 0; i < restaurants_available.size(); i++){
+        cout << i+1 << ": " << restaurants_available.at(i) << endl;
+    }
+    cout << "0 - finish/cancel order" << endl;
+
+    do{
+        getOption(opt);
+        if(opt>0 && opt<=restaurants_available.size()){
+            choosen_restaurant = restaurants_available.at(opt-1);
+        }
+        else {
+            cout << "ERROR: Invalid restaurant choice!Try again: ";
+        }
+
+    }while(opt != 0);
+
+    if(opt == 0){
+        cout << "Your order was canceled!" << endl;
+        return false;
+    }
+    else
+        return makeOrderDelivery(client,&choosen_restaurant);
+
+}
 
 // Show functions
 
