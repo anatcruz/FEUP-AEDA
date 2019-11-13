@@ -71,10 +71,9 @@ void updateWorkersFile(Base &base);
 // Client functions
 
 void viewClientOrdersHistory(Client &client);
-//just testing doxygen!
-/** Sign up function: adds a client.
-       * The user first selects the base in wich he wants to sign up ad then fills all the other paremeters
-       * @param company is our Company.
+/** Sign up function: adds a client by creating his account.
+       * The user first selects the base in which he wants to sign up and then fills all the other parameters
+       * @param company is our Company Ugh-Eats.
        * @return true if the client was able to sign up
 */
 bool createClientAccount(Company &company);
