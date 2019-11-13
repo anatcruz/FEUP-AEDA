@@ -294,6 +294,48 @@ Company::Company(const string &filesPath){
         workers_file.close();
 
         getline(bases_file, str);
+        b.setBaseOrdersFile(str);
+        ifstream orders_file(filePath + str);
+
+        if (orders_file.fail())
+        {
+            cerr << "Error opening file " << filePath + str << endl;
+            exit(1);
+        }
+
+        vector<Order*> base_ords;
+        while (getline(orders_file, str)) {
+            Delivery* ord = new Delivery;
+            ord->setOrderRestaurant(str);
+            getline(orders_file, str);
+            ord->setOrderClient(stoi(str));
+            getline(orders_file, str);
+            ord->setOrderDate(Date(str));
+            getline(orders_file, str);
+            ord->setOrderTime(Time(str));
+            getline(orders_file, str);
+            ord->setOrderProducts(strToVect(str,','));
+            getline(orders_file,str);
+            ord->setOrderPrice(stof(str));
+            getline(orders_file, str);
+            ord->setDeliveryPrice(stof(str));
+            getline(orders_file, str);
+            ord->setDeliveryPerson(stoi(str));
+            getline(orders_file, str);
+            ord->setSuccess(stoi(str));
+            getline(orders_file, str);
+            ord->setDeliveryTime(Time(str));
+            getline(orders_file, str);
+            ord->setDeliveryNotes(str);
+            base_ords.push_back(ord);
+            getline(orders_file,str); // delimiter
+        }
+
+        orders_file.close();
+
+        b.setBaseOrders(base_ords);
+
+        getline(bases_file, str);
         vector<Worker*> work = b.getBaseWorkers();
         auto it = find_if(work.begin(),work.end(), [&](Worker* w){return w->getWorkerNif() == stoi(str);}); //Get Admin for this base
         b.setBaseManager((Admin*)*(it));
@@ -509,12 +551,12 @@ void updateClientsFile(Base &base){
 
 void viewClientOrdersHistory(Client &client){
     Base *base = client.getBase();
-    for(int i=0;i<base->getBaseOrders().size();i++){
-        if(base->getBaseOrders().at(i)->getOrderClient()->getClientNif()==client.getClientNif()){
-            cout<<base->getBaseOrders().at(i);
+    for(int i = 0; i < base->getBaseOrders().size(); i++){
+        if (base->getBaseOrders().at(i)->getOrderClient() ==client.getClientNif()) {
+            cout<<*(Delivery*)(base->getBaseOrders().at(i));
         }
     }
-} // TODO faltam ficheiros
+}
 
 bool createClientAccount(Company &company){
     vector<Base> companyBases = company.getCompanyBases();
@@ -707,7 +749,7 @@ bool deleteClientAccount(Client* client, Base* base){
 
 
 // Order functions
-
+/*
 bool makeOrderDelivery(Client &client, Restaurant *restaurant){
     int opt;
     string satisfied, notes = "";
@@ -1181,3 +1223,4 @@ void showEarningByBase(Company &company){
         getline(cin, str);
     }
 }
+*/
