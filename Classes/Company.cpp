@@ -597,6 +597,7 @@ void viewClientOrdersHistory(Client &client){
             cout<<*(Delivery*)(base->getBaseOrders().at(i));
         }
     }
+    enterWait();
 }
 
 bool createClientAccount(Company &company){
@@ -1118,7 +1119,6 @@ bool makeOrderDeliveryByCuisine(Client &client, Base &base){
 }
 */
 // Show functions
-//TODO all working add to menu
 void showAllClients(Company &company){
     cout << "-----All Clients' Information-----\n"<<endl;
     for(int i=0;i<company.getCompanyBases().size();i++){
