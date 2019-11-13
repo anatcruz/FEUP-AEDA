@@ -40,6 +40,7 @@ public:
     vector<Product> getRestaurantProducts() const;
     Base* getRestaurantBase() const;
     string getProductsFile() const;
+    vector<Order*> getRestaurantOrders() const;
     //Other Methods
     friend ostream& operator<<(ostream& out, const Restaurant &restaurant);
     void addProductsToRestaurant(const Product &product);

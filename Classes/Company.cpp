@@ -15,6 +15,9 @@ Company::~Company() {
         for (int j = 0; j < bases.at(i).getBaseWorkersAddr()->size(); j++) {
             delete bases.at(i).getBaseWorkersAddr()->at(j);
         }
+        for (auto ord : bases.at(i).getBaseOrders()) {
+            delete ord;
+        }
     }
 }
 
@@ -735,7 +738,7 @@ bool deleteClientAccount(Client* client, Base* base){
 
     cout << "Are you sure you want to delete your account? (Y/N): ";
     getline(cin, str);
-    if(str == "Y"){
+    if(str == "Y" || str == "y"){
         base->getBaseClientsAddr()->erase(find_if(base->getBaseClientsAddr()->begin(), base->getBaseClientsAddr()->end(),
                 [&](Client &c){return c.getClientNif() == client->getClientNif();}));
         cout << "Account successfully deleted";
@@ -749,6 +752,7 @@ bool deleteClientAccount(Client* client, Base* base){
 
 
 // Order functions
+
 /*
 bool makeOrderDelivery(Client &client, Restaurant *restaurant){
     int opt;
@@ -1074,7 +1078,7 @@ bool makeOrderDeliveryByCuisine(Client &client, Base &base){
         return makeOrderDelivery(client,&choosen_restaurant);
 
 }
-
+*/
 // Show functions
 
 void showAllClients(Company &company){
@@ -1264,4 +1268,3 @@ void showEarningByBase(Company &company){
         getline(cin, str);
     }
 }
-*/
