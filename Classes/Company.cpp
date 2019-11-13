@@ -654,7 +654,7 @@ bool editClientInfo(Company &company, Client &client){
                 new_address.setMunicipality(municipality);
             }
             else{
-                cinERR("ERROR: You municipality not reached by base! You must sign up to one of our other"
+                cinERR("ERROR: Your municipality is not reached by base! You must sign up to one of our other"
                        "bases if it is in their reached areas");
                 cinERR("Changed reverted!");
             }
