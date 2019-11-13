@@ -84,7 +84,7 @@ public:
 };
 
 //Verifica se um cliente existe no vetor
-/** Check if a client exists in a vector of Clients.
+/** Checks if a client exists in a vector of Clients.
        * @param nif is the nif of the client you want to search for.
        * @param clients is the vector where we want to look for the client.
        * @return true if the clients exists in the vector.
