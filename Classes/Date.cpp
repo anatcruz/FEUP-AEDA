@@ -79,17 +79,17 @@ bool validDate(string date) {
     else {
         switch (vdate.at(1)) {
             case 1: case 3: case 5: case 7: case 8: case 10: case 12:
-                if (vdate.at(2) > 31) {
+                if (vdate.at(0) > 31) {
                     return false;
                 }
                 break;
             case 4: case 6: case 9: case 11:
-                if (vdate.at(2) > 30) {
+                if (vdate.at(0) > 30) {
                     return false;
                 }
                 break;
             case 2:
-                if (vdate.at(2) > 29) {
+                if (vdate.at(0) > 29) {
                     return false;
                 }
                 break;
