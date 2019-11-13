@@ -418,9 +418,7 @@ Client* clientLogin(Company &company) {
         base = &companyBases->at(base_idx - 1);
     } else {
         cinERR("Base does not exist!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
+        enterWait();
         return nullptr;
     }
     base_idx--;
@@ -460,9 +458,7 @@ Worker* workerLogin(Company &company) {
         base = &companyBases->at(base_idx - 1);
     } else {
         cinERR("Base does not exist!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
+        enterWait();
         return nullptr;
     }
     base_idx--;
@@ -605,9 +601,7 @@ bool createClientAccount(Company &company){
         base = companyBases.at(base_idx - 1);
     } else {
         cinERR("Base does not exist!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
+        enterWait();
         return false;
     }
     base_idx--;
@@ -633,9 +627,7 @@ bool createClientAccount(Company &company){
 
     if (searchClientbyNif(nif,temp_clients)){
         cinERR("ERROR: It already exits a client with the given nif!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
+        enterWait();
         return false;
     }
 
@@ -648,9 +640,7 @@ bool createClientAccount(Company &company){
         address.setMunicipality(municipality);
     } else{
         cinERR("ERROR: You cant sign up in this base!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
+        enterWait();
         return false;
     }
 
@@ -689,9 +679,7 @@ bool createClientAccount(Company &company){
     companyBases.at(base_idx) = static_cast<Base &&>(base);
     company.setCompanyBases(companyBases);
     cout << "Account successfully created!" << endl;
-    cout << "ENTER to go back";
-    string str;
-    getline(cin, str);
+    enterWait();
     return true;
 }
 
@@ -1105,7 +1093,7 @@ bool makeOrderDeliveryByCuisine(Client &client, Base &base){
         return makeOrderDelivery(client,&choosen_restaurant);
 
 }
-
+*/
 // Show functions
 //TODO all working add to menu
 void showAllClients(Company &company){
@@ -1210,9 +1198,7 @@ void showCompanyTotalEarnings(Company &company){
         }
     }
     cout << "Total company earning: " << total << endl;
-    cout << "ENTER to go back";
-    string str;
-    getline(cin, str);
+    enterWait();
 }
 
 void showEarningsByBase(Company &company){
@@ -1227,8 +1213,5 @@ void showEarningsByBase(Company &company){
         }
     }
     cout << "Total earnings for this base: " << total << endl;
-    cout << "ENTER to go back";
-    string str;
-    getline(cin, str);
+    enterWait();
 }
- */
