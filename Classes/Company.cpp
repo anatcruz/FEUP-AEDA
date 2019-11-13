@@ -15,6 +15,9 @@ Company::~Company() {
         for (int j = 0; j < bases.at(i).getBaseWorkersAddr()->size(); j++) {
             delete bases.at(i).getBaseWorkersAddr()->at(j);
         }
+        for (auto ord : bases.at(i).getBaseOrders()) {
+            delete ord;
+        }
     }
 }
 
@@ -432,7 +435,14 @@ Client* clientLogin(Company &company) {
             auto it = find_if(base->getBaseClientsAddr()->begin(), base->getBaseClientsAddr()->end(),
                               [&](Client &c){return c.getClientNif() == stoi(nif_str);});
             if (it != base->getBaseClientsAddr()->end()) {
-                return &*it;
+                if (!(*it).getBlack_listed()) {
+                    return &*it;
+                }
+                else {
+                    cinERR("YOU HAVE BEEN BLACKLISTED - YOU CANNOT ACCESS OUR SERVICES");
+                    enterWait();
+                    return nullptr;
+                }
             } else {
                 cinERR("Client does not exist, try again!");
             }
@@ -458,7 +468,9 @@ Worker* workerLogin(Company &company) {
         base = &companyBases->at(base_idx - 1);
     } else {
         cinERR("Base does not exist!");
-        enterWait();
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
         return nullptr;
     }
     base_idx--;
@@ -583,6 +595,7 @@ void viewClientOrdersHistory(Client &client){
             cout<<*(Delivery*)(base->getBaseOrders().at(i));
         }
     }
+    enterWait();
 }
 
 bool createClientAccount(Company &company){
@@ -754,7 +767,7 @@ bool deleteClientAccount(Client* client, Base* base){
 
     cout << "Are you sure you want to delete your account? (Y/N): ";
     getline(cin, str);
-    if(str == "Y"){
+    if(str == "Y" || str == "y"){
         base->getBaseClientsAddr()->erase(find_if(base->getBaseClientsAddr()->begin(), base->getBaseClientsAddr()->end(),
                 [&](Client &c){return c.getClientNif() == client->getClientNif();}));
         cout << "Account successfully deleted";
@@ -768,6 +781,7 @@ bool deleteClientAccount(Client* client, Base* base){
 
 
 // Order functions
+
 /*
 bool makeOrderDelivery(Client &client, Restaurant *restaurant){
     int opt;
@@ -1095,7 +1109,6 @@ bool makeOrderDeliveryByCuisine(Client &client, Base &base){
 }
 */
 // Show functions
-//TODO all working add to menu
 void showAllClients(Company &company){
     cout << "-----All Clients' Information-----\n"<<endl;
     for(int i=0;i<company.getCompanyBases().size();i++){
@@ -1103,6 +1116,7 @@ void showAllClients(Company &company){
             cout<<company.getCompanyBases().at(i).getBaseClients().at(j) << endl;
         }
     }
+    enterWait();
 }
 
 void showClientsByBase(Company &company){
@@ -1113,6 +1127,7 @@ void showClientsByBase(Company &company){
             cout << clients.at(i);
         }
     }
+    enterWait();
 }
 
 void showSpecificClient(Company &company){
@@ -1141,6 +1156,7 @@ void showSpecificClient(Company &company){
             return;
         }
     }
+    enterWait();
 }
 
 void showAllRestaurants(Company &company){
@@ -1150,6 +1166,7 @@ void showAllRestaurants(Company &company){
             cout << company.getCompanyBases().at(i).getBaseRestaurants().at(j) << endl;
         }
     }
+    enterWait();
 }
 
 void showRestaurantsByBase(Company &company){
@@ -1160,6 +1177,7 @@ void showRestaurantsByBase(Company &company){
             cout << restaurants.at(i);
         }
     }
+    enterWait();
 }
 
 void showSpecificRestaurant(Company &company){
@@ -1183,6 +1201,7 @@ void showSpecificRestaurant(Company &company){
         }
         cinERR("ERROR: Restaurant with given name does not exist!");
     }
+    enterWait();
 }
 
 

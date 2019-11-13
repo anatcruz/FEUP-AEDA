@@ -66,6 +66,16 @@ string Restaurant::getProductsFile() const {
     return productsFile;
 }
 
+vector<Order*> Restaurant::getRestaurantOrders() const {
+    vector<Order*> rest_ords;
+    for (auto ord : this->getRestaurantBase()->getBaseOrders()) {
+        if (ord->getRestaurant() == this->name) {
+            rest_ords.push_back(ord);
+        }
+    }
+    return rest_ords;
+}
+
 //Other Methods
 
 ostream &operator<<(ostream &out, const Restaurant &restaurant){
@@ -75,25 +85,20 @@ ostream &operator<<(ostream &out, const Restaurant &restaurant){
     out << setw(4) << left << '|' << "Cuisine type: ";
     for(int i=0 ; i< restaurant.cuisine.size() ; i++){
         if (i == restaurant.cuisine.size() - 1)
-            out << restaurant.cuisine.at(i);
+            out << restaurant.cuisine.at(i) << endl;
         else
-            out << restaurant.cuisine.at(i);
+            out << restaurant.cuisine.at(i) << ", ";
     }
     out << setw(4) << left << '|' << "Products: ";
     for(int i=0 ; i< restaurant.products.size() ; i++){
         if (i == restaurant.products.size() - 1)
-            out << restaurant.products.at(i);
+            out << restaurant.products.at(i) << endl;
         else
-            out << restaurant.products.at(i);
+            out << restaurant.products.at(i) << ", ";
     }
-    out << setw(4) << left << '|' << "Orders: ";
-    for(int i=0 ; i< restaurant.base->getBaseOrders().size() ; i++){
-        if (i == restaurant.base->getBaseOrders().size() - 1)
-            out << restaurant.base->getBaseOrders().at(i);
-        else
-            out << restaurant.base->getBaseOrders().at(i);
-    }
+    out << setw(4) << left << '|' << "Orders: " << restaurant.getRestaurantOrders().size() << endl;
     out << setw(4) << left << '|' << "Base: " << restaurant.base->getBaseLocation() <<endl;
+    out << "\\_" << endl;
     return out;
 }
 
