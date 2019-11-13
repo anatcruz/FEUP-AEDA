@@ -421,9 +421,7 @@ Client* clientLogin(Company &company) {
         base = &companyBases->at(base_idx - 1);
     } else {
         cinERR("Base does not exist!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
+        enterWait();
         return nullptr;
     }
     base_idx--;
@@ -437,7 +435,14 @@ Client* clientLogin(Company &company) {
             auto it = find_if(base->getBaseClientsAddr()->begin(), base->getBaseClientsAddr()->end(),
                               [&](Client &c){return c.getClientNif() == stoi(nif_str);});
             if (it != base->getBaseClientsAddr()->end()) {
-                return &*it;
+                if (!(*it).getBlack_listed()) {
+                    return &*it;
+                }
+                else {
+                    cinERR("YOU HAVE BEEN BLACKLISTED - YOU CANNOT ACCESS OUR SERVICES");
+                    enterWait();
+                    return nullptr;
+                }
             } else {
                 cinERR("Client does not exist, try again!");
             }
@@ -590,6 +595,7 @@ void viewClientOrdersHistory(Client &client){
             cout<<*(Delivery*)(base->getBaseOrders().at(i));
         }
     }
+    enterWait();
 }
 
 bool createClientAccount(Company &company){
@@ -608,9 +614,7 @@ bool createClientAccount(Company &company){
         base = companyBases.at(base_idx - 1);
     } else {
         cinERR("Base does not exist!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
+        enterWait();
         return false;
     }
     base_idx--;
@@ -636,9 +640,7 @@ bool createClientAccount(Company &company){
 
     if (searchClientbyNif(nif,temp_clients)){
         cinERR("ERROR: It already exits a client with the given nif!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
+        enterWait();
         return false;
     }
 
@@ -651,9 +653,7 @@ bool createClientAccount(Company &company){
         address.setMunicipality(municipality);
     } else{
         cinERR("ERROR: You cant sign up in this base!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
+        enterWait();
         return false;
     }
 
@@ -692,9 +692,7 @@ bool createClientAccount(Company &company){
     companyBases.at(base_idx) = static_cast<Base &&>(base);
     company.setCompanyBases(companyBases);
     cout << "Account successfully created!" << endl;
-    cout << "ENTER to go back";
-    string str;
-    getline(cin, str);
+    enterWait();
     return true;
 }
 
@@ -1111,7 +1109,6 @@ bool makeOrderDeliveryByCuisine(Client &client, Base &base){
 }
 */
 // Show functions
-//TODO all working add to menu
 void showAllClients(Company &company){
     cout << "-----All Clients' Information-----\n"<<endl;
     for(int i=0;i<company.getCompanyBases().size();i++){
@@ -1119,6 +1116,7 @@ void showAllClients(Company &company){
             cout<<company.getCompanyBases().at(i).getBaseClients().at(j) << endl;
         }
     }
+    enterWait();
 }
 
 void showClientsByBase(Company &company){
@@ -1129,6 +1127,7 @@ void showClientsByBase(Company &company){
             cout << clients.at(i);
         }
     }
+    enterWait();
 }
 
 void showSpecificClient(Company &company){
@@ -1157,6 +1156,7 @@ void showSpecificClient(Company &company){
             return;
         }
     }
+    enterWait();
 }
 
 void showAllRestaurants(Company &company){
@@ -1166,6 +1166,7 @@ void showAllRestaurants(Company &company){
             cout << company.getCompanyBases().at(i).getBaseRestaurants().at(j) << endl;
         }
     }
+    enterWait();
 }
 
 void showRestaurantsByBase(Company &company){
@@ -1176,6 +1177,7 @@ void showRestaurantsByBase(Company &company){
             cout << restaurants.at(i);
         }
     }
+    enterWait();
 }
 
 void showSpecificRestaurant(Company &company){
@@ -1199,6 +1201,7 @@ void showSpecificRestaurant(Company &company){
         }
         cinERR("ERROR: Restaurant with given name does not exist!");
     }
+    enterWait();
 }
 
 
@@ -1214,9 +1217,7 @@ void showCompanyTotalEarnings(Company &company){
         }
     }
     cout << "Total company earning: " << total << endl;
-    cout << "ENTER to go back";
-    string str;
-    getline(cin, str);
+    enterWait();
 }
 
 void showEarningsByBase(Company &company){
@@ -1231,7 +1232,5 @@ void showEarningsByBase(Company &company){
         }
     }
     cout << "Total earnings for this base: " << total << endl;
-    cout << "ENTER to go back";
-    string str;
-    getline(cin, str);
+    enterWait();
 }

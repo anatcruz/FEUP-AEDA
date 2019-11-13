@@ -30,6 +30,8 @@ int main() {
     Menu restaurantsMenu("Restaurants");
     Menu clientAccountManagementMenu("Account management");
     Menu adminMenu("Ugh-Eats - Admin");
+    Menu adminClientManagementMenu("Client management");
+    Menu adminRestaurantManagementMenu("Restaurant management");
 
     // startMenu creation
     startMenu.addOption("Exit", faznada);
@@ -40,8 +42,8 @@ int main() {
 
     // clientMenu creation
     clientMenu.addOption("Log-out", faznada);
-    clientMenu.addOption("Restaurants", faznada);
-    clientMenu.addOption("Order history", faznada);
+    clientMenu.addOption("Restaurants", [&](){restaurantsMenu.start();});
+    clientMenu.addOption("Order history", [&](){viewClientOrdersHistory(*openClient);});
     clientMenu.addOption("Account management", [&](){clientAccountManagementMenu.start();});
 
     // restaurantsMenu
@@ -62,10 +64,23 @@ int main() {
 
     // adminMenu creation
     adminMenu.addOption("Log-out", faznada);
-    adminMenu.addOption("Client management", faznada);
+    adminMenu.addOption("Client management", [&](){adminClientManagementMenu.start();});
     adminMenu.addOption("Worker management", faznada);
-    adminMenu.addOption("Restaurant management", faznada);
+    adminMenu.addOption("Restaurant management", [&](){adminRestaurantManagementMenu.start();});
     adminMenu.addOption("Finance", faznada);
+
+    // adminClientManagementMenu creation
+    adminClientManagementMenu.addOption("Go back", faznada);
+    adminClientManagementMenu.addOption("View all clients", [&](){showAllClients(ugh);});
+    adminClientManagementMenu.addOption("View clients by base", [&](){showClientsByBase(ugh);});
+    adminClientManagementMenu.addOption("View specific client", [&](){showSpecificClient(ugh);});
+
+    // adminRestaurantManagementMenu creation
+    adminRestaurantManagementMenu.addOption("Go back", faznada);
+    adminRestaurantManagementMenu.addOption("View all restaurants", [&](){showAllRestaurants(ugh);});
+    adminRestaurantManagementMenu.addOption("View restaurants by base", [&](){showRestaurantsByBase(ugh);});
+    adminRestaurantManagementMenu.addOption("View specific restaurant", [&](){showSpecificRestaurant(ugh);});
+
 
     // Start!
     startMenu.start();
@@ -76,7 +91,9 @@ int main() {
 //        updateWorkersFile(ugh.getCompanyBases().at(i));
 //    }
 //    cout << *openClient;
-    openWorker->print(cout);
-    cout << *openBase;
+//    openWorker->print(cout);
+//    cout << *openBase;
+//    viewClientOrdersHistory(*openClient);
+//    showAllClients(ugh);
     return 0;
 }

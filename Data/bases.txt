@@ -18,6 +18,6 @@ Rua Mais Que Ruada,420,-,8000-304,Faro,37.0124,-7.9347
 clientsFaro.txt
 restaurantsFaro.txt
 workersFaro.txt
-ordersLisboa.txt
+ordersFaro.txt
 153351153
 Faro,Olhão,Loulé,São Brás de Alportel
