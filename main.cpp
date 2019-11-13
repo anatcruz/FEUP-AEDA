@@ -14,7 +14,7 @@ void fazalgo() {
 
 
 int main() {
-    Company ugh("/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/");
+    Company ugh("../Data/");
     Client* openClient;
     Worker* openWorker;
     Base* openBase;
@@ -69,6 +69,7 @@ int main() {
 
     // Start!
     startMenu.start();
+    showAllRestaurants(ugh);
 //    updateBasesFile(ugh);
 //    updateCompanyFile(ugh);
 //    for (int i = 0; i<ugh.getCompanyBases().size(); i++) {
@@ -76,7 +77,8 @@ int main() {
 //        updateWorkersFile(ugh.getCompanyBases().at(i));
 //    }
 //    cout << *openClient;
-    openWorker->print(cout);
-    cout << *openBase;
+//    openWorker->print(cout);
+//    cout << *openBase;
+//    viewClientOrdersHistory(*openClient);
     return 0;
 }
