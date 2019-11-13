@@ -14,7 +14,7 @@ void fazalgo() {
 
 
 int main() {
-    Company ugh("/home/antonio/FEUP/2_ano/1_sem/AEDA/AEDA-UghEats/Data/");
+    Company ugh("../Data/");
     Client* openClient;
     Worker* openWorker;
     Base* openBase;
