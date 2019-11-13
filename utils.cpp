@@ -91,6 +91,6 @@ bool validPostcode(string const &postcode){
 
 void enterWait() {
     string str;
-    cout << "ENTER to go back";
+    cout << "ENTER to go back" << endl;
     getline(cin,str);
 }
