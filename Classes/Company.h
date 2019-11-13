@@ -82,7 +82,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant); //TODO finished 
 bool makeOrderDeliveryByRestaurant(Client &client, Base &base); //TODO finished needs TESTING
 bool makeOrderDeliveryByMunicipality(Client &client, Base &base); //TODO finished needs TESTING
 bool makeOrderDeliveryByPrice(Client &client, Base &base); //TODO finished needs TESTING
-bool makeOrderDeliveryByCuisine(Client &client, Base &base);
+bool makeOrderDeliveryByCuisine(Client &client, Base &base); //TODO finished needs TESTING
 
 
 // Show functions
