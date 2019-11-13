@@ -24,11 +24,24 @@ public:
     void setMin(int min);
     void setSec(int sec);
     //Metodos Get
+    /**
+       * @return the hour.
+*/
     int getHour() const;
+    /**
+     * @return the minutes.
+*/
     int getMin() const;
+    /**
+     * @return the seconds.
+*/
     int getSec() const;
     //Other Methods
     friend ostream& operator<<(ostream& out, const Time &time);
+    /** Add certain minutes to a Time.
+       * @param min is the amount of minutes to add.
+       * @return the Time updated.
+*/
     Time addtime(int min);
 };
 
