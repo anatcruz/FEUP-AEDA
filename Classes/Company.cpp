@@ -326,6 +326,37 @@ vector<Base>* Company::getCompanyBasesAddr() {
     return &bases;
 }
 
+Base* selectBase(Company &company){
+    int base_idx;
+    vector<Base>* companyBases = company.getCompanyBasesAddr();
+    Base* base;
+
+    cout << "Select a base:" << endl;
+    for (int i = 0; i < companyBases->size(); i++) {
+        cout << i + 1 << ". " << companyBases->at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
+    }
+    cout << "0 - cancel" << endl;
+
+    getOption(base_idx, "Base: ");
+    if(base_idx==0) {
+        cout << "Canceled successfully!" << endl;
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
+        return nullptr;
+    }
+    else if(base_idx > 0 && base_idx <= companyBases->size()) {
+        base = &companyBases->at(base_idx - 1);
+        return base;
+    }
+    else {
+        cinERR("Base does not exist!");
+        cout << "ENTER to go back";
+        string str;
+        getline(cin, str);
+        return nullptr;
+    }
+}
 
 // LogIn
 
@@ -993,7 +1024,7 @@ bool makeOrderDeliveryByPrice(Client &client, Base &base){
 
 
 // Show functions
-
+//TODO all working add to menu
 void showAllClients(Company &company){
     cout << "-----All Clients' Information-----\n"<<endl;
     for(int i=0;i<company.getCompanyBases().size();i++){
@@ -1004,65 +1035,41 @@ void showAllClients(Company &company){
 }
 
 void showClientsByBase(Company &company){
-    int opt;
-    vector<Base> companyBases = company.getCompanyBases();
-    Base base;
-
-    cout << "Select a base:" << endl;
-    for (int i = 0; i < companyBases.size(); i++) {
-        cout << i + 1 << ". " << companyBases.at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
-    }
-    cout << "0 - cancel" << endl;
-    int base_idx;
-    getOption(base_idx, "Base: ");
-    if(opt==0) {
-        cout << "Canceled successfully!" << endl;
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
-        return;
-    }
-    else if(base_idx > 0 && base_idx <= companyBases.size()) {
-        base = companyBases.at(base_idx - 1);
-        for(int i=0; i<base.getBaseClients().size();i++) {
-            cout << base.getBaseClients().at(i) << endl;
+    Base* base = selectBase(company);
+    if(base!= nullptr){
+        vector<Client> clients = base->getBaseClients();
+        for (int i=0; i<clients.size(); i++){
+            cout << clients.at(i);
         }
-    }
-    else {
-        cinERR("Base does not exist!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
-        return;
     }
 }
 
 void showSpecificClient(Company &company){
     string str_nif;
     int nif;
+    Base* base = selectBase(company);
 
-    while(true){
-        cout << "Enter client's nif (* - cancel): ";
-        getline(cin,str_nif);
-        if(validNIF(str_nif)){
-            nif = stoi(str_nif);
-            break;
+    if(base!= nullptr){
+        vector<Client> clients = base->getBaseClients();
+        while(true){
+            cout << "Enter client's nif (* - cancel): ";
+            getline(cin,str_nif);
+            if(validNIF(str_nif)){
+                nif = stoi(str_nif);
+                break;
+            }
+            else if(str_nif == "*"){
+                cout<<"Canceled successfully!"<<endl;
+                return;
+            }
+            cinERR("ERROR: Invalid NIF, try again!");
         }
-        else if(str_nif == "*"){
-            cout<<"Canceled successfully!"<<endl;
-            return;
-        }
-        cinERR("ERROR: Invalid NIF, try again!");
-    }
-
-    for(int i=0; i<company.getCompanyBases().size(); i++){
-        auto it = find_if(company.getCompanyBases().at(i).getBaseClients().begin(),company.getCompanyBases().at(i).getBaseClients().end(),[&](Client client){return client.getClientNif() == nif;});
-        if (it != company.getCompanyBases().at(i).getBaseClients().end()){
+        auto it = find_if(clients.begin(),clients.end(),[&](Client client){return client.getClientNif() == nif;});
+        if (it != clients.end()){
             cout << *it;
             return;
         }
     }
-    cinERR("ERROR: Client with given nif does not exist!");
 }
 
 void showAllRestaurants(Company &company){
@@ -1075,54 +1082,36 @@ void showAllRestaurants(Company &company){
 }
 
 void showRestaurantsByBase(Company &company){
-    int opt;
-    vector<Base> companyBases = company.getCompanyBases();
-    Base base;
-
-    cout << "Select a base:" << endl;
-    for (int i = 0; i < companyBases.size(); i++) {
-        cout << i + 1 << ". " << companyBases.at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
-    }
-    cout << "0 - cancel" << endl;
-    int base_idx;
-    getOption(base_idx, "Base: ");
-    if(opt==0) {
-        cout << "Canceled successfully!" << endl;
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
-    }
-    else if(base_idx > 0 && base_idx <= companyBases.size()) {
-        base = companyBases.at(base_idx - 1);
-        for(int i=0; i<base.getBaseRestaurants().size();i++) {
-            cout << base.getBaseRestaurants().at(i) << endl;
+    Base* base = selectBase(company);
+    if(base!= nullptr){
+        vector<Restaurant> restaurants = base->getBaseRestaurants();
+        for (int i=0; i<restaurants.size(); i++){
+            cout << restaurants.at(i);
         }
-    }
-    else {
-        cinERR("Base does not exist!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
     }
 }
 
 void showSpecificRestaurant(Company &company){
     string str,restaurant;
-    cout << "Enter restaurant's name (* - cancel): " ;
-    getline(cin,str);
-    restaurant=trim(str);
-    if(restaurant=="*"){
-        cout<<"Canceled successfully!"<<endl;
-        return;
-    }
-    for(int i=0; i<company.getCompanyBases().size(); i++){
-        auto it = find_if(company.getCompanyBases().at(i).getBaseRestaurants().begin(),company.getCompanyBases().at(i).getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == restaurant;});
-        if (it != company.getCompanyBases().at(i).getBaseRestaurants().end()){
+    Base* base = selectBase(company);
+
+    if(base!= nullptr){
+        vector<Restaurant> restaurants = base->getBaseRestaurants();
+        cout << "Enter restaurant's name (* - cancel): " ;
+        getline(cin,restaurant);
+        //restaurant=trim(str);
+        if(restaurant=="*"){
+            cout<<"Canceled successfully!"<<endl;
+            return;
+        }
+
+        auto it = find_if(restaurants.begin(),restaurants.end(),[&](Restaurant rest){return rest.getRestaurantName() == restaurant;});
+        if (it != restaurants.end()){
             cout << *it;
             return;
         }
+        cinERR("ERROR: Restaurant with given name does not exist!");
     }
-    cinERR("ERROR: Restaurant with given name does not exist!");
 }
 
 
@@ -1143,8 +1132,8 @@ void showCompanyTotalEarnings(Company &company){
     getline(cin, str);
 }
 
-void showEarningByBase(Company &company){
-    int opt;
+void showEarningsByBase(Company &company){
+    /*int opt;
     float total=0;
     vector<Base> companyBases = company.getCompanyBases();
     Base base;
@@ -1179,5 +1168,19 @@ void showEarningByBase(Company &company){
         cout << "ENTER to go back";
         string str;
         getline(cin, str);
+    }*/
+    float total=0;
+    Base* base = selectBase(company);
+    if(base!= nullptr){
+        vector<Order*> orders = base->getBaseOrders();
+        for (int i=0; i< orders.size(); i++){
+            Delivery *d = dynamic_cast<Delivery *> (orders.at(i));
+            if(d!=NULL)
+                total += d->getDeliveryPrice();
+        }
     }
+    cout << "Total earnings for this base: " << total << endl;
+    cout << "ENTER to go back";
+    string str;
+    getline(cin, str);
 }
