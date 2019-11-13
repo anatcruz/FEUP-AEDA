@@ -20,13 +20,10 @@ public:
 */
     Time() = default;
     /** Constructor of a Time from the hour,minutes and seconds given.
-       * @param hour.
-       * @param min.
-       * @param sec.
 */
     Time(int hour, int min, int sec);
     /** Constructor of a Time from a given time in the format of string.
-       * @param time_str is the Time.
+       * @param time_str is what you want to transform in a Time.
 */
     Time(string time_str);
     //Metodos Set
