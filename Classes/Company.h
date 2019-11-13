@@ -83,12 +83,14 @@ bool createClientAccount(Company &company);
 /** Allows the client to change his account.
        * Its allows the client to change the name and address. If the client changes to another municipality which is not reached by the previous base the user must creat another account.
        * @param company is our Company Ugh-Eats.
+       * @param client is the User Client.
        * @return true if the client was able to change its account.
 */
 bool editClientInfo(Company &company, Client &client);
 /** Allows the client to eliminate his account.
        * After making sure the user really wants to delete his account, the account is deleted.
        * @param company is our Company Ugh-Eats.
+       * @param client is the User Client.
        * @return true if the client was able to eliminate his account.
 */
 bool deleteClientAccount(Client* client, Base* base);
