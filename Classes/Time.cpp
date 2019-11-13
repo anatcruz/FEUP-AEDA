@@ -6,6 +6,13 @@ Time::Time(int hour, int min, int sec) {
     this->sec = sec;
 }
 
+Time::Time(string time_str) {
+    vector<string> tmp = strToVect(time_str, ':');
+    this->hour =stoi(tmp.at(0));
+    this->min = stoi(tmp.at(1));
+    this->sec = stoi(tmp.at(2));
+}
+
 //Metodos Set
 void Time::setHour(int hour) {
     this->hour = hour;
@@ -36,7 +43,7 @@ int Time::getSec() const {
 ostream &operator<<(ostream &out, const Time &time) {
     out << setfill('0') << right << setw(2) << to_string(time.hour);
     out << ":" << setfill('0') << setw(2) << to_string(time.min);
-    out << ":" << setfill('0') << setw(2) << to_string(time.sec);
+    out << ":" << setfill('0') << setw(2) << to_string(time.sec) << setfill(' ');
     return out;
 }
 

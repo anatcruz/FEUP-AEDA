@@ -2,6 +2,7 @@ Rua Ruada,69,1esq,4460-420,Porto,41.1842,-8.65856
 clientsPorto.txt
 restaurantsPorto.txt
 workersPorto.txt
+ordersPorto.txt
 321654987
 Porto,Matosinhos,Gondomar,Maia,Vila Nova de Gaia
 -----
@@ -9,6 +10,7 @@ Rua Mais Ruada,96,rc,1900-003,Lisboa,38.7395,-9.13111
 clientsLisboa.txt
 restaurantsLisboa.txt
 workersLisboa.txt
+ordersLisboa.txt
 321654986
 Lisboa,Loures,Odivelas,Amadora,Oeiras
 -----
@@ -16,5 +18,6 @@ Rua Mais Que Ruada,420,-,8000-304,Faro,37.0124,-7.9347
 clientsFaro.txt
 restaurantsFaro.txt
 workersFaro.txt
+ordersLisboa.txt
 153351153
 Faro,Olhão,Loulé,São Brás de Alportel

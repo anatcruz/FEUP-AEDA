@@ -294,6 +294,48 @@ Company::Company(const string &filesPath){
         workers_file.close();
 
         getline(bases_file, str);
+        b.setBaseOrdersFile(str);
+        ifstream orders_file(filePath + str);
+
+        if (orders_file.fail())
+        {
+            cerr << "Error opening file " << filePath + str << endl;
+            exit(1);
+        }
+
+        vector<Order*> base_ords;
+        while (getline(orders_file, str)) {
+            Delivery* ord = new Delivery;
+            ord->setOrderRestaurant(str);
+            getline(orders_file, str);
+            ord->setOrderClient(stoi(str));
+            getline(orders_file, str);
+            ord->setOrderDate(Date(str));
+            getline(orders_file, str);
+            ord->setOrderTime(Time(str));
+            getline(orders_file, str);
+            ord->setOrderProducts(strToVect(str,','));
+            getline(orders_file,str);
+            ord->setOrderPrice(stof(str));
+            getline(orders_file, str);
+            ord->setDeliveryPrice(stof(str));
+            getline(orders_file, str);
+            ord->setDeliveryPerson(stoi(str));
+            getline(orders_file, str);
+            ord->setSuccess(stoi(str));
+            getline(orders_file, str);
+            ord->setDeliveryTime(Time(str));
+            getline(orders_file, str);
+            ord->setDeliveryNotes(str);
+            base_ords.push_back(ord);
+            getline(orders_file,str); // delimiter
+        }
+
+        orders_file.close();
+
+        b.setBaseOrders(base_ords);
+
+        getline(bases_file, str);
         vector<Worker*> work = b.getBaseWorkers();
         auto it = find_if(work.begin(),work.end(), [&](Worker* w){return w->getWorkerNif() == stoi(str);}); //Get Admin for this base
         b.setBaseManager((Admin*)*(it));
@@ -540,12 +582,12 @@ void updateClientsFile(Base &base){
 
 void viewClientOrdersHistory(Client &client){
     Base *base = client.getBase();
-    for(int i=0;i<base->getBaseOrders().size();i++){
-        if(base->getBaseOrders().at(i)->getOrderClient()->getClientNif()==client.getClientNif()){
-            cout<<base->getBaseOrders().at(i);
+    for(int i = 0; i < base->getBaseOrders().size(); i++){
+        if (base->getBaseOrders().at(i)->getOrderClient() ==client.getClientNif()) {
+            cout<<*(Delivery*)(base->getBaseOrders().at(i));
         }
     }
-} // TODO faltam ficheiros
+}
 
 bool createClientAccount(Company &company){
     vector<Base> companyBases = company.getCompanyBases();
@@ -685,7 +727,7 @@ bool editClientInfo(Company &company, Client &client){
                 new_address.setMunicipality(municipality);
             }
             else{
-                cinERR("ERROR: You municipality not reached by base! You must sign up to one of our other"
+                cinERR("ERROR: Your municipality is not reached by base! You must sign up to one of our other"
                        "bases if it is in their reached areas");
                 cinERR("Changed reverted!");
             }
@@ -738,7 +780,7 @@ bool deleteClientAccount(Client* client, Base* base){
 
 
 // Order functions
-
+/*
 bool makeOrderDelivery(Client &client, Restaurant *restaurant){
     int opt;
     string satisfied, notes = "";
@@ -824,6 +866,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant){
     vector<Order*> orders = client.getBase()->getBaseOrders();
     orders.push_back(&new_delivery);
     client.getBase()->setBaseOrders(orders);
+    return true;
 
 }
 
@@ -840,7 +883,7 @@ bool makeOrderDeliveryByRestaurant(Client &client, Base &base){
         return false;
     }
     else{
-        makeOrderDelivery(client,&(*it));
+        return makeOrderDelivery(client,&(*it));
     }
 }
 
@@ -868,7 +911,7 @@ bool makeOrderDeliveryByMunicipality(Client &client, Base &base){
             if(opt>0 && opt<=base.getBaseRestaurants().size()){
                 string rest_name = base.getBaseRestaurants().at(opt-1).getRestaurantName();
                 auto it = find_if(base.getBaseRestaurants().begin(), base.getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == rest_name;});
-                makeOrderDelivery(client,&(*it));
+                return makeOrderDelivery(client,&(*it));
 
             }
             else if(opt==0){
@@ -1022,6 +1065,46 @@ bool makeOrderDeliveryByPrice(Client &client, Base &base){
 
 }
 
+bool makeOrderDeliveryByCuisine(Client &client, Base &base){
+    string user_cuisine;
+    vector<Restaurant> restaurants_available;
+    int opt;
+    Restaurant choosen_restaurant;
+
+    cout << "What type of food are you looking for?" << endl;
+    getline(cin,user_cuisine);
+
+    for(int i = 0; i<base.getBaseRestaurants().size(); i++){
+        auto it = find_if(base.getBaseRestaurants().at(i).getRestaurantCuisine().begin(),base.getBaseRestaurants().at(i).getRestaurantCuisine().end(),[&](string cus){return cus == user_cuisine;});
+        if (it != base.getBaseRestaurants().at(i).getRestaurantCuisine().end())
+            restaurants_available.push_back(base.getBaseRestaurants().at(i));
+
+    }
+    cout << "These are the restaurants with that type of food:" << endl;
+    for (int i = 0; i < restaurants_available.size(); i++){
+        cout << i+1 << ": " << restaurants_available.at(i) << endl;
+    }
+    cout << "0 - finish/cancel order" << endl;
+
+    do{
+        getOption(opt);
+        if(opt>0 && opt<=restaurants_available.size()){
+            choosen_restaurant = restaurants_available.at(opt-1);
+        }
+        else {
+            cout << "ERROR: Invalid restaurant choice!Try again: ";
+        }
+
+    }while(opt != 0);
+
+    if(opt == 0){
+        cout << "Your order was canceled!" << endl;
+        return false;
+    }
+    else
+        return makeOrderDelivery(client,&choosen_restaurant);
+
+}
 
 // Show functions
 //TODO all working add to menu
@@ -1133,42 +1216,6 @@ void showCompanyTotalEarnings(Company &company){
 }
 
 void showEarningsByBase(Company &company){
-    /*int opt;
-    float total=0;
-    vector<Base> companyBases = company.getCompanyBases();
-    Base base;
-
-    cout << "Select a base:" << endl;
-    for (int i = 0; i < companyBases.size(); i++) {
-        cout << i + 1 << ". " << companyBases.at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
-    }
-    cout << "0 - cancel" << endl;
-    int base_idx;
-    getOption(base_idx, "Base: ");
-    if(opt==0) {
-        cout << "Canceled successfully!" << endl;
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
-    }
-    else if(base_idx > 0 && base_idx <= companyBases.size()) {
-        base = companyBases.at(base_idx - 1);
-        for(int i=0; i<base.getBaseOrders().size();i++) {
-            Delivery *d = dynamic_cast<Delivery *> (base.getBaseOrders().at(i));
-            if(d!=NULL)
-                total += d->getDeliveryPrice();
-        }
-        cout << "Total earnings for this base: " << total << endl;
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
-    }
-    else {
-        cinERR("Base does not exist!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
-    }*/
     float total=0;
     Base* base = selectBase(company);
     if(base!= nullptr){
@@ -1184,3 +1231,4 @@ void showEarningsByBase(Company &company){
     string str;
     getline(cin, str);
 }
+ */

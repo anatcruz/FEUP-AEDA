@@ -5,6 +5,8 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <vector>
+#include "../utils.h"
 
 using namespace std;
 
@@ -16,6 +18,7 @@ private:
 public:
     Time() = default;
     Time(int hour, int min, int sec);
+    Time(string time_str);
     //Metodos Set
     void setHour(int hour);
     void setMin(int min);

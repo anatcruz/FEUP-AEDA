@@ -27,6 +27,7 @@ private:
     string clientsFile;
     string restaurantsFile;
     string workersFile;
+    string ordersFile;
 protected:
     Location location;
 public:
@@ -43,6 +44,7 @@ public:
     void setBaseWorkersFile(string workersFile);
     void setBaseClientsFile(string clientsFile);
     void setBaseRestaurantsFile(string restaurantsFile);
+    void setBaseOrdersFile(string ordersFile);
     //Metodos Get
     Location getBaseLocation() const;
     Admin* getBaseManager() const;
@@ -57,6 +59,7 @@ public:
     string getBaseWorkersFile() const;
     string getBaseClientsFile() const;
     string getBaseRestaurantsFile() const;
+    string getBaseOrdersFile() const;
     //Other Methods
     friend ostream& operator<<(ostream& out, const Base &base);
     void addClientToBase(const Client &client);

@@ -69,10 +69,28 @@ void updateWorkersFile(Base &base);
 
 
 // Client functions
-
+/** Allows the client to see his order history.
+       * The user will see all his past orders with its descriptions.
+       * @param client is the User Client
+*/
 void viewClientOrdersHistory(Client &client);
+/** Sign up function: allows a client to create an account in our app.
+       * The user first selects the base in which he wants to sign up and then fills all the other parameters
+       * @param company is our Company Ugh-Eats.
+       * @return true if the client was able to sign up
+*/
 bool createClientAccount(Company &company);
+/** Allows the client to change his account.
+       * Its allows the client to change the name and address. If the client changes to another municipality which is not reached by the previous base the user must creat another account.
+       * @param company is our Company Ugh-Eats.
+       * @return true if the client was able to change its account.
+*/
 bool editClientInfo(Company &company, Client &client);
+/** Allows the client to eliminate his account.
+       * After making sure the user really wants to delete his account, the account is deleted.
+       * @param company is our Company Ugh-Eats.
+       * @return true if the client was able to eliminate his account.
+*/
 bool deleteClientAccount(Client* client, Base* base);
 
 
@@ -82,7 +100,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant); //TODO finished 
 bool makeOrderDeliveryByRestaurant(Client &client, Base &base); //TODO finished needs TESTING
 bool makeOrderDeliveryByMunicipality(Client &client, Base &base); //TODO finished needs TESTING
 bool makeOrderDeliveryByPrice(Client &client, Base &base); //TODO finished needs TESTING
-bool makeOrderDeliveryByCuisine(Client &client, Base &base);
+bool makeOrderDeliveryByCuisine(Client &client, Base &base); //TODO finished needs TESTING
 
 
 // Show functions

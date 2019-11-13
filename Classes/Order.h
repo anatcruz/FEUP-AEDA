@@ -13,36 +13,33 @@
 
 using namespace std;
 
-class Restaurant;
-class Deliveryperson;
-class Client;
 class Time;
 
 class Order {
 protected:
-    Restaurant* restaurant;
-    Client* client;
+    string restaurant;
+    int client;
     Date date;
     Time orderTime;
-    vector<Product> products;
+    vector<string> products;
     float orderPrice;
 public:
     Order() = default;
-    Order(Restaurant* restaurant, Client* client, Date date, Time orderTime, vector<Product> products, float orderPrice);
+    Order(string restaurant, int client, Date date, Time orderTime, vector<string> products, float orderPrice);
     //Metodos Set
-    void setOrderRestaurant(Restaurant* restaurant);
+    void setOrderRestaurant(string restaurant);
     void setOrderDate(Date date);
     void setOrderTime(Time orderTime);
-    void setOrderProducts(vector<Product> products);
+    void setOrderProducts(vector<string> products);
     void setOrderPrice(float orderPrice);
-    void setOrderClient(Client* client);
+    void setOrderClient(int client);
     //Metodos Get
-    Restaurant* getRestaurant() const;
+    string getRestaurant() const;
     Date getOrderDate() const;
     Time getOrderTime() const;
-    vector<Product> getOrderProducts() const;
+    vector<string> getOrderProducts() const;
     float getOrderPrice() const;
-    Client* getOrderClient() const;
+    int getOrderClient() const;
     //Other Methods
     virtual void print(ostream &out) const;
 
@@ -51,22 +48,22 @@ public:
 class Delivery: public Order {
 private:
     float deliveryPrice;
-    Deliveryperson* deliveryperson;
+    int deliveryperson;
     bool success;
     Time deliveryTime;
     string notes;
 public:
     Delivery() = default;
-    Delivery(Restaurant* restaurant, Client* client, Date date, Time orderTime, vector<Product> products, float orderPrice, float deliveryPrice, Deliveryperson* deliveryperson, bool success, Time deliveryTime, string notes);
+    Delivery(string restaurant, int client, Date date, Time orderTime, vector<string> products, float orderPrice, float deliveryPrice, int deliveryperson, bool success, Time deliveryTime, string notes);
     //Metodos Set
     void setDeliveryPrice(float deliveryPrice);
-    void setDeliveryPerson(Deliveryperson* deliveryperson);
+    void setDeliveryPerson(int deliveryperson);
     void setSuccess(bool success);
     void setDeliveryTime(Time deliveryTime);
     void setDeliveryNotes(string notes);
     //Metodos Get
     float getDeliveryPrice() const;
-    Deliveryperson* getDeliveryPerson() const;
+    int getDeliveryPerson() const;
     bool getSuccess() const;
     Time getDeliveryTime() const;
     string getDeliveryNotes() const;
