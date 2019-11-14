@@ -636,6 +636,7 @@ bool createClientAccount(Company &company){
         else if(str_nif == "*")
             return false;
         cinERR("ERROR: Invalid NIF, try again!");
+        cout << "\n";
     }
 
     if (searchClientbyNif(nif,temp_clients)){
@@ -675,7 +676,7 @@ bool createClientAccount(Company &company){
     getline(cin,floor);
     address.setFloor(trim(floor));
     while(true){
-        cout << "Postcode: ";
+        cout << "-Postcode: ";
         getline(cin,postcode);
 
         if(validPostcode(trim(postcode)))
@@ -765,12 +766,12 @@ bool editClientInfo(Company &company, Client &client){
 bool deleteClientAccount(Client* client, Base* base){
     string str;
 
-    cout << "Are you sure you want to delete your account? (Y/N): ";
+    cout << "Are you sure you want to delete your account? (Y/N):";
     getline(cin, str);
     if(str == "Y" || str == "y"){
         base->getBaseClientsAddr()->erase(find_if(base->getBaseClientsAddr()->begin(), base->getBaseClientsAddr()->end(),
                 [&](Client &c){return c.getClientNif() == client->getClientNif();}));
-        cout << "Account successfully deleted";
+        cout << "Account successfully deleted" << endl;
     }
     else {
         cout << "Account not deleted" << endl;
@@ -1579,6 +1580,48 @@ void showEarningsByBase(Company &company){
     }
     cout << "Total earnings for this base: " << total << endl;
     enterWait();
+}
+
+void showDeliveypersonEarnings(Company &company){
+    string str_nif, str;
+    int nif, opt;
+    float total=0;
+    Base* base = selectBase(company);
+
+    if(base!= nullptr) {
+        while (true) {
+            cout << "Enter worker's nif (* - cancel): ";
+            getline(cin, str_nif);
+            if (validNIF(str_nif)) {
+                nif = stoi(str_nif);
+                break;
+            } else if (str_nif == "*") {
+                cout << "Canceled successfully!" << endl;
+                return;
+            }
+            cinERR("ERROR: Invalid NIF, try again!");
+        }
+        for (int i = 0; i < base->getBaseWorkers().size(); i++) {
+            if (base->getBaseWorkers().at(i)->getWorkerNif() == nif) {
+                Worker *worker = base->getBaseWorkers().at(i);
+                Deliveryperson *d = dynamic_cast<Deliveryperson *> (worker);
+                if (d != NULL) {
+                    total = d->getWorkerSalary();
+                    cout << "Base salary: " << total;
+                    for (int j=0; j< base->getBaseOrders().size(); j++){
+                        Delivery *del = dynamic_cast<Delivery *> (base->getBaseOrders().at(j));
+                        if(del != NULL){
+                            if(del->getDeliveryPerson() == nif)
+                                total += 3;
+                        }
+                    }
+                    cout << "Total salary with deliveries rewards: " << total;
+                }
+            }
+        }
+        cinERR("ERROR: No deliveryperson in this base with the given nif!");
+        enterWait();
+    }
 }
 
 void showCompanyOrders(Company &company){
