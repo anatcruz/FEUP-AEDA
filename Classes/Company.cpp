@@ -779,7 +779,9 @@ bool deleteClientAccount(Client* client, Base* base){
     return true;
 }
 
-//TODO Run these functions and write menus for them
+
+// Worker functions
+//TODO Run these functions (supostamente funcionando) and write menus for them
 bool hireWorker(Company &company){
     string str_nif, str;
     int nif, opt;
@@ -935,14 +937,14 @@ bool editWorkerInfo(Company &company){
                         case 0:
                             return false;
                         case 1:
-                            cout << "Enter name: (* - cancel): ";
+                            cout << "New name (* - cancel): ";
                             getline(cin,str);
                             if(str == "*")
                                 return false;
                             a->setWorkerName(trim(str));
                             break;
                         case 2:
-                            cout << "Enter base salary: ";
+                            cout << "New base salary: ";
                             getline(cin, str);
                             if(stod(trim(str)) < 0){
                                 cinERR("ERROR: Invalid salary");
@@ -952,14 +954,14 @@ bool editWorkerInfo(Company &company){
                             a->setWorkerSalary(stod(trim(str)));
                             break;
                         case 3:
-                            cout << "Enter function description: ";
+                            cout << "New function description: ";
                             getline(cin, str);
                             a->setWorkerDescription(trim(str));
                             break;
                         default:
                             return false;
                     }
-                    cout << "Information successfully updated!";
+                    cout << "\nInformation successfully updated!" << endl;
                     enterWait();
                     return true;
                 }
@@ -976,14 +978,14 @@ bool editWorkerInfo(Company &company){
                             case 0:
                                 return false;
                             case 1:
-                                cout << "Enter name: (* - cancel): ";
+                                cout << "New name (* - cancel): ";
                                 getline(cin,str);
                                 if(str == "*")
                                     return false;
                                 d->setWorkerName(trim(str));
                                 break;
                             case 2:
-                                cout << "Enter base salary: ";
+                                cout << "New base salary: ";
                                 getline(cin, str);
                                 if(stod(trim(str)) < 0){
                                     cinERR("ERROR: Invalid salary");
@@ -994,14 +996,14 @@ bool editWorkerInfo(Company &company){
                                 break;
                             case 3:{
                                 string brand, type, date;
-                                cout << "Vehicle's brand: ";
+                                cout << "New vehicle's brand: ";
                                 getline(cin, brand);
                                 cout << "Vehicle's type: ";
                                 getline(cin, type);
                                 cout << "Vehicle's plate date: ";
                                 getline(cin, date);
                                 if(!validDate(trim(date))){
-                                    cinERR("ERROR: Invalid birthdate");
+                                    cinERR("ERROR: Invalid date");
                                     enterWait();
                                     return false;
                                 }
@@ -1011,7 +1013,7 @@ bool editWorkerInfo(Company &company){
                             default:
                                 return false;
                         }
-                        cout << "Information successfully updated!";
+                        cout << "\nInformation successfully updated!" << endl;
                         enterWait();
                         return true;
                     }
@@ -1051,7 +1053,7 @@ bool fireWorker(Company &company){
                     getline(cin, str);
                     if(str == "Y" || str == "y"){
                         base->getBaseWorkersAddr()->erase(base->getBaseWorkersAddr()->begin() + i);
-                        cout << "Worker fired";
+                        cout << "Worker successfully fired";
                         return true;
                     }
                     else {
@@ -1072,6 +1074,52 @@ bool fireWorker(Company &company){
 }
 //tudo a arder
 
+
+//Restaurant Functions
+
+//TODO new functions need testing
+
+bool removeRestaurant(Company &company){
+    string str,restaurant;
+    Base* base = selectBase(company);
+
+    if(base!= nullptr){
+        vector<Restaurant> restaurants = base->getBaseRestaurants();
+        cout << "Enter restaurant's name (* - cancel): " ;
+        getline(cin,restaurant);
+        //restaurant=trim(str);
+        if(restaurant=="*"){
+            cout<<"Canceled successfully!"<<endl;
+            return false;
+        }
+
+        auto it = find_if(restaurants.begin(),restaurants.end(),[&](Restaurant rest){return rest.getRestaurantName() == restaurant;});
+        if (it != restaurants.end()){
+            cout << "Are you sure you want to remove this restaurant? (Y/N): ";
+            getline(cin, str);
+            if(str == "Y" || str == "y"){
+                base->getBaseRestaurantsAddr()->erase(it);
+                if(remove((*it).getProductsFile().c_str()) != 0){
+                    cout << "Restaurant successfully removed" << endl;
+                    enterWait();
+                    return true;
+                }
+                cinERR("ERROR: Couldn't remove restaurant!");
+                enterWait();
+                return false;
+            }
+            else {
+                cout << "Restaurant not removed" << endl;
+                enterWait();
+                return false;
+            }
+        }
+        cinERR("ERROR: Restaurant with given name does not exist!");
+        enterWait();
+        return false;
+    }
+    return false;
+}
 
 // Order functions
 
@@ -1401,6 +1449,8 @@ bool makeOrderDeliveryByCuisine(Client &client, Base &base){
 
 }
 */
+
+
 // Show functions
 void showAllClients(Company &company){
     cout << "-----All Clients' Information-----\n"<<endl;
@@ -1446,10 +1496,12 @@ void showSpecificClient(Company &company){
         auto it = find_if(clients.begin(),clients.end(),[&](Client client){return client.getClientNif() == nif;});
         if (it != clients.end()){
             cout << *it;
+            enterWait();
             return;
         }
+        cinERR("ERROR: Client with given nif does not exist!");
+        enterWait();
     }
-    enterWait();
 }
 
 void showAllRestaurants(Company &company){
@@ -1490,11 +1542,12 @@ void showSpecificRestaurant(Company &company){
         auto it = find_if(restaurants.begin(),restaurants.end(),[&](Restaurant rest){return rest.getRestaurantName() == restaurant;});
         if (it != restaurants.end()){
             cout << *it;
+            enterWait();
             return;
         }
         cinERR("ERROR: Restaurant with given name does not exist!");
+        enterWait();
     }
-    enterWait();
 }
 
 
@@ -1527,3 +1580,84 @@ void showEarningsByBase(Company &company){
     cout << "Total earnings for this base: " << total << endl;
     enterWait();
 }
+
+void showCompanyOrders(Company &company){
+    for(int i=0; i<company.getCompanyBases().size() ; i++) {
+        for (int j = 0; j < company.getCompanyBases().at(i).getBaseOrders().size(); j++) {
+            cout << company.getCompanyBases().at(i).getBaseOrders().at(j) << endl;
+        }
+    }
+    enterWait();
+}//TODO new function check if working
+
+void showBaseOrders(Company &company){
+    Base* base = selectBase(company);
+
+    if(base!= nullptr) {
+        for (int i= 0; i<base->getBaseOrders().size() ; i++) {
+            cout << base->getBaseOrders().at(i) << endl;
+        }
+    }
+    enterWait();
+}//TODO new function check if working
+
+void showSpecificRestaurantsOrders(Company &company){
+    string str,restaurant;
+    Base* base = selectBase(company);
+
+    if(base!= nullptr){
+        vector<Restaurant> restaurants = base->getBaseRestaurants();
+        cout << "Enter restaurant's name (* - cancel): " ;
+        getline(cin,restaurant);
+        //restaurant=trim(str);
+        if(restaurant=="*"){
+            cout<<"Canceled successfully!"<<endl;
+            return;
+        }
+
+        auto it = find_if(restaurants.begin(),restaurants.end(),[&](Restaurant rest){return rest.getRestaurantName() == restaurant;});
+        if (it != restaurants.end()){
+            for(int i=0; i<base->getBaseOrders().size();i++){
+                if(base->getBaseOrders().at(i)->getRestaurant() == restaurant)
+                    cout << base->getBaseOrders().at(i) << endl;
+            }
+            enterWait();
+            return;
+        }
+        cinERR("ERROR: Restaurant with given name does not exist!");
+        enterWait();
+    }
+}//TODO new function check if working
+
+void showSpecificClientOrders(Company &company){
+    string str_nif;
+    int nif;
+    Base* base = selectBase(company);
+
+    if(base!= nullptr) {
+        vector<Client> clients = base->getBaseClients();
+        while (true) {
+            cout << "Enter client's nif (* - cancel): ";
+            getline(cin, str_nif);
+            if (validNIF(str_nif)) {
+                nif = stoi(str_nif);
+                break;
+            } else if (str_nif == "*") {
+                cout << "Canceled successfully!" << endl;
+                return;
+            }
+            cinERR("ERROR: Invalid NIF, try again!");
+        }
+        auto it = find_if(clients.begin(), clients.end(), [&](Client client) { return client.getClientNif() == nif; });
+        if (it != clients.end()){
+            for(int i=0; i<base->getBaseOrders().size();i++){
+                if(base->getBaseOrders().at(i)->getOrderClient() == nif)
+                    cout << base->getBaseOrders().at(i) << endl;
+            }
+            enterWait();
+            return;
+        }
+        cinERR("ERROR: Client with given nif does not exist!");
+        enterWait();
+    }
+}//TODO new function check if working
