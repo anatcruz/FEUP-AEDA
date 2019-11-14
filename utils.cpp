@@ -49,7 +49,6 @@ void line(int size, char ch) {
 }
 
 void cinERR(const string &message) {
-    // Outputs an error message and clears cin flags
     cerr << message;
     cout << endl;
     cin.clear();
