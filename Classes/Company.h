@@ -27,9 +27,13 @@ private:
     string basesFile;
 public:
     static string filePath;
+    /** Constructor default.
+*/
     Company() = default;
     Company(string name, Location location, double capital, int nif, string email, string phone, vector<Base> bases);
     Company(const string &filesPath);
+    /** Destructor default.
+*/
     ~Company();
     //Metodos Set
     void setCompanyName(string name);
@@ -41,17 +45,45 @@ public:
     void setCompanyBases(vector<Base> bases);
     void setCompanyBasesFile(string basesFile);
     //Metodos Get
+    /**
+       * @return the name.
+*/
     string getCompanyName() const;
+    /**
+       * @return the location.
+*/
     Location getCompanyLocation() const;
+    /**
+       * @return the capital.
+*/
     double getCompanyCapital() const;
+    /**
+       * @return the nif.
+*/
     int getCompanyNif() const;
+    /**
+       * @return the email.
+*/
     string getCompanyEmail() const;
+    /**
+       * @return the phone.
+*/
     string getCompanyPhone() const;
+    /**
+       * @return the bases.
+*/
     vector<Base> getCompanyBases() const;
+    /**
+       * @return the bases'address.
+*/
     vector<Base>* getCompanyBasesAddr();
     string getCompanyBasesFile() const;
     string getCompanyFile() const;
     //Other Methods
+    /** Displays the Company in a nice format.
+      * @param out is the ostream.
+      * @param company is the Company you want to display.
+     */
     friend ostream& operator<<(ostream& out, const Company &company);
 };
 
