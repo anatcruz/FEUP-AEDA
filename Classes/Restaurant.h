@@ -43,6 +43,7 @@ public:
     vector<Order*> getRestaurantOrders() const;
     //Other Methods
     friend ostream& operator<<(ostream& out, const Restaurant &restaurant);
+    bool operator<(Restaurant &r);
     void addProductsToRestaurant(const Product &product);
 };
 

@@ -48,8 +48,10 @@ ostream &operator<<(ostream &out, const Time &time) {
 }
 
 Time Time::addtime(int min) {
-    this->min += min;
-    this->hour += this->min / 60;
-    this->min %= 60;
-    this->hour %= 24;
+    Time result(0,0,0);
+    result.min = this->min + min;
+    result.hour = this->hour + this->min / 60;
+    result.min %= 60;
+    result.hour %= 24;
+    return result;
 }

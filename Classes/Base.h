@@ -60,11 +60,14 @@ public:
     string getBaseClientsFile() const;
     string getBaseRestaurantsFile() const;
     string getBaseOrdersFile() const;
+    Worker* getWorker(const int &nif);
+    Restaurant* getRestaurant(const string &name);
     //Other Methods
     friend ostream& operator<<(ostream& out, const Base &base);
     void addClientToBase(const Client &client);
     void addRestaurantToBase(const Restaurant &restaurant);
     void addWorkerToBase(Worker *worker);
+    void addOrderToBase(Order* order);
 };
 
 //Verifica se o municipio esta entre o vetor de municipios

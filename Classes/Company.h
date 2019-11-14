@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <sstream>
 #include <iostream>
 #include <fstream>
@@ -122,10 +123,11 @@ bool deleteClientAccount(Client* client, Base* base);
 
 // Order functions
 
-bool makeOrderDelivery(Client &client, Restaurant *restaurant); //TODO finished needs TESTING
-bool makeOrderDeliveryByRestaurant(Client &client, Base &base); //TODO finished needs TESTING
-bool makeOrderDeliveryByMunicipality(Client &client, Base &base); //TODO finished needs TESTING
-bool makeOrderDeliveryByPrice(Client &client, Base &base); //TODO finished needs TESTING
+bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base); //TODO finished needs TESTING
+bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vector<Product> products_ordered);
+bool makeOrderDeliveryByRestaurant(Client &client, Base *base); //TODO finished needs TESTING
+bool makeOrderDeliveryByMunicipality(Client &client, Base *base); //TODO finished needs TESTING
+bool makeOrderDeliveryByPrice(Client &client, Base *base); //TODO finished needs TESTING
 bool makeOrderDeliveryByCuisine(Client &client, Base &base); //TODO finished needs TESTING
 
 

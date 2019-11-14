@@ -118,6 +118,20 @@ string Base::getBaseOrdersFile() const {
     return ordersFile;
 }
 
+Worker* Base::getWorker(const int &nif) {
+    auto it = find_if(workers.begin(), workers.end(),[&](Worker* &w){return w->getWorkerNif() == nif;});
+    if (it != workers.end())
+        return *it;
+    return nullptr;
+}
+
+Restaurant* Base::getRestaurant(const string &name) {
+    auto it = find_if(restaurants.begin(), restaurants.end(), [&](Restaurant &r){return r.getRestaurantName() == name;});
+    if (it != restaurants.end())
+        return &*it;
+    return nullptr;
+}
+
 //Other Methods
 
 ostream& operator<<(ostream& out, const Base &base){
@@ -147,6 +161,10 @@ void Base::addRestaurantToBase(const Restaurant &restaurant) {
 
 void Base::addWorkerToBase(Worker *worker){
     workers.push_back(worker);
+}
+
+void Base::addOrderToBase(Order *order) {
+    orders.push_back(order);
 }
 
 bool searchbyMunicipality(string municipality, vector<string> municipalities){

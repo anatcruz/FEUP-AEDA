@@ -792,56 +792,57 @@ bool deleteClientAccount(Client* client, Base* base){
 
 // Order functions
 
-/*
-bool makeOrderDelivery(Client &client, Restaurant *restaurant){
+
+bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base){
     int opt;
-    string satisfied, notes = "";
+    string satisfied, notes;
     bool success;
-    vector<Product> products_ordered={};
-    float order_price=0, delivery_price=0;
-    Delivery new_delivery;
-    Deliveryperson deliveryperson;
+    vector<string> products_ordered;
+    float order_price = 0, delivery_price = 0;
+    Delivery* new_delivery = new Delivery;
+    int deliveryperson;
     Time delivery_time;
 
     time_t now;
     time(&now);
     struct tm* current_t = localtime(&now);
-    new_delivery.setOrderTime(Time(current_t->tm_hour,current_t->tm_min,current_t->tm_sec));
-    new_delivery.setOrderDate(Date(current_t->tm_mday,current_t->tm_mon,current_t->tm_year));
+    new_delivery->setOrderTime(Time(current_t->tm_hour,current_t->tm_min,current_t->tm_sec));
+    new_delivery->setOrderDate(Date(current_t->tm_mday,current_t->tm_mon + 1,current_t->tm_year + 1900));
 
-    cout << "Choose the product you want" << endl;
+    cout << endl << "Choose the products you want" << endl;
     cout << "Products: " << endl;
     for (int i = 0; i < restaurant->getRestaurantProducts().size(); i++){
-        cout << i+1 << ": " << restaurant->getRestaurantProducts().at(i) << endl;
+        cout << i+1 << ". " << restaurant->getRestaurantProducts().at(i) << endl;
     }
-    cout << "0 - finish/cancel order" << endl;
-
-    do{
+    cout << endl << "0 - finish/cancel order" << endl;
+    while (true) {
         getOption(opt);
-        if(opt>0 && opt<=restaurant->getRestaurantProducts().size()){
-            products_ordered.push_back(restaurant->getRestaurantProducts().at(opt-1));
+        if (opt == 0 && products_ordered.empty()) { // Canceled order
+            cout << "Canceled!";
+            enterWait();
+            return false;
+        } else if (opt == 0) { // Finish order
+            break;
+        } else if(opt>0 && opt<=restaurant->getRestaurantProducts().size()){ // Add products to order
+            products_ordered.push_back(restaurant->getRestaurantProducts().at(opt-1).getProductName());
+            order_price += restaurant->getRestaurantProducts().at(opt-1).getPrice();
         }
         else {
             cout << "ERROR: Invalid product choice!Try again: ";
         }
-
-    }while(opt != 0);
-
-    //se o vetor esta vazio quer dizer que o utilizador nao selecionou nenhum produto e a opçao foi 0
-    if(products_ordered.empty()){
-        cout << "Your order was canceled!" << endl;
-        return false;
     }
 
-    for (int i = 0; i < products_ordered.size(); i++){
-        order_price += products_ordered.at(i).getPrice();
-        }
+    cout << "Notes for delivery: ";
+    getline(cin, notes);
+    new_delivery->setDeliveryNotes(notes);
+
+    cout << "...Processing your order..." << endl;
 
     //criar a nova encomenda
-    new_delivery.setOrderPrice(order_price);
-    new_delivery.setOrderProducts(products_ordered);
-    new_delivery.setOrderRestaurant(restaurant);
-    new_delivery.setOrderClient(&client);
+    new_delivery->setOrderPrice(order_price);
+    new_delivery->setOrderProducts(products_ordered);
+    new_delivery->setOrderRestaurant(restaurant->getRestaurantName());
+    new_delivery->setOrderClient(client.getClientNif());
 
     //criar a entrega
     if(restaurant->getRestaurantAddress().getMunicipality() == client.getClientAddress().getMunicipality())
@@ -849,13 +850,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant){
     else
         delivery_price = order_price + 5;
 
-    new_delivery.setDeliveryPrice(delivery_price);
-
-    cout << "Are you satisfied with your order(YES/NO)?" << endl;
-    cout << "Option: ";
-    getline(cin,satisfied);
-    success = (satisfied == "YES");
-    new_delivery.setSuccess(success);
+    new_delivery->setDeliveryPrice(delivery_price);
 
     vector<Worker*> workers = client.getBase()->getBaseWorkers();
     while(true){
@@ -863,68 +858,159 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant){
         int worker_index = rand() % workers.size();
         Deliveryperson *d = dynamic_cast<Deliveryperson *> (workers.at(worker_index));
         if (d!=NULL){
-            deliveryperson=*d;
+            deliveryperson=d->getWorkerNif();
             break;
         }
     }
-    new_delivery.setDeliveryPerson(&deliveryperson);
-    new_delivery.setDeliveryNotes(notes);
+    new_delivery->setDeliveryPerson(deliveryperson);
 
     srand(time(NULL));
-    delivery_time = new_delivery.getOrderTime().addtime(rand() % 16 + 5);
-    new_delivery.setDeliveryTime(delivery_time);
+    delivery_time = new_delivery->getOrderTime().addtime(rand() % 16 + 5);
+    new_delivery->setDeliveryTime(delivery_time);
+
+    cout << base->getWorker(deliveryperson)->getWorkerName() << " will deliver your order at " << delivery_time << endl;
+    cout << "Are you satisfied with your order(YES/NO)? " << endl;
+    getline(cin,satisfied);
+    success = (satisfied == "YES" || satisfied == "yes");
+    new_delivery->setSuccess(success);
 
     //acrescentar ao vetor de orders da base
-    vector<Order*> orders = client.getBase()->getBaseOrders();
-    orders.push_back(&new_delivery);
-    client.getBase()->setBaseOrders(orders);
-    return true;
+    base->addOrderToBase(new_delivery);
 
+    return true;
 }
 
-bool makeOrderDeliveryByRestaurant(Client &client, Base &base){
+bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vector<Product> product_options){
+    int opt;
+    string satisfied, notes;
+    bool success;
+    vector<string> products_ordered;
+    float order_price = 0, delivery_price = 0;
+    Delivery* new_delivery = new Delivery;
+    int deliveryperson;
+    Time delivery_time;
+
+    time_t now;
+    time(&now);
+    struct tm* current_t = localtime(&now);
+    new_delivery->setOrderTime(Time(current_t->tm_hour,current_t->tm_min,current_t->tm_sec));
+    new_delivery->setOrderDate(Date(current_t->tm_mday,current_t->tm_mon + 1,current_t->tm_year + 1900));
+
+    cout << endl << "Choose the products you want" << endl;
+    cout << "Products: " << endl;
+    for (int i = 0; i < product_options.size(); i++){
+        cout << i+1 << ". " << product_options.at(i) << endl;
+    }
+    cout << endl << "0 - finish/cancel order" << endl;
+    while (true) {
+        getOption(opt);
+        if (opt == 0 && products_ordered.empty()) { // Canceled order
+            cout << "Canceled!";
+            enterWait();
+            return false;
+        } else if (opt == 0) { // Finish order
+            break;
+        } else if(opt>0 && opt<=product_options.size()){ // Add products to order
+            products_ordered.push_back(product_options.at(opt-1).getProductName());
+            order_price += product_options.at(opt-1).getPrice();
+        }
+        else {
+            cout << "ERROR: Invalid product choice!Try again: ";
+        }
+    }
+
+    cout << "Notes for delivery: ";
+    getline(cin, notes);
+    new_delivery->setDeliveryNotes(notes);
+
+    cout << "...Processing your order..." << endl;
+
+    //criar a nova encomenda
+    new_delivery->setOrderPrice(order_price);
+    new_delivery->setOrderProducts(products_ordered);
+    new_delivery->setOrderRestaurant(restaurant->getRestaurantName());
+    new_delivery->setOrderClient(client.getClientNif());
+
+    //criar a entrega
+    if(restaurant->getRestaurantAddress().getMunicipality() == client.getClientAddress().getMunicipality())
+        delivery_price = order_price + 3;
+    else
+        delivery_price = order_price + 5;
+
+    new_delivery->setDeliveryPrice(delivery_price);
+
+    vector<Worker*> workers = client.getBase()->getBaseWorkers();
+    while(true){
+        srand(time(NULL));
+        int worker_index = rand() % workers.size();
+        Deliveryperson *d = dynamic_cast<Deliveryperson *> (workers.at(worker_index));
+        if (d!=NULL){
+            deliveryperson=d->getWorkerNif();
+            break;
+        }
+    }
+    new_delivery->setDeliveryPerson(deliveryperson);
+
+    srand(time(NULL));
+    delivery_time = new_delivery->getOrderTime().addtime(rand() % 16 + 5);
+    new_delivery->setDeliveryTime(delivery_time);
+
+    cout << base->getWorker(deliveryperson)->getWorkerName() << " will deliver your order at " << delivery_time << endl;
+    cout << "Are you satisfied with your order(YES/NO)? " << endl;
+    getline(cin,satisfied);
+    success = (satisfied == "YES" || satisfied == "yes");
+    new_delivery->setSuccess(success);
+
+    //acrescentar ao vetor de orders da base
+    base->addOrderToBase(new_delivery);
+
+    return true;
+}
+
+bool makeOrderDeliveryByRestaurant(Client &client, Base *base){
     string restaurant_name;
 
     cout << "Enter the restaurant you want to order from: ";
     getline(cin,restaurant_name);
 
-    auto it = find_if(base.getBaseRestaurants().begin(),base.getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == restaurant_name;});
+    Restaurant* restaurant = base->getRestaurant(restaurant_name);
 
-    if(it == base.getBaseRestaurants().end()){
+    if(restaurant == nullptr){
         cinERR("ERROR: That restaurant does not exist in your base! Cant make order!");
+        enterWait();
         return false;
     }
     else{
-        return makeOrderDelivery(client,&(*it));
+        return makeOrderDelivery(client,restaurant,base);
     }
 }
 
-bool makeOrderDeliveryByMunicipality(Client &client, Base &base){
+bool makeOrderDeliveryByMunicipality(Client &client, Base *base){
     string str, municipality;
     int opt;
 
     cout << "Enter the municipality you want to order from: ";
     getline(cin, str);
     municipality = trim(str);
-    if(!searchbyMunicipality(municipality,base.getBaseMunicipalities())){
+    if(!searchbyMunicipality(municipality,base->getBaseMunicipalities())){
         cinERR("ERROR: We don't have services for that municipality! Can't make order");
         return false;
     }
     else{
-        for(int i=0;i<base.getBaseRestaurants().size();i++){
-            if(base.getBaseRestaurants().at(i).getRestaurantAddress().getMunicipality()==municipality){
-                cout <<  i+1 << ": " << base.getBaseRestaurants().at(i) << endl;
+        vector<string> municipality_rest;
+        for(int i=0;i<base->getBaseRestaurants().size();i++){
+            if(base->getBaseRestaurants().at(i).getRestaurantAddress().getMunicipality() == municipality){
+                cout <<  i+1 << ": " << base->getBaseRestaurants().at(i) << endl;
+                municipality_rest.push_back(base->getBaseRestaurants().at(i).getRestaurantName());
             }
         }
-        cout << "0 - cancel order" << endl;
+        cout << endl << "0 - cancel order" << endl;
 
         while(true){
             getOption(opt);
-            if(opt>0 && opt<=base.getBaseRestaurants().size()){
-                string rest_name = base.getBaseRestaurants().at(opt-1).getRestaurantName();
-                auto it = find_if(base.getBaseRestaurants().begin(), base.getBaseRestaurants().end(),[&](Restaurant rest){return rest.getRestaurantName() == rest_name;});
-                return makeOrderDelivery(client,&(*it));
-
+            if(opt > 0 && opt <= municipality_rest.size()){
+                Restaurant* ord_rest = base->getRestaurant(municipality_rest.at(opt - 1));
+                return makeOrderDelivery(client,ord_rest,base);
             }
             else if(opt==0){
                 cout << "Order canceled successfully" << endl;
@@ -935,21 +1021,17 @@ bool makeOrderDeliveryByMunicipality(Client &client, Base &base){
             }
         }
     }
-    return false;
 }
 
-bool makeOrderDeliveryByPrice(Client &client, Base &base){
-    string price,satisfied,notes="";
-    float limit_price = 0,delivery_price;
+bool makeOrderDeliveryByPrice(Client &client, Base *base)   {
+    string price;
+    float limit_price = 0;
+    float order_price = 0;
     bool success;
-    vector<Product> all_products;
-    vector<Product> select_products;
-    vector<Product> order_product;
-    int opt1,opt2;
-    vector<Restaurant> restaurants_available;
-    Delivery new_delivery;
-    Deliveryperson deliveryperson;
-    Time delivery_time;
+    map<string, vector<Product>> select_products;
+    vector<Product> product_options;
+    int opt;
+    Restaurant selected_restaurant;
 
     //preço limite dado pelo utilizador
     cout << "What is the limit price of the product?" << endl;
@@ -958,125 +1040,50 @@ bool makeOrderDeliveryByPrice(Client &client, Base &base){
     limit_price = stof(price);
 
     //vetor com todos os produtos de todos os restaurantes com aquele limite
-    for (int i = 0; i < base.getBaseRestaurants().size(); i++){
-        for (int j = 0; j < base.getBaseRestaurants().at(i).getRestaurantProducts().size(); j++){
-            if (base.getBaseRestaurants().at(i).getRestaurantProducts().at(j).getPrice() <= limit_price)
-                select_products.push_back(base.getBaseRestaurants().at(i).getRestaurantProducts().at(j));
+    for (auto rest : base->getBaseRestaurants()){
+        vector<Product> prod_vect;
+        select_products[rest.getRestaurantName()] = prod_vect;
+        for (auto prod : rest.getRestaurantProducts()){
+            if (prod.getPrice() <= limit_price)
+                select_products[rest.getRestaurantName()].push_back(prod);
         }
     }
-    //escolha do produto
-    cout << "Choose the product you want" << endl;
-    cout << "Products: " << endl;
-    for (int i = 0; i < select_products.size(); i++){
-        cout << i+1 << ": " << select_products.at(i) << endl;
-    }
-    cout << "0 - cancel order" << endl;
 
-    do{
-        getOption(opt1);
-        if(opt1>0 && opt1<=select_products.size()){
-            order_product.push_back(select_products.at(opt1-1));
-            new_delivery.setOrderProducts(order_product);
-            break;
+    //escolha do restaurante
+    cout << endl << "Choose the restaurant you want" << endl;
+
+    int cnt = 1;
+    vector<string> restaurant_selector;
+    for (auto p_rp : select_products){
+        if (!select_products[p_rp.first].empty()){
+            cout << endl << cnt << ". " <<  *(base->getRestaurant(p_rp.first)) << endl;
+            restaurant_selector.push_back(p_rp.first);
+            for (auto prod : p_rp.second) {
+                cout << "|  - " << prod << endl;
+            }
+        }
+        cnt++;
+    }
+
+    cout << endl << "0 - cancel order" << endl;
+
+    while (true) {
+        getOption(opt);
+        if (opt == 0) { // Canceled order
+            cout << "Canceled!" << endl;
+            enterWait();
+            return false;
+        } else if(opt > 0 && opt <= restaurant_selector.size()){ // Add products to order
+            product_options = select_products[restaurant_selector.at(opt - 1)];
+            return makeOrderDelivery(client, base->getRestaurant(restaurant_selector.at(opt - 1)), base, product_options);
         }
         else {
-            cout << "ERROR: Invalid product choice!Try again: ";
-        }
-
-    }while(opt1 != 0);
-
-    //tratamento da escolha do produto
-    if(opt1 == 0){
-        cout << "Your order was canceled!" << endl;
-        return false;
-    }
-    //para aquele produto, fazer um vetor com os restaurantes que tem esse produto
-    for(int i = 0; i < client.getBase()->getBaseRestaurants().size(); i++){
-        auto it = find_if(client.getBase()->getBaseRestaurants().at(i).getRestaurantProducts().begin(),client.getBase()->getBaseRestaurants().at(i).getRestaurantProducts().end(),[&](Product prod){return prod.getProductName() == order_product.at(0).getProductName();});
-        if (it != client.getBase()->getBaseRestaurants().at(i).getRestaurantProducts().end()){
-            restaurants_available.push_back(client.getBase()->getBaseRestaurants().at(i));
-        }
-        else
-            continue;
-    }
-    //se houver so um restaurante com aquele produto
-    if (restaurants_available.size() == 1){
-        cout << "This is the restaurant you are ordering from:" << endl;
-        cout << restaurants_available.at(0);
-        new_delivery.setOrderRestaurant(&restaurants_available.at(0));
-    }
-    //se houver mais do que um restaurante com aquele produto
-    else{
-        cout << "You have " << restaurants_available.size() << "restaurants to choose from: " << endl;
-        for(int i = 0; i<restaurants_available.size(); i++ ){
-            cout << i+1 << ": " << restaurants_available.at(i) << endl;
-        }
-        cout << "0 - cancel order" << endl;
-        do{
-            getOption(opt2);
-            if(opt2>0 && opt2<=restaurants_available.size()){
-                new_delivery.setOrderRestaurant(&restaurants_available.at(opt2-1));
-                break;
-            }
-            else {
-                cout << "ERROR: Invalid restaurant choice!Try again: ";
-            }
-
-        }while(opt2 != 0);
-
-        if (opt2 == 0){
-            cout << "Your order was canceled!" << endl;
-            return false;
-        }
-
-    }
-    new_delivery.setOrderClient(&client);
-
-    time_t now;
-    time(&now);
-    struct tm* current_t = localtime(&now);
-    new_delivery.setOrderTime(Time(current_t->tm_hour,current_t->tm_min,current_t->tm_sec));
-    new_delivery.setOrderDate(Date(current_t->tm_mday,current_t->tm_mon,current_t->tm_year));
-    new_delivery.setOrderPrice(order_product.at(0).getPrice());
-
-    //criar a entrega
-    if(new_delivery.getRestaurant()->getRestaurantAddress().getMunicipality() == client.getClientAddress().getMunicipality())
-        delivery_price = new_delivery.getOrderPrice() + 3;
-    else
-        delivery_price = new_delivery.getOrderPrice() + 5;
-
-    new_delivery.setDeliveryPrice(delivery_price);
-
-    cout << "Are you satisfied with your order(YES/NO)?" << endl;
-    cout << "Option: ";
-    getline(cin,satisfied);
-    success = (satisfied == "YES");
-    new_delivery.setSuccess(success);
-
-    vector<Worker*> workers = client.getBase()->getBaseWorkers();
-    while(true){
-        srand(time(NULL));
-        int worker_index = rand() % workers.size();
-        Deliveryperson *d = dynamic_cast<Deliveryperson *> (workers.at(worker_index));
-        if (d!=NULL){
-            deliveryperson=*d;
-            break;
+            cout << "ERROR: Invalid restaurant choice! Try again: ";
         }
     }
-    new_delivery.setDeliveryPerson(&deliveryperson);
-    srand(time(NULL));
-    delivery_time = new_delivery.getOrderTime().addtime(rand() % 16 + 5);
-    new_delivery.setDeliveryTime(delivery_time);
-    new_delivery.setDeliveryNotes(notes);
-
-    //acrescentar ao vetor de orders da base
-    vector<Order*> orders = client.getBase()->getBaseOrders();
-    orders.push_back(&new_delivery);
-    client.getBase()->setBaseOrders(orders);
-    return true;
-
 }
 
+/*
 bool makeOrderDeliveryByCuisine(Client &client, Base &base){
     string user_cuisine;
     vector<Restaurant> restaurants_available;
