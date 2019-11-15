@@ -17,15 +17,23 @@ class Time;
 
 class Order {
 protected:
-    /** Restaurant the Order was made.
+    /** The name of the Restaurant the Order was made.
 */
     string restaurant;
     /** The Client's nif who made the Order.
 */
     int client;
+    /** The Date the Order was made.
+*/
     Date date;
+    /** The Time the Order was made.
+*/
     Time orderTime;
+    /**All the products the Client wants to order.
+*/
     vector<string> products;
+    /** The price of the Order.
+*/
     float orderPrice;
 public:
     /** Default Constructor.
@@ -61,27 +69,27 @@ public:
     void setOrderClient(int client);
     //Metodos Get
     /**
-       * @return the restaurant.
+       * @return the Order's restaurant name.
 */
     string getRestaurant() const;
     /**
-       * @return the order Date.
+       * @return the Order's Date.
 */
     Date getOrderDate() const;
     /**
-       * @return the order Time.
+       * @return the Order's Time.
 */
     Time getOrderTime() const;
     /**
-       * @return the products.
+       * @return the Order's products.
 */
     vector<string> getOrderProducts() const;
     /**
-       * @return the price.
+       * @return the Order's price.
 */
     float getOrderPrice() const;
     /**
-       * @return the nif of the client that made de order.
+       * @return the nif of the client that made the Order.
 */
     int getOrderClient() const;
     //Other Methods
