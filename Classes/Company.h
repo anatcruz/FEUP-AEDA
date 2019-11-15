@@ -190,12 +190,50 @@ bool deleteClientAccount(Client* client, Base* base);
 
 
 // Order functions
-
+/** Allows a Client to make an Order and the Delivery associated.This is a function that its called in other functions.
+       * Already having the Restaurant the Client wants to Order from, its displayed the products of that Restaurant for the Client to choose.The Client can also give some notes for the delivery and the success of the delivery is decided upon the satisfaction of the Client.
+       * @param client is the Client who wants to make an order.
+       * @param restaurant is the Restaurant the Client wants to make an Order from.
+       * @param base is the Base of the Client.
+       * @return true if the Client made an order successfully.
+*/
 bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base);
-bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vector<Product> products_ordered);
+/** Allows a Client to make an Order and the Delivery associated.This is a function that its called in other functions.
+       * Already having the Restaurant the Client wants to Order from, its displayed the products selected by some condition(price or cuisine) of that Restaurant for the Client to choose.The Client can also give some notes for the delivery and the success of the delivery is decided upon the satisfaction of the Client.
+       * @param client is the Client who wants to make an order.
+       * @param restaurant is the Restaurant the Client wants to make an Order from.
+       * @param base is the Base of the Client.
+       * @param product_options is all the products the Client can choose from.
+       * @return true if the Client made an order successfully.
+*/
+bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vector<Product> product_options);
+/** Allows a Client to make an order and the delivery associated.
+       * The Client starts his search by choosing the restaurant he wants to order from for and this function calls makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base) to finish the process.The Client can cancel his order at any moment.
+       * @param client is the Client who wants to make an order.
+       * @param base is the Base of the Client.
+       * @return true if the Client made an order successfully.
+*/
 bool makeOrderDeliveryByRestaurant(Client &client, Base *base);
+/** Allows a Client to make an order and the delivery associated.
+       * The Client starts his search by choosing the municipality he wants to order from for and this function calls makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base) to finish the process.The Client can cancel his order at any moment.
+       * @param client is the Client who wants to make an order.
+       * @param base is the Base of the Client.
+       * @return true if the Client made an order successfully.
+*/
 bool makeOrderDeliveryByMunicipality(Client &client, Base *base);
+/** Allows a Client to make an order and the delivery associated.
+       * The Client starts his search by choosing the limit price he wants to pay and and this function calls makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vector<Product> product_options) to finish the process.The Client can cancel his order at any moment.
+       * @param client is the Client who wants to make an order.
+       * @param base is the Base of the Client.
+       * @return true if the Client made an order successfully.
+*/
 bool makeOrderDeliveryByPrice(Client &client, Base *base);
+/** Allows a Client to make an order and the delivery associated.
+       * The Client starts his search by choosing the type of food he is looking and for and this function calls makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base) to finish the process.The Client can cancel his order at any moment.
+       * @param client is the Client who wants to make an order.
+       * @param base is the Base of the Client.
+       * @return true if the Client made an order successfully.
+*/
 bool makeOrderDeliveryByCuisine(Client &client, Base *base);
 
 //Worker functions: only allowed to admins.
