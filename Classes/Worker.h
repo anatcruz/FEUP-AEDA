@@ -27,7 +27,7 @@ protected:
     /** Worker's salary.
 */
     double salary;
-    /** The Base the Worker workers in.
+    /** The Base the Worker works in.
 */
     Base* base;
 public:
