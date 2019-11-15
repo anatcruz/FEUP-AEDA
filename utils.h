@@ -72,4 +72,6 @@ bool validPostcode(string const &postcode);
 */
 void enterWait();
 
+string removeSpaces(string str);
+
 #endif //AEDA_UGHEATS_UTILS_H

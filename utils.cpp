@@ -93,3 +93,9 @@ void enterWait() {
     cout << "ENTER to go back" << endl;
     getline(cin,str);
 }
+
+string removeSpaces(string str)
+{
+    str.erase(remove(str.begin(), str.end(), ' '), str.end());
+    return str;
+}
