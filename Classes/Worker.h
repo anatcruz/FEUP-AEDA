@@ -105,7 +105,7 @@ public:
     void setWorkerDescription(string description);
     //Metodos Get
     /**
-      * @return the description.
+      * @return the Admin's description.
 */
     string getWorkerDescription() const;
     //Other Methods
