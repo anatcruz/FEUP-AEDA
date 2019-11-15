@@ -15,16 +15,26 @@ using namespace std;
 
 class Worker {
 protected:
+    /** Worker's name.
+*/
     string name;
+    /** Worker's nif.
+*/
     int nif;
+    /** Worker's date of birth.
+*/
     Date birthdate;
+    /** Worker's salary.
+*/
     double salary;
+    /** The Base the Worker workers in.
+*/
     Base* base;
 public:
-    /** Constructor default.
+    /** Default Constructor.
 */
     Worker() = default;
-    /** Constructor of a Worker from the name, nif, birthdate and salary given.
+    /** Constructor of a Worker from the name, nif, date of birth and salary given.
 */
     Worker(string name, int nif, Date birthdate, double salary);
     //Metodos Set
@@ -36,7 +46,7 @@ public:
        * @param nif is the parameter you want the new Worker to have.
 */
     void setWorkerNif(int nif);
-    /** Sets the bithdate of a Worker.
+    /** Sets the date of birth of a Worker.
        * @param birthdate is the parameter you want the new Worker to have.
 */
     void setWorkerBirthdate(Date birthdate);
@@ -58,7 +68,7 @@ public:
 */
     int getWorkerNif() const;
     /**
-      * @return the birthdate.
+      * @return the date of birth.
 */
     Date getWorkerBirthdate() const;
     /**
@@ -78,9 +88,11 @@ public:
 
 class Admin: public Worker {
 protected:
+    /** The job description of the Admin.
+*/
     string description;
 public:
-    /** Constructor default.
+    /** Default Constructor.
 */
     Admin() = default;
     /** Constructor of an Admin from the name, nif, birthdate, salary and description given.
@@ -106,12 +118,14 @@ public:
 
 class Deliveryperson: public Worker {
 protected:
+    /** Each Deliveryperson is assigned a Vehicle for the deliveries.
+*/
     Vehicle vehicle;
 public:
-    /** Constructor default.
+    /** Default Constructor.
 */
     Deliveryperson() = default;
-    /** Constructor of an Admin from the name, nif, birthdate, salary and Vehicle given.
+    /** Constructor of a Deliveryperson from the name, nif, birthdate, salary and Vehicle given.
  */
     Deliveryperson(string name, int nif, Date birthdate, double salary, Vehicle vehicle);
     //Metodos Set
