@@ -15,10 +15,20 @@ class Order;
 
 class Client {
 private:
+    /**Client's name.
+*/
     string name;
+    /**Pointer to the Client's Base.
+*/
     Base* base;
+    /**Client's Address.
+*/
     Address address;
+    /**Clients's nif.
+*/
     int nif;
+    /**Indicates if the Client is in the black list of the Company.
+*/
     bool black_listed;
 
 public:
