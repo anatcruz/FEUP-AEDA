@@ -27,6 +27,8 @@ private:
     string companyFile;
     string basesFile;
 public:
+    /** The file path is where all the date is.
+*/
     static string filePath;
     /** Constructor default.
 */
