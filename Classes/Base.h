@@ -139,7 +139,15 @@ public:
       * @return the orders'file.
 */
     string getBaseOrdersFile() const;
+    /** Search for a Worker in a Base by the nif.
+       * @param nif is how you search for the Worker.
+       * @return the pointer to the Worker wanted or a null pointer if the Worker does not exist.
+*/
     Worker* getWorker(const int &nif);
+    /** Search for a restaurant in a Base by the name.
+        * @param name is how you search for the Restaurant.
+        * @return the pointer to the Restaurant wanted or a null pointer if the Restaurant does not exist.
+ */
     Restaurant* getRestaurant(const string &name);
     //Other Methods
     /** Displays the Base in a nice format.
@@ -159,6 +167,9 @@ public:
        * @param worker is what you want to add.
 */
     void addWorkerToBase(Worker *worker);
+    /** Updates the orders of a Base.
+       * @param order is what you want to add.
+*/
     void addOrderToBase(Order* order);
 };
 
