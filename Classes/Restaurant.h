@@ -18,12 +18,14 @@ class Restaurant{
 private:
     string name;
     Address address;
+    /**The types of food the Restaurant has.
+*/
     vector<string> cuisine;
     vector<Product> products;
     Base* base;
     string productsFile;
 public:
-    /** Constructor default.
+    /**Default Constructor.
 */
     Restaurant() = default;
     /** Constructor of a Restaurant from the name, Address, cuisine, products, Base and products'file.
