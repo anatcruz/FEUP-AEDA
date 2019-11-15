@@ -159,6 +159,7 @@ void updateClientsFile(Base &base);
        * @param base is the base existing.
 */
 void updateWorkersFile(Base &base);
+void updateRestaurantsFile(Base &base);
 
 
 // Client functions

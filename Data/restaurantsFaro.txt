@@ -2,10 +2,8 @@ Ria Formosa Restaurante
 Praça D. Francisco Gomes,2,4,8000-168,Faro
 Carne,Peixe
 productsRiaFormosa.txt
-Faro
 -----
 BellAntonio
 Rua Conselheiro Bivar,52,-,8000-255,Faro
 Pizza
 productsBellAntonio.txt
-Faro

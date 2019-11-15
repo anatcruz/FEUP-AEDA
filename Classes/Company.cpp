@@ -233,12 +233,9 @@ Company::Company(const string &filesPath){
                 getline(products_file, str);
                 p.setPrice(stof(str));
                 r.addProductsToRestaurant(p);
-
                 getline(products_file, str); //Discard delimiter
             }
             products_file.close();
-
-            getline(restaurants_file, str); //Restaurant Base
 
             b.addRestaurantToBase(r);
 
@@ -520,6 +517,7 @@ void updateBasesFile(Company &company){
         out_file<<temp.at(i).getBaseClientsFile() <<endl;
         out_file<<temp.at(i).getBaseRestaurantsFile() << endl;
         out_file<<temp.at(i).getBaseWorkersFile() << endl;
+        out_file<<temp.at(i).getBaseOrdersFile() << endl;
         out_file<<temp.at(i).getBaseManager()->getWorkerNif() <<endl;
         for(int j=0; j<temp.at(i).getBaseMunicipalities().size(); j++){
             if(j==temp.at(i).getBaseMunicipalities().size()-1)
@@ -585,7 +583,6 @@ void updateClientsFile(Base &base){
     out_file.close();
 }
 
-//TODO new functions needs testing
 void updateRestaurantsFile(Base &base){
     vector<Restaurant> temp = base.getBaseRestaurants();
     string file = Company::filePath + base.getBaseRestaurantsFile();
@@ -595,15 +592,14 @@ void updateRestaurantsFile(Base &base){
         out_file<<temp.at(i).getRestaurantName() << endl;
         out_file<<temp.at(i).getRestaurantAddress() << endl;
         for (int j=0; j< temp.at(i).getRestaurantCuisine().size(); j++){
-            if (j==temp.size()-1)
+            if (j==temp.at(i).getRestaurantCuisine().size()-1)
                 out_file << temp.at(i).getRestaurantCuisine().at(j) << endl;
             else
                 out_file << temp.at(i).getRestaurantCuisine().at(j) + ",";
         }
-        out_file<<temp.at(i).getProductsFile() << endl;
-        out_file<<temp.at(i).getRestaurantBase()->getBaseLocation(); //Not necessary??
+        out_file<<temp.at(i).getProductsFile();
         if(i!=temp.size()-1)
-            out_file<<endl << "-----"<<endl;
+            out_file << endl << "-----"<<endl;
     }
 }
 //TODO create updateProductsFile
@@ -791,14 +787,22 @@ bool deleteClientAccount(Client* client, Base* base){
     cout << "Are you sure you want to delete your account? (Y/N):";
     getline(cin, str);
     if(str == "Y" || str == "y"){
-        base->getBaseClientsAddr()->erase(find_if(base->getBaseClientsAddr()->begin(), base->getBaseClientsAddr()->end(),
-                [&](Client &c){return c.getClientNif() == client->getClientNif();}));
-        cout << "Account successfully deleted" << endl;
+        auto it = find_if(base->getBaseClientsAddr()->begin(), base->getBaseClientsAddr()->end(),
+                          [&](Client &c){return c.getClientNif() == client->getClientNif();});
+        if (it == base->getBaseClientsAddr()->end()) {
+            cout << "Account already deleted!" << endl;
+            enterWait();
+            return false;
+        }
+        base->getBaseClientsAddr()->erase(it);
+        cout << "We're sad to see you go :( Your account will be deleted. You can still use it until you sign off." << endl;
     }
     else {
         cout << "Account not deleted" << endl;
+        enterWait();
         return false;
     }
+    enterWait();
     return true;
 }
 
@@ -1774,7 +1778,7 @@ void showSpecificClientOrders(Company &company){
         if (it != clients.end()){
             for(int i=0; i<base->getBaseOrders().size();i++){
                 if(base->getBaseOrders().at(i)->getOrderClient() == nif)
-                    cout << base->getBaseOrders().at(i) << endl;
+                    cout << *(Delivery *)(base->getBaseOrders().at(i)) << endl;
             }
             enterWait();
             return;

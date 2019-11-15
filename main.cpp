@@ -84,12 +84,13 @@ int main() {
 
     // Start!
     startMenu.start();
-//    updateBasesFile(ugh);
-//    updateCompanyFile(ugh);
-//    for (int i = 0; i<ugh.getCompanyBases().size(); i++) {
-//        updateClientsFile(ugh.getCompanyBases().at(i));
-//        updateWorkersFile(ugh.getCompanyBases().at(i));
-//    }
+    updateBasesFile(ugh);
+    updateCompanyFile(ugh);
+    for (int i = 0; i<ugh.getCompanyBases().size(); i++) {
+        updateClientsFile(ugh.getCompanyBases().at(i));
+        updateWorkersFile(ugh.getCompanyBases().at(i));
+        updateRestaurantsFile(ugh.getCompanyBases().at(i));
+    }
 //    cout << *openClient;
 //    openWorker->print(cout);
 //    cout << *openBase;
