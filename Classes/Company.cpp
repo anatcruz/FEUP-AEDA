@@ -212,7 +212,7 @@ Company::Company(const string &filesPath){
             getline(restaurants_file, str);
             r.setRestaurantAddress(Address(str));   //Address
             getline(restaurants_file, str);
-            r.setRestaurantCuisine(strToVect(str));    //Cuisine
+            r.setRestaurantCuisine(strToVect(str, ','));    //Cuisine
             
             //Get Products
             getline(restaurants_file, str);
@@ -1414,8 +1414,7 @@ bool makeOrderDeliveryByPrice(Client &client, Base *base)   {
     }
 }
 
-/*
-bool makeOrderDeliveryByCuisine(Client &client, Base &base){
+bool makeOrderDeliveryByCuisine(Client &client, Base *base){
     string user_cuisine;
     vector<Restaurant> restaurants_available;
     int opt;
@@ -1424,11 +1423,12 @@ bool makeOrderDeliveryByCuisine(Client &client, Base &base){
     cout << "What type of food are you looking for?" << endl;
     getline(cin,user_cuisine);
 
-    for(int i = 0; i<base.getBaseRestaurants().size(); i++){
-        auto it = find_if(base.getBaseRestaurants().at(i).getRestaurantCuisine().begin(),base.getBaseRestaurants().at(i).getRestaurantCuisine().end(),[&](string cus){return cus == user_cuisine;});
-        if (it != base.getBaseRestaurants().at(i).getRestaurantCuisine().end())
-            restaurants_available.push_back(base.getBaseRestaurants().at(i));
-
+    for(auto rest : base->getBaseRestaurants()){
+        vector<string> cuisines = rest.getRestaurantCuisine();
+        auto it = find_if(cuisines.begin(), cuisines.end(), [&](string &cus){return cus == user_cuisine;});
+        if (it != cuisines.end()) {
+            restaurants_available.push_back(rest);
+        }
     }
     cout << "These are the restaurants with that type of food:" << endl;
     for (int i = 0; i < restaurants_available.size(); i++){
@@ -1440,22 +1440,18 @@ bool makeOrderDeliveryByCuisine(Client &client, Base &base){
         getOption(opt);
         if(opt>0 && opt<=restaurants_available.size()){
             choosen_restaurant = restaurants_available.at(opt-1);
-        }
-        else {
+            return makeOrderDelivery(client,base->getRestaurant(choosen_restaurant.getRestaurantName()),base);
+        } else if(opt == 0){
+            cout << "Your order was canceled!" << endl;
+            enterWait();
+            return false;
+        } else {
             cout << "ERROR: Invalid restaurant choice!Try again: ";
         }
 
     }while(opt != 0);
-
-    if(opt == 0){
-        cout << "Your order was canceled!" << endl;
-        return false;
-    }
-    else
-        return makeOrderDelivery(client,&choosen_restaurant);
-
 }
-*/
+
 
 
 // Show functions
