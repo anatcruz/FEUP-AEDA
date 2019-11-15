@@ -94,13 +94,23 @@ public:
 
 class Delivery: public Order {
 private:
+    /**The price of the delivery: whether the restaurant from which the Order was made is the base municipality or border comparing with the Client's municipality, the price increase is 3 or 5 euros respectively.
+*/
     float deliveryPrice;
+    /**The nif of the Deliveryperson who was assigned the Delivery.
+*/
     int deliveryperson;
+    /**The success of the Delivery depends on the satisfaction of the Client.
+*/
     bool success;
+    /**The Time the delivery is made.
+*/
     Time deliveryTime;
+    /**Some requests the Client can make.
+*/
     string notes;
 public:
-    /** Constructor default.
+    /**Default Constructor.
 */
     Delivery() = default;
     /** Constructor of a Delivery from the restaurant, nif of the client, date, order time, products, order price, delivery price, nif of the deliveryperson, success, delivery time and notes given.
@@ -129,23 +139,23 @@ public:
     void setDeliveryNotes(string notes);
     //Metodos Get
     /**
-       * @return the price.
+       * @return the Delivery's price.
 */
     float getDeliveryPrice() const;
     /**
-       * @return the nif of the deliveryperson.
+       * @return the nif of the Deliveryperson assigned to the Delivery.
 */
     int getDeliveryPerson() const;
     /**
-       * @return if it was successful.
+       * @return if the Delivery was successful.
 */
     bool getSuccess() const;
     /**
-       * @return the delivery time.
+       * @return the Delivery's Time.
 */
     Time getDeliveryTime() const;
     /**
-       * @return the notes of the delivery.
+       * @return the Delivery's notes.
 */
     string getDeliveryNotes() const;
     //Other Methods
