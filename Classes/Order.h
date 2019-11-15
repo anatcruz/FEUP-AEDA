@@ -17,14 +17,18 @@ class Time;
 
 class Order {
 protected:
+    /** Restaurant the Order was made.
+*/
     string restaurant;
+    /** The Client's nif who made the Order.
+*/
     int client;
     Date date;
     Time orderTime;
     vector<string> products;
     float orderPrice;
 public:
-    /** Constructor default.
+    /** Default Constructor.
 */
     Order() = default;
     /** Constructor of an Order from the restaurant, nif of the client who made the order, date, order time, products and order price.
