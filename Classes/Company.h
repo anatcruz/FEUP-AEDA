@@ -262,34 +262,43 @@ bool fireWorker(Base *base);
        * @param company is our Company Ugh-Eats.
 */
 void showAllClients(Company &company);
+
 /** Allows an admin to see all the clients in the Company of a specific Base.
        * The user must select the base he wants to see the clients from.
        * @param company is our Company Ugh-Eats.
 */
 void showClientsByBase(Company &company);
+
 /** Allows an admin to see a specific client in the Company.
        * The user must search the client by nif.
        * @param company is our Company Ugh-Eats.
 */
 void showSpecificClient(Company &company);
+
 /** Allows an admin to see all the restaurants in the Company.
        * @param company is our Company Ugh-Eats.
 */
 void showAllRestaurants(Company &company);
+
 /** Allows an admin to see all the restaurants in the Company of a specific Base.
        * The user must select the base he wants to see the restaurants from.
        * @param company is our Company Ugh-Eats.
 */
 void showRestaurantsByBase(Company &company);
+
 /** Allows an admin to see a specific restaurant in the Company.
        * The user must search the restaurant by it's name.
        * @param company is our Company Ugh-Eats.
 */
 void showSpecificRestaurant(Company &company);
+
+void showWorkers(Base* base);
+
 /** Allows an admin to see the total earnings of the Company.
        * @param company is our Company Ugh-Eats.
 */
 void showCompanyTotalEarnings(Company &company);
+
 /** Allows an admin to see the total earnings of the Company of a specific Base.
        * The user must select the base he wants to see the earnings from.
        * @param company is our Company Ugh-Eats.

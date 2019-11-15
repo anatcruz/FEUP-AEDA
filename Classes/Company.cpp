@@ -602,6 +602,7 @@ void updateRestaurantsFile(Base &base){
             out_file << endl << "-----"<<endl;
     }
 }
+
 //TODO create updateProductsFile
 
 // Client functions
@@ -808,7 +809,7 @@ bool deleteClientAccount(Client* client, Base* base){
 
 
 // Worker functions
-//TODO Run these functions (supostamente funcionando) and write menus for them
+
 bool hireWorker(Base *base){
     string str_nif, str;
     int nif, opt;
@@ -924,6 +925,7 @@ bool hireWorker(Base *base){
         }
 
         cout << "Worker created successfully!" << endl;
+        enterWait();
         return true;
 }
 
@@ -1071,7 +1073,8 @@ bool fireWorker(Base *base){
                 getline(cin, str);
                 if(str == "Y" || str == "y"){
                     base->getBaseWorkersAddr()->erase(base->getBaseWorkersAddr()->begin() + i);
-                    cout << "Worker successfully fired";
+                    cout << "Worker successfully fired" << endl;
+                    enterWait();
                     return true;
                 }
                 else {
@@ -1634,6 +1637,20 @@ void showSpecificRestaurant(Company &company){
     }
 }
 
+void showWorkers(Base* base) {
+    for (auto worker : base->getBaseWorkers()) {
+        if (dynamic_cast<Admin *>(worker) != 0) {
+            cout << *(Admin *)(worker);
+        } else {
+            cout << *(Deliveryperson *)(worker);
+        }
+    }
+    enterWait();
+}
+
+// TODO show workers by type and specific worker
+// TODO show orders (all, by date, by restaurant, by client)
+// TODO show products (all, by restaurant, by cuisine, by client)
 
 // Finance functions
 

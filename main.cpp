@@ -31,6 +31,7 @@ int main() {
     Menu clientAccountManagementMenu("Account management");
     Menu adminMenu("Ugh-Eats - Admin");
     Menu adminClientManagementMenu("Client management");
+    Menu adminWorkerManagementMenu("Worker management");
     Menu adminRestaurantManagementMenu("Restaurant management");
 
     // startMenu creation
@@ -65,7 +66,7 @@ int main() {
     // adminMenu creation
     adminMenu.addOption("Log-out", faznada);
     adminMenu.addOption("Client management", [&](){adminClientManagementMenu.start();});
-    adminMenu.addOption("Worker management", faznada);
+    adminMenu.addOption("Worker management", [&](){adminWorkerManagementMenu.start();});
     adminMenu.addOption("Restaurant management", [&](){adminRestaurantManagementMenu.start();});
     adminMenu.addOption("Finance", faznada);
 
@@ -74,6 +75,13 @@ int main() {
     adminClientManagementMenu.addOption("View all clients", [&](){showAllClients(ugh);});
     adminClientManagementMenu.addOption("View clients by base", [&](){showClientsByBase(ugh);});
     adminClientManagementMenu.addOption("View specific client", [&](){showSpecificClient(ugh);});
+
+    // adminWorkerManagementMenu creation
+    adminWorkerManagementMenu.addOption("Go back", faznada);
+    adminWorkerManagementMenu.addOption("View base workers", [&](){showWorkers(openBase);});
+    adminWorkerManagementMenu.addOption("Hire worker", [&](){hireWorker(openBase);});
+    adminWorkerManagementMenu.addOption("Edit worker info", [&](){editWorkerInfo(openBase);});
+    adminWorkerManagementMenu.addOption("Fire worker", [&](){fireWorker(openBase);});
 
     // adminRestaurantManagementMenu creation
     adminRestaurantManagementMenu.addOption("Go back", faznada);
@@ -84,13 +92,14 @@ int main() {
 
     // Start!
     startMenu.start();
+    /*
     updateBasesFile(ugh);
     updateCompanyFile(ugh);
     for (int i = 0; i<ugh.getCompanyBases().size(); i++) {
         updateClientsFile(ugh.getCompanyBases().at(i));
         updateWorkersFile(ugh.getCompanyBases().at(i));
         updateRestaurantsFile(ugh.getCompanyBases().at(i));
-    }
+    }*/
 //    cout << *openClient;
 //    openWorker->print(cout);
 //    cout << *openBase;
