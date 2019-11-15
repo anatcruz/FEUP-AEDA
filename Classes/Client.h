@@ -24,7 +24,7 @@ private:
     /**Client's Address.
 */
     Address address;
-    /**Clients's nif.
+    /**Client's nif.
 */
     int nif;
     /**Indicates if the Client is in the black list of the Company.
