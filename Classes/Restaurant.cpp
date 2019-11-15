@@ -78,10 +78,6 @@ vector<Order*> Restaurant::getRestaurantOrders() const {
 
 //Other Methods
 
-bool Restaurant::operator<(Restaurant &r) {
-    return true;
-}
-
 ostream &operator<<(ostream &out, const Restaurant &restaurant){
     out << setw(2) << ' ' << restaurant.name << endl;
     out << "/" << endl;

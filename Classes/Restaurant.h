@@ -99,7 +99,6 @@ public:
       * @param restaurant is the Restaurant you want to display.
      */
     friend ostream& operator<<(ostream& out, const Restaurant &restaurant);
-    bool operator<(Restaurant &r); //TODO documentar esta funçao: não sei o que é!
     /** Updates the products of a Restaurant.
        * @param product is what you want to add.
 */
