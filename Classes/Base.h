@@ -29,12 +29,14 @@ private:
     string workersFile;
     string ordersFile;
 protected:
+    /** Location of the Base.
+ */
     Location location;
 public:
-    /** Constructor default.
-*/
+    /** Default Constructor.
+ */
     Base() = default;
-    /** Constructor of a Base from the location, manager, clients, restaurants, workers, orders, municipalities, clients'file, restaurants'file and workers'file
+    /** Constructor of a Base from the location, manager, clients, restaurants, workers, orders, municipalities, clients'file, restaurants'file and workers'file.
 */
     Base(Location location, Admin* manager, vector<Client> clients, vector<Restaurant> restaurants, vector<Worker*> workers, vector<Order*> orders, vector<string> municipalities, string clientsFile, string restaurantsFile, string workersFile);
     //Metodos Set
@@ -84,68 +86,68 @@ public:
     void setBaseOrdersFile(string ordersFile);
     //Metodos Get
     /**
-       * @return the Loaction.
+       * @return the Base's Location.
 */
     Location getBaseLocation() const;
     /**
-       * @return the manager.
+       * @return the Base's manager.
 */
     Admin* getBaseManager() const;
     /**
-       * @return the clients.
+       * @return the Base's clients.
 */
     vector<Client> getBaseClients() const;
     /**
-       * @return the clients'address for the base.
+       * @return the Base's clients'address.
 */
     vector<Client>* getBaseClientsAddr();
     /**
-       * @return the restaurants.
+       * @return the Base's restaurants.
 */
     vector<Restaurant> getBaseRestaurants() const;
     /**
-       * @return the restaurants'address.
+       * @return the Base's restaurants'address.
 */
     vector<Restaurant>* getBaseRestaurantsAddr();
     /**
-       * @return the workers.
+       * @return the Base's workers.
 */
     vector<Worker*> getBaseWorkers() const;
     /**
-       * @return the workers'address.
+       * @return the Base's workers'address.
 */
     vector<Worker*>* getBaseWorkersAddr();
     /**
-       * @return the orders.
+       * @return the Base's orders.
 */
     vector<Order*> getBaseOrders() const;
     /**
-       * @return the municipalities.
+       * @return the Base's municipalities.
 */
     vector<string> getBaseMunicipalities() const;
     /**
-       * @return the workers'file.
+       * @return the Base's workers'file.
 */
     string getBaseWorkersFile() const;
     /**
-      * @return the clients'file.
+      * @return the Base's clients'file.
 */
     string getBaseClientsFile() const;
     /**
-      * @return the restaurants'file.
+      * @return the Base's restaurants'file.
 */
     string getBaseRestaurantsFile() const;
     /**
-      * @return the orders'file.
+      * @return the Base's orders'file.
 */
     string getBaseOrdersFile() const;
     /** Search for a Worker in a Base by the nif.
-       * @param nif is how you search for the Worker.
+       * @param nif is how to search for the Worker.
        * @return the pointer to the Worker wanted or a null pointer if the Worker does not exist.
 */
     Worker* getWorker(const int &nif);
     /** Search for a restaurant in a Base by the name.
-        * @param name is how you search for the Restaurant.
+        * @param name is how to search for the Restaurant.
         * @return the pointer to the Restaurant wanted or a null pointer if the Restaurant does not exist.
  */
     Restaurant* getRestaurant(const string &name);
@@ -175,13 +177,13 @@ public:
 
 
 /** Checks if a municipality exists in a vector of municipalities.
-       * @param municipality is the municipality you want to search for.
+       * @param municipality is the municipality to want to search for.
        * @param municipalities is the vector where we want to look for the municipality.
        * @return true if the municipality exists in the vector.
 */
 bool searchbyMunicipality(string municipality, vector<string> municipalities);
 
-/** Checks if a municipality exists in one of our bases.
+/** Checks if a municipality exists in one of the Company's bases.
        * @param bases is the vector where we want to look for the municipality.
        * @param municipality is the municipality you want to search for.
        * @return true if exists a Base.
