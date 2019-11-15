@@ -139,6 +139,8 @@ public:
       * @return the orders'file.
 */
     string getBaseOrdersFile() const;
+    Worker* getWorker(const int &nif);
+    Restaurant* getRestaurant(const string &name);
     //Other Methods
     /** Displays the Base in a nice format.
       * @param out is the ostream.
@@ -157,6 +159,7 @@ public:
        * @param worker is what you want to add.
 */
     void addWorkerToBase(Worker *worker);
+    void addOrderToBase(Order* order);
 };
 
 

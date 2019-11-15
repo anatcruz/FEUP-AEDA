@@ -49,10 +49,10 @@ int main() {
     // restaurantsMenu
     // TODO message: search by
     restaurantsMenu.addOption("Go back", faznada);
-    restaurantsMenu.addOption("Municipality", faznada);
-    restaurantsMenu.addOption("Name", faznada);
-    restaurantsMenu.addOption("Price range", faznada);
-    restaurantsMenu.addOption("Cuisine", faznada);
+    restaurantsMenu.addOption("By name", [&](){makeOrderDeliveryByRestaurant(*openClient,openBase);});
+    restaurantsMenu.addOption("By municipality", [&](){makeOrderDeliveryByMunicipality(*openClient,openBase);});
+    restaurantsMenu.addOption("By price range", [&](){makeOrderDeliveryByPrice(*openClient,openBase);});
+    restaurantsMenu.addOption("By cuisine", [&](){makeOrderDeliveryByCuisine(*openClient,openBase);});
 
     // clientAccountManagementMenu creation
     clientAccountManagementMenu.addOption("Go back", faznada);

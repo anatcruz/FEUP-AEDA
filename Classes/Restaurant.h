@@ -88,11 +88,12 @@ public:
 */
     vector<Order*> getRestaurantOrders() const;
     //Other Methods
-    /** Displays the Date in a nice format.
+    /** Displays the Restaurant in a nice format.
       * @param out is the ostream.
-      * @param date is the Date you want to display.
+      * @param date is the Restaurant you want to display.
      */
     friend ostream& operator<<(ostream& out, const Restaurant &restaurant);
+    bool operator<(Restaurant &r);
     /** Updates the orders of a restaurant.
        * @param product is what you want to add.
 */
