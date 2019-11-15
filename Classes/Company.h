@@ -161,16 +161,20 @@ void updateCompanyFile(Company &company);
        * @param company is our Company.
 */
 void updateBasesFile(Company &company);
-/** Updates the clients' file
+/** Updates the clients' file.
        * Writes the updated information on the file of clients for each base.
        * @param base is the base existing.
 */
 void updateClientsFile(Base &base);
-/** Update the workers' file
+/** Updates the workers' file.
        * Writes the updated information on the file of workers for each base.
        * @param base is the base existing.
 */
 void updateWorkersFile(Base &base);
+/** Updates the restaurants' file.
+       * Writes the updated information on the file of restaurants for each base.
+       * @param base is the base existing.
+*/
 void updateRestaurantsFile(Base &base);
 
 
@@ -271,6 +275,7 @@ bool editWorkerInfo(Base *base);
        * @return true the Worker was fired and the account eliminated.
 */
 bool fireWorker(Base *base);
+
 // Show functions
 
 /** Allows an admin to see all the clients in the Company.
@@ -306,7 +311,9 @@ void showRestaurantsByBase(Company &company);
        * @param company is our Company Ugh-Eats.
 */
 void showSpecificRestaurant(Company &company);
-
+/** Allows an admin to see the workers from a Base.
+       * @param base is the Base you want to see the workers from.
+*/
 void showWorkers(Base* base);
 
 /** Allows an admin to see the total earnings of the Company.
