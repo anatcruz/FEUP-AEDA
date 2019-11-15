@@ -21,7 +21,7 @@ private:
     /**The types of food the Restaurant has.
 */
     vector<string> cuisine;
-    /**The types of products the Restaurant has.
+    /**The products the Restaurant has.
 */
     vector<Product> products;
     Base* base;
