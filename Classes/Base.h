@@ -19,14 +19,32 @@ class Worker;
 class Base {
 private:
     Admin* manager;
+    /** The clients that live in that Base.
+ */
     vector<Client> clients;
+    /** The restaurants that are located in that Base.
+ */
     vector<Restaurant> restaurants;
+    /** The workers that work in that Base.
+ */
     vector<Worker*> workers;
+    /** All the orders that were made from restaurants located in that Base.
+ */
     vector<Order*> orders;
+    /** All the municipalities included by that Base: base and border municipalities.
+ */
     vector<string> municipalities;
+    /** The file that contains the clients of the Base.
+ */
     string clientsFile;
+    /** The file that contains the restaurants of the Base.
+ */
     string restaurantsFile;
+    /** The file that contains the workers of the Base.
+ */
     string workersFile;
+    /** The file that contains the orders of the Base.
+ */
     string ordersFile;
 protected:
     /** Location of the Base.
@@ -36,7 +54,7 @@ public:
     /** Default Constructor.
  */
     Base() = default;
-    /** Constructor of a Base from the location, manager, clients, restaurants, workers, orders, municipalities, clients'file, restaurants'file and workers'file.
+    /** Constructor of a Base from the Location, manager, clients, restaurants, workers, orders, municipalities, clients'file, restaurants'file and workers'file.
 */
     Base(Location location, Admin* manager, vector<Client> clients, vector<Restaurant> restaurants, vector<Worker*> workers, vector<Order*> orders, vector<string> municipalities, string clientsFile, string restaurantsFile, string workersFile);
     //Metodos Set
