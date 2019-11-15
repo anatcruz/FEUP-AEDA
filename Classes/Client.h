@@ -22,10 +22,10 @@ private:
     bool black_listed;
 
 public:
-    /** Constructor default.
+    /**Default Constructor.
 */
     Client() = default;
-    /** Constructor of a Client from the name, Base, Address, nif and black_listed given.
+    /** Constructor of a Client from the name, Base, Address, nif and a bool back_listed, which indicates if the Client is in the black list of the Company, given.
 */
     Client(string name, Base* base, Address address, int nif, bool black_listed);
     //Metodos Set
@@ -45,29 +45,29 @@ public:
        * @param nif is the parameter you want the new Client to have.
 */
     void setClientNif(int nif);
-    /** Sets the black_listed(bool that says if the client is in the black_list of the Company) of a Client.
+    /** Sets the black_listed(bool which indicates if the Client is in the black list of the Company) of a Client.
        * @param black_listed is the parameter you want the new Client to have.
 */
     void setBlack_listed(bool black_listed);
     //Metodos Get
     /**
-      * @return the name.
+      * @return the Client's name.
 */
     string getClientName() const;
     /**
-      * @return the pointer to the base.
+      * @return the pointer to the Client's Base.
 */
     Base* getBase();
     /**
-      * @return the address.
+      * @return the Client's Address.
 */
     Address getClientAddress() const;
     /**
-      * @return the nif.
+      * @return the Client's nif.
 */
     int getClientNif() const;
     /**
-      * @return the black_listed.
+      * @return the Client's black_listed.
 */
     bool getBlack_listed();
     //Other Methods
@@ -84,10 +84,10 @@ public:
 };
 
 //Verifica se um cliente existe no vetor
-/** Checks if a client exists in a vector of Clients.
-       * @param nif is the nif of the client you want to search for.
-       * @param clients is the vector where we want to look for the client.
-       * @return true if the clients exists in the vector.
+/** Checks if a Client exists in a vector of Clients.
+       * @param nif is the nif of the Client you want to search for.
+       * @param clients is the vector where we want to look for that Client.
+       * @return true if the Client exists in the vector.
 */
 bool searchClientbyNif(int nif, vector<Client> clients);
 
