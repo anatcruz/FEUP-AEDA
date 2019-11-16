@@ -72,6 +72,10 @@ bool validPostcode(string const &postcode);
 */
 void enterWait();
 
+/** Removes the whitespaces in a string.
+       * @param str is the string you want to remove the whitespaces.
+       * @return the string without any whitespaces.
+*/
 string removeSpaces(string str);
 
 #endif //AEDA_UGHEATS_UTILS_H
