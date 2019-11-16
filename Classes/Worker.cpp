@@ -104,6 +104,25 @@ Vehicle Deliveryperson::getVehicle() const {
     return vehicle;
 }
 
+vector<Delivery*> Deliveryperson::getDeliveries() const {
+    vector<Order*> base_ords = base->getBaseOrders();
+    vector<Delivery*> deliveries;
+    for (auto ord : base_ords) {
+        if (((Delivery *)ord)->getDeliveryPerson() == nif) {
+            deliveries.push_back((Delivery *)ord);
+        }
+    }
+    return deliveries;
+}
+
+double Deliveryperson::getDeliveryEarnings() const {
+    double earnings = 0;
+    for (int i = 0; i < this->getDeliveries().size(); i++) {
+        earnings += 2;
+    }
+    return earnings;
+}
+
 //Other Methods
 ostream &operator<<(ostream &out, const Deliveryperson &deliveryperson) {
     deliveryperson.print(out);

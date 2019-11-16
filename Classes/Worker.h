@@ -9,6 +9,7 @@
 #include "../utils.h"
 
 class Order;
+class Delivery;
 class Base;
 
 using namespace std;
@@ -138,6 +139,8 @@ public:
       * @return the Vehicle.
 */
     Vehicle getVehicle() const;
+    vector<Delivery*> getDeliveries() const; // TODO documentar
+    double getDeliveryEarnings() const; // TODO documentar
     //Other Methods
     /** Displays the Deliveryperson in a nice format.
       * @param out is the ostream.
