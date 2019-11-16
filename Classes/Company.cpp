@@ -1160,7 +1160,6 @@ bool removeProduct(Base* base) {
     return true;
 }
 
-// TODO product management
 
 
 // Order functions
@@ -1190,7 +1189,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base){
     while (true) {
         getOption(opt);
         if (opt == 0 && products_ordered.empty()) { // Canceled order
-            cout << "Canceled!";
+            cout << "Canceled!" << endl;
             enterWait();
             return false;
         } else if (opt == 0) { // Finish order

@@ -155,13 +155,13 @@ ostream &operator<<(ostream &out, const Restaurant &restaurant){
         else
             out << restaurant.cuisine.at(i) << ", ";
     }
-    out << setw(4) << left << '|' << "Products: ";
-    for(int i=0 ; i< restaurant.products.size() ; i++){
+    out << setw(4) << left << '|' << "Products: " << restaurant.products.size() << endl;
+    /*for(int i=0 ; i< restaurant.products.size() ; i++){
         if (i == restaurant.products.size() - 1)
             out << restaurant.products.at(i) << endl;
         else
             out << restaurant.products.at(i) << ", ";
-    }
+    }*/
     out << setw(4) << left << '|' << "Orders: " << restaurant.getRestaurantOrders().size() << endl;
     out << setw(4) << left << '|' << "Base: " << restaurant.base->getBaseLocation() <<endl;
     out << "\\_" << endl;
