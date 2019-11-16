@@ -1416,7 +1416,7 @@ bool makeOrderDeliveryByCuisine(Client &client, Base *base){
     vector<Restaurant> restaurants_available;
     int opt;
     Restaurant choosen_restaurant;
-    vector<Product> selected_products;
+    //vector<Product> selected_products;
 
     cout << "What type of food are you looking for?" << endl;
     getline(cin,user_cuisine);
@@ -1426,6 +1426,10 @@ bool makeOrderDeliveryByCuisine(Client &client, Base *base){
         auto it = find_if(cuisines.begin(), cuisines.end(), [&](string &cus){return cus == user_cuisine;});
         if (it != cuisines.end()) {
             restaurants_available.push_back(rest);
+        }
+        else{
+            cout << "There is no restaurant with that type of food in you base!" << endl;
+            return false;
         }
     }
     cout << "These are the restaurants with that type of food:" << endl;
@@ -1438,12 +1442,13 @@ bool makeOrderDeliveryByCuisine(Client &client, Base *base){
         getOption(opt);
         if(opt>0 && opt<=restaurants_available.size()){
             choosen_restaurant = restaurants_available.at(opt-1);
-            for(int i = 0; i<choosen_restaurant.getRestaurantProducts().size();i++){
+            /*for(int i = 0; i<choosen_restaurant.getRestaurantProducts().size();i++){
                 if(choosen_restaurant.getRestaurantProducts().at(i).getCuisine() == user_cuisine){
                     selected_products.push_back(choosen_restaurant.getRestaurantProducts().at(i));
                 }
             }
-            return makeOrderDelivery(client,base->getRestaurant(choosen_restaurant.getRestaurantName()),base,selected_products);
+            return makeOrderDelivery(client,base->getRestaurant(choosen_restaurant.getRestaurantName()),base,selected_products);*/
+            return makeOrderDelivery(client,base->getRestaurant(choosen_restaurant.getRestaurantName()),base);
         } else if(opt == 0){
             cout << "Your order was canceled!" << endl;
             enterWait();
