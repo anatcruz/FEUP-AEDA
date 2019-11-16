@@ -738,13 +738,13 @@ bool editClientInfo(Company &company, Client &client){
             break;
         }
         case 2: {
-            cout << "Current address: " << client.getClientAddress();
+            cout << "Current address: " << client.getClientAddress() << endl;
             Address new_address;
             new_address.makeAddress();
             if (!searchbyMunicipality(new_address.getMunicipality(),client.getBase()->getBaseMunicipalities())){
-                cinERR("ERROR: Your municipality is not reached by this base! You must sign up to one of our other "
-                       "bases if it is in their reached areas.");
-                cinERR("Changed reverted!");
+                cinERR("ERROR: Your municipality is not reached by this base! "
+                       "You must sign up to one of our other bases if it is in their reached areas.");
+                cinERR("Changes reverted!");
                 enterWait();
                 return false;
             }
