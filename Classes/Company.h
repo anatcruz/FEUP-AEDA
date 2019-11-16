@@ -220,6 +220,7 @@ bool deleteClientAccount(Client* client, Base* base);
 
 //Restaurant functions
 /** Allows an admin to add a restaurant to his base.
+       * It calls the auxiliary function makeRestaurant(Base* base) to create the restaurant.
        * @param base is the Base the admin works in.
        * @return true if the restaurant was added successfully.
 */
