@@ -18,6 +18,33 @@ Address::Address(string fullAddress) {
     municipality = temp.at(4);
 }
 
+void Address::makeAddress() {
+    string str;
+    cout << "Address: " << endl;
+    cout << "-Street name: ";
+    getline(cin,str);
+    street = trim(str);
+    cout << "-Door number: ";
+    getline(cin,str);
+    door = trim(str);
+    cout << "-Floor number (- none): ";
+    getline(cin,str);
+    floor = trim(str);
+    while(true){
+        cout << "-Postcode: ";
+        getline(cin,str);
+
+        if(validPostcode(trim(str)))
+            break;
+
+        cinERR("ERROR: Invalid Postcode, try again!");
+    }
+    postcode = trim(str);
+    cout << "-Municipality: ";
+    getline(cin,str);
+    municipality = trim(str);
+}
+
 //Metodos Set
 void Address::setStreet(string street) {
     this->street=street;

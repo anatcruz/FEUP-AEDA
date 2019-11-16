@@ -176,6 +176,8 @@ void updateWorkersFile(Base &base);
        * @param base is the base existing.
 */
 void updateRestaurantsFile(Base &base);
+void updateProductsFile(Base &base);
+void updateOrdersFile(Base &base);
 
 
 // Client functions
@@ -208,6 +210,9 @@ bool editClientInfo(Company &company, Client &client);
 */
 bool deleteClientAccount(Client* client, Base* base);
 
+//Restaurant functions
+bool addRestaurant(Base* base);
+bool removeRestaurant(Base* base);
 
 // Order functions
 /** Allows a Client to make an Order and the Delivery associated.This is a function that its called in other functions.

@@ -382,9 +382,7 @@ Base* selectBase(Company &company){
     getOption(base_idx, "Base: ");
     if(base_idx==0) {
         cout << "Canceled successfully!" << endl;
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
+        enterWait();
         return nullptr;
     }
     else if(base_idx > 0 && base_idx <= companyBases->size()) {
@@ -393,9 +391,7 @@ Base* selectBase(Company &company){
     }
     else {
         cinERR("Base does not exist!");
-        cout << "ENTER to go back";
-        string str;
-        getline(cin, str);
+        enterWait();
         return nullptr;
     }
 }
@@ -603,7 +599,52 @@ void updateRestaurantsFile(Base &base){
     }
 }
 
-//TODO create updateProductsFile
+void updateProductsFile(Base &base) {
+    for (auto rest : base.getBaseRestaurants()) {
+        string file = Company::filePath + rest.getProductsFile();
+        ofstream prods_file(file);
+        vector<Product> prods = rest.getRestaurantProducts();
+        for (int i = 0; i < prods.size(); i++) {
+            prods_file << prods.at(i).getProductName() << endl;
+            prods_file << prods.at(i).getCuisine() << endl;
+            prods_file << prods.at(i).getPrice();
+            if (i != prods.size() - 1) {
+                prods_file << endl << "-----" << endl;
+            }
+        }
+        prods_file.close();
+    }
+}
+
+void updateOrdersFile(Base &base) {
+    vector<Order*> orders = base.getBaseOrders();
+    ofstream orders_file(Company::filePath + base.getBaseOrdersFile());
+    for (int i = 0; i < orders.size(); i++) {
+        Delivery delivery = *(Delivery*)orders.at(i);
+        orders_file << delivery.getRestaurant() << endl;
+        orders_file << delivery.getOrderClient() << endl;
+        orders_file << delivery.getOrderDate() << endl;
+        orders_file << delivery.getOrderTime() << endl;
+        for (int j = 0; j < delivery.getOrderProducts().size(); j++) {
+            if (j != delivery.getOrderProducts().size() - 1) {
+                orders_file << delivery.getOrderProducts().at(j) << ",";
+            } else {
+                orders_file << delivery.getOrderProducts().at(j) << endl;
+            }
+        }
+        orders_file << delivery.getOrderPrice() << endl;
+        orders_file << delivery.getDeliveryPrice() << endl;
+        orders_file << delivery.getDeliveryPerson() << endl;
+        orders_file << delivery.getSuccess() << endl;
+        orders_file << delivery.getDeliveryTime() << endl;
+        orders_file << delivery.getDeliveryNotes();
+        if (i != orders.size() - 1) {
+            orders_file << endl << "-----" << endl;
+        }
+    }
+    orders_file.close();
+}
+
 
 // Client functions
 
@@ -619,25 +660,10 @@ void viewClientOrdersHistory(Client &client){
 
 bool createClientAccount(Company &company){
     vector<Base> companyBases = company.getCompanyBases();
-    Base base;
-    cout << "Select a base:" << endl;
-    for (int i = 0; i < companyBases.size(); i++) {
-        cout << i + 1 << ". " << companyBases.at(i).getBaseLocation().getLocationAddress().getMunicipality() << endl;
-    }
-    cout << "0. Go back" << endl;
-    int base_idx;
-    getOption(base_idx, "Base: ");
-    if (base_idx == 0) {
-        return false;
-    } else if (base_idx > 0 && base_idx <= companyBases.size()) {
-        base = companyBases.at(base_idx - 1);
-    } else {
-        cinERR("Base does not exist!");
-        enterWait();
+    Base* base = selectBase(company);
+    if (base == nullptr) {
         return false;
     }
-    base_idx--;
-    vector<Client> temp_clients = base.getBaseClients();
     Client new_client;
     string name, str_nif,street_name,door,floor,postcode,municipality;
     Address address;
@@ -655,27 +681,15 @@ bool createClientAccount(Company &company){
         else if(str_nif == "*")
             return false;
         cinERR("ERROR: Invalid NIF, try again!");
-        cout << "\n";
     }
 
-    if (searchClientbyNif(nif,temp_clients)){
+    if (searchClientbyNif(nif,base->getBaseClients())){
         cinERR("ERROR: It already exits a client with the given nif!");
         enterWait();
         return false;
     }
 
     new_client.setClientNif(nif);
-
-    cout << "Municipality: ";
-    getline(cin,municipality);
-    vector<string> municipalities = base.getBaseMunicipalities();
-    if (find(municipalities.begin(), municipalities.end(), municipality) != municipalities.end()) {
-        address.setMunicipality(municipality);
-    } else{
-        cinERR("ERROR: You cant sign up in this base!");
-        enterWait();
-        return false;
-    }
 
     cout << "Name: (* - cancel): ";
     getline(cin,name);
@@ -684,33 +698,19 @@ bool createClientAccount(Company &company){
     else
         new_client.setClientName(trim(name));
 
-    cout << "Address: " << endl;
-    cout << "-Street name: ";
-    getline(cin,street_name);
-    address.setStreet(trim(street_name));
-    cout << "-Door number: ";
-    getline(cin,door);
-    address.setDoor(trim(door));
-    cout << "-Floor number (- none): ";
-    getline(cin,floor);
-    address.setFloor(trim(floor));
-    while(true){
-        cout << "-Postcode: ";
-        getline(cin,postcode);
-
-        if(validPostcode(trim(postcode)))
-            break;
-
-        cinERR("ERROR: Invalid Postcode, try again!");
+    address.makeAddress();
+    vector<string> municipalities = base->getBaseMunicipalities();
+    if (find(municipalities.begin(), municipalities.end(), address.getMunicipality()) == municipalities.end()) {
+        cinERR("ERROR: You cant sign up in this base!");
+        enterWait();
+        return false;
     }
-    address.setPostCode(trim(postcode));
     new_client.setClientAddress(address);
+
     new_client.setBlack_listed(false);
-    new_client.setBase(&company.getCompanyBasesAddr()->at(base_idx));
-    temp_clients.push_back(new_client);
-    base.setBaseClients(temp_clients);
-    companyBases.at(base_idx) = static_cast<Base &&>(base);
-    company.setCompanyBases(companyBases);
+    new_client.setBase(base);
+    base->getBaseClientsAddr()->push_back(new_client);
+
     cout << "Account successfully created!" << endl;
     enterWait();
     return true;
@@ -740,37 +740,14 @@ bool editClientInfo(Company &company, Client &client){
         case 2: {
             cout << "Current address: " << client.getClientAddress();
             Address new_address;
-            string street_name,door,floor,postcode,municipality;
-            cout << "New address: " << endl;
-            cout << "-Municipality: ";
-            getline(cin,municipality);
-            if (searchbyMunicipality(municipality,client.getBase()->getBaseMunicipalities())){
-                new_address.setMunicipality(municipality);
-            }
-            else{
-                cinERR("ERROR: Your municipality is not reached by base! You must sign up to one of our other"
-                       "bases if it is in their reached areas");
+            new_address.makeAddress();
+            if (!searchbyMunicipality(new_address.getMunicipality(),client.getBase()->getBaseMunicipalities())){
+                cinERR("ERROR: Your municipality is not reached by this base! You must sign up to one of our other "
+                       "bases if it is in their reached areas.");
                 cinERR("Changed reverted!");
+                enterWait();
+                return false;
             }
-            cout << "-Street name: ";
-            getline(cin,street_name);
-            new_address.setStreet(trim(street_name));
-            cout << "-Door number: ";
-            getline(cin,door);
-            new_address.setDoor(trim(door));
-            cout << "-Floor number (- none): ";
-            getline(cin,floor);
-            new_address.setFloor(trim(floor));
-            while(true){
-                cout << "Postcode: ";
-                getline(cin,postcode);
-
-                if(validPostcode(trim(postcode)))
-                    break;
-
-                cinERR("ERROR: Invalid Postcode, try again!");
-            }
-            new_address.setPostCode(trim(postcode));
             client.setClientAddress(new_address);
             break;
         }
@@ -1094,106 +1071,42 @@ bool fireWorker(Base *base){
 
 
 
-//Restaurant Functions // TODO new functions need testing
+//Restaurant Functions
 
 bool addRestaurant(Base* base){
-    string str;
     Restaurant new_rest;
-    Address address;
-    vector<string> cuisine;
-    vector<Product> products;
-
-    new_rest.setRestaurantBase(base);
-    cout << "Name: (* - cancel): ";
-    getline(cin,str);
-    if(str == "*")
+    if (new_rest.makeRestaurant(base)) {
+        base->getBaseRestaurantsAddr()->push_back(new_rest);
+        cout << "Restaurant successfully created!" << endl;
+        enterWait();
+        return true;
+    } else {
         return false;
-
-    new_rest.setRestaurantName(trim(str));
-    new_rest.setProductsFile(removeSpaces(str));
-
-    cout << "Address: " << endl;
-    cout << "-Street name: ";
-    getline(cin,str);
-    address.setStreet(trim(str));
-    cout << "-Door number: ";
-    getline(cin,str);
-    address.setDoor(trim(str));
-    cout << "-Floor number (- none): ";
-    getline(cin,str);
-    address.setFloor(trim(str));
-    while(true){
-        cout << "-Postcode: ";
-        getline(cin,str);
-
-        if(validPostcode(trim(str)))
-            break;
-
-        cinERR("ERROR: Invalid Postcode, try again!");
     }
-    address.setPostCode(trim(str));
-    new_rest.setRestaurantAddress(address);
-    while(true){
-        cout << "Add food type: ";
-        getline(cin,str);
-        cuisine.push_back(trim(str));
-        cout << "Add more? (Y/N): ";
-        getline(cin, str);
-        if(str != "Y" && str != "y"){
-            break;
-        }
-    }
-    new_rest.setRestaurantCuisine(cuisine);
-
-    while(true){
-        Product p;
-        cout << "Add product to menu: " << endl;
-        cout << "-Name: ";
-        getline(cin,str);
-        p.setProductName(trim(str));
-        cout << "-Food type: ";
-        getline(cin,str);
-        p.setCuisine(trim(str));
-        cout << "-Price :";
-        getline(cin, str);
-        p.setPrice(stof(trim(str)));
-        products.push_back(p);
-        cout << "Add more? (Y/N): ";
-        getline(cin, str);
-        if(str != "Y" && str != "y"){
-            break;
-        }
-    }
-    base->getBaseRestaurantsAddr()->push_back(new_rest);
-    return true;
 }
 
 bool removeRestaurant(Base* base){
     string str,restaurant;
 
-    vector<Restaurant> restaurants = base->getBaseRestaurants();
     cout << "Enter restaurant's name (* - cancel): " ;
-    getline(cin,restaurant);
-    //restaurant=trim(str);
+    getline(cin,str);
+    restaurant=trim(str);
     if(restaurant=="*"){
         cout<<"Canceled successfully!"<<endl;
         return false;
     }
 
-    auto it = find_if(restaurants.begin(),restaurants.end(),[&](Restaurant rest){return rest.getRestaurantName() == restaurant;});
-    if (it != restaurants.end()){
+    auto it = find_if(base->getBaseRestaurantsAddr()->begin(),base->getBaseRestaurantsAddr()->end(),[&](Restaurant &rest){return rest.getRestaurantName() == restaurant;});
+    if (it != base->getBaseRestaurantsAddr()->end()){
         cout << "Are you sure you want to remove this restaurant? (Y/N): ";
         getline(cin, str);
         if(str == "Y" || str == "y"){
+            string prods_file = Company::filePath + (*it).getProductsFile();
+            remove(prods_file.c_str());
             base->getBaseRestaurantsAddr()->erase(it);
-            if(remove((*it).getProductsFile().c_str()) != 0){
-                cout << "Restaurant successfully removed" << endl;
-                enterWait();
-                return true;
-            }
-            cinERR("ERROR: Couldn't remove restaurant!");
+            cout << "Restaurant successfully removed" << endl;
             enterWait();
-            return false;
+            return true;
         }
         else {
             cout << "Restaurant not removed" << endl;

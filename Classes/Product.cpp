@@ -6,6 +6,26 @@ Product::Product(string name, string cuisine, float price) {
     this->price=price;
 }
 
+void Product::makeProduct() {
+    string str;
+    cout << "-Name: ";
+    getline(cin,str);
+    name = trim(str);
+    cout << "-Food type: ";
+    getline(cin,str);
+    cuisine = trim(str);
+    while (true) {
+        try {
+            cout << "-Price :";
+            getline(cin, str);
+            price = stof(str);
+            break;
+        } catch (invalid_argument) {
+            cinERR("Invalid price! Try again!");
+        }
+    }
+}
+
 //Metodos Set
 void Product::setProductName(string name) {
     this->name = name;

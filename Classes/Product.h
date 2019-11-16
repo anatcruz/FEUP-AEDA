@@ -18,6 +18,7 @@ public:
     /** Constructor of a Product from the name, cuisine and price.
 */
     Product(string name, string cuisine, float price);
+    void makeProduct();
     //Metodos Set
     /** Sets the name of a Product.
        * @param name is the parameter you want the new Product to have.
