@@ -23,6 +23,5 @@ public:
     void setOptions(vector<pair<string, function<void()>>> options);
     void addOption(string option, function<void()> func);
 };
-// TODO add option to display messages before options in menus
 
 #endif //AEDA_UGHEATS_MENU_H

@@ -68,6 +68,7 @@ bool Restaurant::makeRestaurant(Base* base) {
     return true;
 }
 
+
 //Metodos Set
 
 void Restaurant::setRestaurantName(string name) {
@@ -135,11 +136,8 @@ vector<Order*> Restaurant::getRestaurantOrders() const {
     return rest_ords;
 }
 
-//Other Methods
 
-bool Restaurant::operator<(Restaurant &r) {
-    return true;
-}
+//Other Methods
 
 ostream &operator<<(ostream &out, const Restaurant &restaurant){
     out << setw(2) << ' ' << restaurant.name << endl;

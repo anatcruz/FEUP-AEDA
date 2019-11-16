@@ -134,7 +134,7 @@ Client* clientLogin(Company &company);
        * The user will select the base he is in and then has to insert his nif as password.
        * @param company is our Company.
 */
-Worker* workerLogin(Company &company);
+Worker* adminLogin(Company &company);
 
 
 // File updating
@@ -299,6 +299,18 @@ void showSpecificRestaurant(Company &company);
 
 void showWorkers(Base* base);
 
+void showAdmins(Base* base);
+
+void showDeliverypersons(Base *base);
+
+void showSpecificWorker(Base *base);
+
+void showBaseOrders(Base* base);
+
+void showSpecificRestaurantsOrders(Base* base);
+
+void showSpecificClientOrders(Base* base);
+
 /** Allows an admin to see the total earnings of the Company.
        * @param company is our Company Ugh-Eats.
 */
@@ -308,7 +320,9 @@ void showCompanyTotalEarnings(Company &company);
        * The user must select the base he wants to see the earnings from.
        * @param company is our Company Ugh-Eats.
 */
-void showEarningByBase(Company &company);
+void showEarningsByBase(Company &company);
+
+void showDeliveypersonEarnings(Base* base);
 
 
 //Useful functions:
