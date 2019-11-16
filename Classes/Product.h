@@ -12,7 +12,7 @@ private:
     string cuisine;
     float price;
 public:
-    /** Constructor default.
+    /**Default Constructor.
 */
     Product() = default;
     /** Constructor of a Product from the name, cuisine and price.
@@ -34,15 +34,15 @@ public:
     void setPrice(float price);
     //Metodos Get
     /**
-       * @return the name.
+       * @return the Product's name.
 */
     string getProductName() const;
     /**
-       * @return the cuisine.
+       * @return the Product's cuisine.
 */
     string getCuisine() const;
     /**
-       * @return the price.
+       * @return the Product's price.
 */
     float getPrice() const;
     //Other Methods

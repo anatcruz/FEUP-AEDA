@@ -18,12 +18,18 @@ class Restaurant{
 private:
     string name;
     Address address;
+    /**The types of food the Restaurant has.
+*/
     vector<string> cuisine;
+    /**The products the Restaurant has.
+*/
     vector<Product> products;
     Base* base;
+    /**The file that contains the products of the Restaurant.
+*/
     string productsFile;
 public:
-    /** Constructor default.
+    /**Default Constructor.
 */
     Restaurant() = default;
     /** Constructor of a Restaurant from the name, Address, cuisine, products, Base and products'file.
@@ -61,27 +67,27 @@ public:
     void setProductsFile(string productsFile);
     //Metodos Get
     /**
-      * @return the name.
+      * @return the Restaurant's name.
 */
     string getRestaurantName() const;
     /**
-      * @return the Address.
+      * @return the Restaurant's Address.
 */
     Address getRestaurantAddress() const;
     /**
-      * @return the cuisine.
+      * @return the Restaurant's cuisine.
 */
     vector<string> getRestaurantCuisine() const;
     /**
-      * @return the products.
+      * @return the Restaurant's products.
 */
     vector<Product> getRestaurantProducts() const;
     /**
-      * @return the pointer to the base.
+      * @return the pointer to the Restaurant's base.
 */
     Base* getRestaurantBase() const;
     /**
-      * @return the products'file.
+      * @return the Restaurant's products'file.
 */
     string getProductsFile() const;
     /** Gives all the orders from a restaurant.
@@ -91,10 +97,10 @@ public:
     //Other Methods
     /** Displays the Restaurant in a nice format.
       * @param out is the ostream.
-      * @param date is the Restaurant you want to display.
+      * @param restaurant is the Restaurant you want to display.
      */
     friend ostream& operator<<(ostream& out, const Restaurant &restaurant);
-    /** Updates the orders of a restaurant.
+    /** Updates the products of a Restaurant.
        * @param product is what you want to add.
 */
     void addProductsToRestaurant(const Product &product);

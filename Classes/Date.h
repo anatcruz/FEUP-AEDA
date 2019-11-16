@@ -13,13 +13,13 @@ private:
     int month;
     int year;
 public:
-    /** Constructor default.
+    /**Default Constructor.
 */
     Date() = default;
-    /** Constructor of a Date from the day,month and year given.
+    /** Constructor of a Date from the day, month and year given.
 */
     Date(int day, int month, int year);
-    /** Constructor of a Date from a given date in the format of string.
+    /** Constructor of a Date from a given date in the format of a string.
        * @param date is what you want to transform in a Date.
 */
     Date(string date);
@@ -38,15 +38,15 @@ public:
     void setYear(int year);
     //Metodos Get
     /**
-       * @return the day.
+       * @return the Date's day.
 */
     int getDay() const;
     /**
-       * @return the month.
+       * @return the Date's month.
 */
     int getMonth() const;
     /**
-       * @return the year.
+       * @return the Date's year.
 */
     int getYear() const;
     //Other Methods

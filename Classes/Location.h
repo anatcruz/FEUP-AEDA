@@ -12,7 +12,7 @@ private:
     Address address;
     pair<float,float> coords;
 public:
-    /** Constructor default.
+    /** Default Constructor.
 */
     Location() = default;
     /** Constructor of a Location from the location in the format of a string.
@@ -23,20 +23,20 @@ public:
     Location(Address address, pair<float, float> coords);
     //Metodos Set
     /** Sets the Address of a Location.
-       * @param address is the parameter you want the new Date to have.
+       * @param address is the parameter you want the new Location to have.
 */
     void setLocationAddress(Address address);
     /** Sets the coords of a Location.
-       * @param coords is the parameter you want the new Date to have.
+       * @param coords is the parameter you want the new Location to have.
 */
     void setLocationCoords(pair<float,float> coords);
     //Metodos Get
     /**
-      * @return the Address.
+      * @return the Location's Address.
 */
     Address getLocationAddress() const;
     /**
-      * @return the coords.
+      * @return the Location's coords.
 */
     pair <float,float> getLocationCoords() const;
     //Other Methods
