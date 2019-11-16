@@ -23,7 +23,7 @@ int main() {
     Menu startMenu("Welcome!");
 
     Menu clientMenu("Ugh-Eats");
-    Menu restaurantsMenu("Restaurants");
+    Menu restaurantsMenu("Search Restaurants");
     Menu clientAccountManagementMenu("Account management");
 
     Menu adminMenu("Ugh-Eats - Admin");
@@ -45,7 +45,7 @@ int main() {
 
     // clientMenu creation
     clientMenu.addOption("Log-out", faznada);
-    clientMenu.addOption("Restaurants", [&](){restaurantsMenu.start();});
+    clientMenu.addOption("Make an order", [&](){restaurantsMenu.start();});
     clientMenu.addOption("Order history", [&](){viewClientOrdersHistory(*openClient);});
     clientMenu.addOption("Account management", [&](){clientAccountManagementMenu.start();});
 

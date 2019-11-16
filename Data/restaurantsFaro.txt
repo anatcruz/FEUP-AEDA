@@ -4,6 +4,6 @@ Carne,Peixe
 productsRiaFormosa.txt
 -----
 BellAntonio
-Rua Conselheiro Bivar,52,-,8000-255,Faro
+Rua Conselheiro Bivar,52,-,8000-255,Olhao
 Pizza
 productsBellAntonio.txt

@@ -16,7 +16,7 @@ void Product::makeProduct() {
     cuisine = trim(str);
     while (true) {
         try {
-            cout << "-Price :";
+            cout << "-Price: ";
             getline(cin, str);
             price = stof(str);
             break;

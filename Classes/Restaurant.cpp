@@ -58,7 +58,7 @@ bool Restaurant::makeRestaurant(Base* base) {
         products.push_back(p);
         cout << "Add more? (Y/N): ";
         getline(cin, str);
-        if(str != "Y" || str != "y"){
+        if(str != "Y" && str != "y"){
             break;
         }
     }
