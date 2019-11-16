@@ -1197,9 +1197,9 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base){
     new_delivery->setDeliveryTime(delivery_time);
 
     cout << base->getWorker(deliveryperson)->getWorkerName() << " will deliver your order at " << delivery_time << endl;
-    cout << "Are you satisfied with your order(YES/NO)? " << endl;
+    cout << "Are you satisfied with your order (Y/N)? " << endl;
     getline(cin,satisfied);
-    success = (satisfied == "YES" || satisfied == "yes");
+    success = (satisfied == "Y" || satisfied == "y");
     new_delivery->setSuccess(success);
 
     //acrescentar ao vetor de orders da base
@@ -1284,9 +1284,9 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vecto
     new_delivery->setDeliveryTime(delivery_time);
 
     cout << base->getWorker(deliveryperson)->getWorkerName() << " will deliver your order at " << delivery_time << endl;
-    cout << "Are you satisfied with your order(YES/NO)? " << endl;
+    cout << "Are you satisfied with your order(Y/N)? " << endl;
     getline(cin,satisfied);
-    success = (satisfied == "YES" || satisfied == "yes");
+    success = (satisfied == "Y" || satisfied == "y");
     new_delivery->setSuccess(success);
 
     //acrescentar ao vetor de orders da base
@@ -1573,7 +1573,64 @@ void showWorkers(Base* base) {
     enterWait();
 }
 
-// TODO show workers by type and specific worker
+void showAdmins(Base* base){
+    for (auto worker : base->getBaseWorkers()) {
+        if (dynamic_cast<Admin *>(worker) != 0) {
+            cout << *(Admin *) (worker);
+        }
+    }
+    enterWait();
+}
+
+void showDeliverypersons(Base *base){
+    for (auto worker : base->getBaseWorkers()) {
+        if (dynamic_cast<Deliveryperson *>(worker) != 0){
+            cout << *(Deliveryperson *)(worker);
+        }
+    }
+    enterWait();
+}
+
+void showSpecificWorker(Base *base){
+    string str_nif, str;
+    int nif, opt;
+
+    while (true) {
+        cout << "Enter worker's nif (* - cancel): ";
+        getline(cin, str_nif);
+        if (validNIF(str_nif)) {
+            nif = stoi(str_nif);
+            break;
+        } else if (str_nif == "*") {
+            cout << "Canceled successfully!" << endl;
+            return;
+        }
+        cinERR("ERROR: Invalid NIF, try again!");
+    }
+    for (int i = 0; i < base->getBaseWorkers().size(); i++) {
+        if (base->getBaseWorkers().at(i)->getWorkerNif() == nif) {
+            Worker *worker = base->getBaseWorkers().at(i);
+            Admin *a = dynamic_cast<Admin *> (worker);
+            if (a != NULL) {
+                cout << *a;
+                enterWait();
+                return;
+            }
+            else {
+                Deliveryperson *d = dynamic_cast<Deliveryperson *> (worker);
+                if (d != NULL) {
+                    cout << *d;
+                    enterWait();
+                    return;
+                }
+            }
+        }
+    }
+    cinERR("ERROR: No worker in this base with the given nif!");
+    enterWait();
+}
+
+// TODO show workers by type and specific worker  DONE!
 // TODO show orders (all, by date, by restaurant, by client)
 // TODO show products (all, by restaurant, by cuisine, by client)
 
@@ -1632,7 +1689,7 @@ void showDeliveypersonEarnings(Company &company){
                 Deliveryperson *d = dynamic_cast<Deliveryperson *> (worker);
                 if (d != NULL) {
                     total = d->getWorkerSalary();
-                    cout << "Base salary: " << total;
+                    cout << "Base salary: " << total << endl;
                     for (int j=0; j< base->getBaseOrders().size(); j++){
                         Delivery *del = dynamic_cast<Delivery *> (base->getBaseOrders().at(j));
                         if(del != NULL){
@@ -1640,14 +1697,15 @@ void showDeliveypersonEarnings(Company &company){
                                 total += 3;
                         }
                     }
-                    cout << "Total salary with deliveries rewards: " << total;
+                    cout << "Total salary with deliveries rewards: " << total << endl;
+                    return;
                 }
             }
         }
         cinERR("ERROR: No deliveryperson in this base with the given nif!");
         enterWait();
     }
-} //TODO new function check if working
+}
 
 void showCompanyOrders(Company &company){
     for(int i=0; i<company.getCompanyBases().size() ; i++) {
