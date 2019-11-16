@@ -230,7 +230,17 @@ bool addRestaurant(Base* base);
        * @return true if the restaurant was eliminated successfully.
 */
 bool removeRestaurant(Base* base);
-bool addProduct(Base* base); // todo documentar
+/** Allows an admin to add a product to a specific restaurant to his base.
+       * The admin must first choose the restaurant and then it calls the auxiliary function addProductsToRestaurant(const Product &product) to add the product.
+       * @param base is the Base the admin works in.
+       * @return true if the product was added successfully.
+*/
+bool addProduct(Base* base);
+/** Allows an admin to remove a product from a specific restaurant from his base.
+       * The admin must first choose the restaurant.
+       * @param base is the Base the admin works in.
+       * @return true if the product was eliminated successfully.
+*/
 bool removeProduct(Base* base);
 
 // Order functions
