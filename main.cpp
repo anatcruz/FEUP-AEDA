@@ -112,6 +112,8 @@ int main() {
 
     //adminRestaurantProductsMenu creation
     adminRestaurantProductsMenu.addOption("Go back", faznada);
+    adminRestaurantProductsMenu.addOption("Add product", [&](){addProduct(openBase);});
+    adminRestaurantProductsMenu.addOption("Remove product", [&](){removeProduct(openBase);});
     adminRestaurantProductsMenu.addOption("View all products",[&](){showAllProducts(openBase);});
     adminRestaurantProductsMenu.addOption("View products by restaurant",[&](){showProductsByRestaurant(openBase);});
     adminRestaurantProductsMenu.addOption("View products by cuisine",[&](){showProductsByCuisine(openBase);});

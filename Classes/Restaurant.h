@@ -104,6 +104,7 @@ public:
        * @param product is what you want to add.
 */
     void addProductsToRestaurant(const Product &product);
+    bool removeProduct(const string &product);
 };
 
 

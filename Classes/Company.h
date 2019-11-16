@@ -213,6 +213,8 @@ bool deleteClientAccount(Client* client, Base* base);
 //Restaurant functions
 bool addRestaurant(Base* base);
 bool removeRestaurant(Base* base);
+bool addProduct(Base* base); // todo documentar
+bool removeProduct(Base* base);
 
 // Order functions
 /** Allows a Client to make an Order and the Delivery associated.This is a function that its called in other functions.
