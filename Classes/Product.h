@@ -18,6 +18,8 @@ public:
     /** Constructor of a Product from the name, cuisine and price.
 */
     Product(string name, string cuisine, float price);
+    /** Makes a Product once the user fills all it's parameters.
+*/
     void makeProduct();
     //Metodos Set
     /** Sets the name of a Product.
