@@ -1,5 +1,5 @@
 McDonalds
-Estrada da Circunvalação,8114-8116,-,4200-163,Porto
+Estrada da Circunvalacao,8114-8116,-,4200-163,Porto
 Fast food,Vegetariano,Sobremesas
 productsMcDonalds.txt
 -----

@@ -12,7 +12,7 @@ Rua de Dio,555,1,1tras,4400-034
 -----
 RP do Bar da Biblio
 Porto
-Rua de Trás para a Frente,403,-,4420-456,Gondomar
+Rua de Tras para a Frente,403,-,4420-456,Gondomar
 444444444
 1
 -----

@@ -58,8 +58,6 @@ float Product::getPrice() const {
 
 
 ostream &operator<<(ostream &out, const Product &product) {
-    out << product.name << ", " << product.cuisine << ", " << product.price;
+    out << product.name << ", " << product.cuisine << ", " << product.price << " euros";
     return out;
 }
-
-
