@@ -435,9 +435,11 @@ Client* clientLogin(Company &company) {
                 }
             } else {
                 cinERR("Client does not exist, try again!");
+                cout << "\n";
             }
         } else {
             cinERR("Invalid NIF, try again!");
+            cout << "\n";
         }
     }
 }
@@ -760,7 +762,7 @@ bool deleteClientAccount(Client* client, Base* base){
             return false;
         }
         base->getBaseClientsAddr()->erase(it);
-        cout << "We're sad to see you go :( Your account will be deleted. You can still use it until you sign off." << endl;
+        cout << "We're sad to see you go :( Your account will be deleted. You can still use it until you log out." << endl;
     }
     else {
         cout << "Account not deleted" << endl;
@@ -1239,7 +1241,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base){
     new_delivery->setDeliveryTime(delivery_time);
 
     cout << base->getWorker(deliveryperson)->getWorkerName() << " will deliver your order at " << delivery_time << endl;
-    cout << "Are you satisfied with your order (Y/N)? " << endl;
+    cout << "Are you satisfied with your order (Y/N)? ";
     getline(cin,satisfied);
     success = (satisfied == "Y" || satisfied == "y");
     new_delivery->setSuccess(success);
@@ -1326,7 +1328,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vecto
     new_delivery->setDeliveryTime(delivery_time);
 
     cout << base->getWorker(deliveryperson)->getWorkerName() << " will deliver your order at " << delivery_time << endl;
-    cout << "Are you satisfied with your order(Y/N)? " << endl;
+    cout << "Are you satisfied with your order(Y/N)? ";
     getline(cin,satisfied);
     success = (satisfied == "Y" || satisfied == "y");
     new_delivery->setSuccess(success);
@@ -1807,6 +1809,7 @@ void showSpecificClientOrders(Base* base){
 
     viewClientOrdersHistory(*it);
 }
+
 
 // TODO show orders by date
 

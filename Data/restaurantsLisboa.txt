@@ -1,9 +1,9 @@
 Olivier Avenida
-Rua Júlio César Machado,7,-,1250-135,Lisboa
+Rua Julio Cesar Machado,7,-,1250-135,Lisboa
 Carne,Peixe
 productsOlivierAvenida.txt
 -----
-Sushi dos Sá Morais
+Sushi dos Sa Morais
 Rua Latino Coelho,50A,-,1050-180,Lisboa
 Sushi,Carne,Peixe
 productsSushiSaMorais.txt

@@ -20,4 +20,4 @@ restaurantsFaro.txt
 workersFaro.txt
 ordersFaro.txt
 153351153
-Faro,Olhão,Loulé,São Brás de Alportel
+Faro,Olhao,Loule,São Bras de Alportel

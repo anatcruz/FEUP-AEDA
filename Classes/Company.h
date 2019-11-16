@@ -142,7 +142,7 @@ public:
        * @param company is our Company.
 */
 Client* clientLogin(Company &company);
-/** Log-in function for workers: allows the workers to log-in the app.
+/** Log-in function for admins: allows the admins to log-in the app.
        * The user will select the base he's in and then has to insert his nif as password.
        * @param company is our Company.
 */
@@ -176,7 +176,15 @@ void updateWorkersFile(Base &base);
        * @param base is the base existing.
 */
 void updateRestaurantsFile(Base &base);
+/** Updates the products' file.
+       * Writes the updated information on the file of products for each restaurant of the base.
+       * @param base is the base existing.
+*/
 void updateProductsFile(Base &base);
+/** Updates the orders' file.
+       * Writes the updated information on the file of orders of the base.
+       * @param base is the base existing.
+*/
 void updateOrdersFile(Base &base);
 
 
@@ -211,7 +219,16 @@ bool editClientInfo(Company &company, Client &client);
 bool deleteClientAccount(Client* client, Base* base);
 
 //Restaurant functions
+/** Allows an admin to add a restaurant to his base.
+       * It calls the auxiliary function makeRestaurant(Base* base) to create the restaurant.
+       * @param base is the Base the admin works in.
+       * @return true if the restaurant was added successfully.
+*/
 bool addRestaurant(Base* base);
+/** Allows an admin to remove a restaurant from his base.
+       * @param base is the Base the admin works in.
+       * @return true if the restaurant was eliminated successfully.
+*/
 bool removeRestaurant(Base* base);
 bool addProduct(Base* base); // todo documentar
 bool removeProduct(Base* base);
@@ -318,26 +335,48 @@ void showRestaurantsByBase(Company &company);
        * @param company is our Company Ugh-Eats.
 */
 void showSpecificRestaurant(Company &company);
-
-void showAllProducts(Base* base); // TODO documentar
-void showProductsByRestaurant(Base* base); // TODO documentar
-void showProductsByCuisine(Base* base); // TODO documentar
+/** Allows an admin to see all the products from all the restaurants in the Base.
+       * @param base is the Base the admin wants to see the products from.
+*/
+void showAllProducts(Base* base);
+/** Allows an admin to see all the products in a specific restaurant in the Base.
+       * The user must search the restaurant by it's name.
+       * @param base is the Base the admin wants to see the products from.
+*/
+void showProductsByRestaurant(Base* base);
+/** Allows an admin to see all the products that are a specific type of food in the Base.
+       * The user must search the products by the type of food.
+       * @param base is the Base the admin wants to see the products from.
+*/
+void showProductsByCuisine(Base* base);
 
 /** Allows an admin to see the workers from a Base.
        * @param base is the Base you want to see the workers from.
 */
 void showWorkers(Base* base);
-
+/** Allows an admin to see the admins from a Base.
+       * @param base is the Base you want to see the admins from.
+*/
 void showAdmins(Base* base);
-
+/** Allows an admin to see the deliverypersons from a Base.
+       * @param base is the Base you want to see the deliverypersons from.
+*/
 void showDeliverypersons(Base *base);
-
+/** Allows an admin to see a specific worker from a Base.
+       * @param base is the Base you want to see the worker from.
+*/
 void showSpecificWorker(Base *base);
-
+/** Allows an admin to see the orders from a Base.
+       * @param base is the Base you want to see the orders from.
+*/
 void showBaseOrders(Base* base);
-
+/** Allows an admin to see a specific restaurant's orders from a Base.
+       * @param base is the Base you want to see the orders from.
+*/
 void showSpecificRestaurantsOrders(Base* base);
-
+/** Allows an admin to see a specific client's orders from a Base.
+       * @param base is the Base you want to see the orders from.
+*/
 void showSpecificClientOrders(Base* base);
 
 /** Allows an admin to see the total earnings of the Company.
@@ -345,8 +384,8 @@ void showSpecificClientOrders(Base* base);
 */
 void showCompanyTotalEarnings(Company &company);
 
-/** Allows an admin to see the total earnings of the Company of their Base.
-       * @param company is the worker's base.
+/** Allows an admin to see the total earnings of a base.
+       * @param base is the Base you want to see the earnings from.
 */
 void showEarningsByBase(Base* base);
 
