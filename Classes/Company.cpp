@@ -1107,6 +1107,59 @@ bool removeRestaurant(Base* base){
     return false;
 }
 
+bool addProduct(Base* base) {
+    string str;
+
+    cout << "Restaurant to add product to: ";
+    getline(cin, str);
+    str = trim(str);
+
+    auto rest_it = find_if(base->getBaseRestaurantsAddr()->begin(), base->getBaseRestaurantsAddr()->end(), [&](Restaurant &r){ return r.getRestaurantName() == str;});
+    if (rest_it == base->getBaseRestaurantsAddr()->end()) {
+        cinERR("No restaurant with given name in this base!");
+        enterWait();
+        return false;
+    }
+
+    Product product;
+    product.makeProduct();
+
+    (*rest_it).addProductsToRestaurant(product);
+
+    cout << "Product successfully added!" << endl;
+    enterWait();
+    return true;
+}
+
+bool removeProduct(Base* base) {
+    string str;
+
+    cout << "Restaurant to remove product from: ";
+    getline(cin, str);
+    str = trim(str);
+
+    auto rest_it = find_if(base->getBaseRestaurantsAddr()->begin(), base->getBaseRestaurantsAddr()->end(), [&](Restaurant &r){ return r.getRestaurantName() == str;});
+    if (rest_it == base->getBaseRestaurantsAddr()->end()) {
+        cinERR("No restaurant with given name in this base!");
+        enterWait();
+        return false;
+    }
+
+    cout << "Product name to remove: ";
+    getline(cin, str);
+    str = trim(str);
+
+    if (!rest_it->removeProduct(str)) {
+        cout << "Product does not exist!" << endl;
+        enterWait();
+        return false;
+    }
+
+    cout << "Product removed successfully!" << endl;
+    enterWait();
+    return true;
+}
+
 // TODO product management
 
 
@@ -1448,7 +1501,6 @@ bool makeOrderDeliveryByCuisine(Client &client, Base *base){
         } else {
             cout << "ERROR: Invalid restaurant choice!Try again: ";
         }
-
     }while(opt != 0);
 }
 
@@ -1762,7 +1814,7 @@ void showSpecificClientOrders(Base* base){
     viewClientOrdersHistory(*it);
 }
 
-// TODO show products (all, by restaurant, by cuisine)
+
 // TODO show orders by date
 
 
@@ -1827,5 +1879,6 @@ void showEarningsByBase(Base* base){
 
     enterWait();
 }
+
 
 // TODO show earnings by client, restaurant and by time period

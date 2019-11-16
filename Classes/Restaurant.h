@@ -35,6 +35,11 @@ public:
     /** Constructor of a Restaurant from the name, Address, cuisine, products, Base and products'file.
 */
     Restaurant(string name, Address address, vector<string> cuisine, vector<Product> products, Base* base);
+    /** Creates a Restaurant in the Base.
+      * The user must fill all te information fot the new Restaurant.
+      * @param base is the Base you want to add the Restaurant in.
+      * @return true if the Restaurant was created successfully.
+*/
     bool makeRestaurant(Base* base);
     //Metodos Set
     /** Sets the name of a Restaurant.
@@ -104,6 +109,7 @@ public:
        * @param product is what you want to add.
 */
     void addProductsToRestaurant(const Product &product);
+    bool removeProduct(const string &product);
 };
 
 

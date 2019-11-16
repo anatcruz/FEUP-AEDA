@@ -12,7 +12,6 @@ bool Restaurant::makeRestaurant(Base* base) {
     string str;
     Address address;
     vector<string> cuisine;
-    vector<Product> products;
 
     this->base = base;
 
@@ -42,7 +41,10 @@ bool Restaurant::makeRestaurant(Base* base) {
     while(true){
         cout << "Add food type: ";
         getline(cin,str);
-        cuisine.push_back(trim(str));
+        str = trim(str);
+        if (!str.empty()) {
+            cuisine.push_back(trim(str));
+        }
         cout << "Add more? (Y/N): ";
         getline(cin, str);
         if(str != "Y" && str != "y"){
@@ -55,15 +57,18 @@ bool Restaurant::makeRestaurant(Base* base) {
         Product p;
         cout << "Add product to menu: " << endl;
         p.makeProduct();
-        products.push_back(p);
+        auto prd = find_if(products.begin(), products.end(), [&](Product &pp){ return pp.getProductName() == p.getProductName();});
+        if (prd == this->products.end()) {
+            this->addProductsToRestaurant(p);
+        } else {
+            cout << "Product with same name already exists! Not added!" << endl;
+        }
         cout << "Add more? (Y/N): ";
         getline(cin, str);
         if(str != "Y" && str != "y"){
             break;
         }
     }
-
-    this->products= products;
 
     return true;
 }
@@ -164,7 +169,23 @@ ostream &operator<<(ostream &out, const Restaurant &restaurant){
 }
 
 void Restaurant::addProductsToRestaurant(const Product &product) {
+    auto it = find_if(cuisine.begin(), cuisine.end(), [&](string &c){ return product.getCuisine() == c;});
+    if (it == cuisine.end()) {
+        cuisine.push_back(product.getCuisine());
+    }
     products.push_back(product);
+}
+
+bool Restaurant::removeProduct(const string &product) {
+    auto it = find_if(products.begin(), products.end(), [&](Product &p){return p.getProductName() == product;});
+
+    if (it == products.end()) {
+        return false;
+    }
+
+    products.erase(it);
+
+    return true;
 }
 
 

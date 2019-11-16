@@ -25,6 +25,8 @@ public:
        * @param fullAddress is what you want to transform in an Address.
 */
     Address(string fullAddress);
+    /** Makes an Address once the user fills all it's parameters.
+*/
     void makeAddress();
     //Metodos Set
     /** Sets the street of an Address.
