@@ -61,23 +61,23 @@ public:
     void setWorkerBase(Base* base);
     //Metodos Get
     /**
-      * @return the name.
+      * @return the Worker's name.
 */
     string getWorkerName() const;
     /**
-      * @return the nif.
+      * @return the Worker's nif.
 */
     int getWorkerNif() const;
     /**
-      * @return the date of birth.
+      * @return the Worker's date of birth.
 */
     Date getWorkerBirthdate() const;
     /**
-      * @return the salary.
+      * @return the Worker's salary.
 */
     double getWorkerSalary() const;
     /**
-      * @return the pointer to the worker's Base.
+      * @return the pointer to the Worker's Base.
 */
     Base* getWorkerBase() const;
     //Other Methods
@@ -96,17 +96,17 @@ public:
     /** Default Constructor.
 */
     Admin() = default;
-    /** Constructor of an Admin from the name, nif, birthdate, salary and description given.
+    /** Constructor of an Admin from the name, nif, date of birth, salary and description given.
 */
     Admin(string name, int nif, Date birthdate, double salary, string description);
     //Metodos Set
-    /** Sets the description of an Admin.
+    /** Sets the job description of an Admin.
        * @param description is the parameter you want the new Admin to have.
 */
     void setWorkerDescription(string description);
     //Metodos Get
     /**
-      * @return the Admin's description.
+      * @return the Admin's job description.
 */
     string getWorkerDescription() const;
     //Other Methods
@@ -126,7 +126,7 @@ public:
     /** Default Constructor.
 */
     Deliveryperson() = default;
-    /** Constructor of a Deliveryperson from the name, nif, birthdate, salary and Vehicle given.
+    /** Constructor of a Deliveryperson from the name, nif, date of birth, salary and Vehicle given.
  */
     Deliveryperson(string name, int nif, Date birthdate, double salary, Vehicle vehicle);
     //Metodos Set
@@ -136,7 +136,7 @@ public:
     void setVehicle(Vehicle vehicle);
     //Metodos Get
     /**
-      * @return the Vehicle.
+      * @return the Deliveryperson's Vehicle.
 */
     Vehicle getVehicle() const;
     /**
@@ -144,7 +144,7 @@ public:
 */
     vector<Delivery*> getDeliveries() const;
     /**
-      * @return the money the Deliveryperson should receive depending on the his deliveries.
+      * @return the money the Deliveryperson should receive depending on his deliveries.
 */
     double getDeliveryEarnings() const;
     //Other Methods
