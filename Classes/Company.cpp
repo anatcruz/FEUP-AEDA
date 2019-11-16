@@ -1249,6 +1249,8 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base){
     //acrescentar ao vetor de orders da base
     base->addOrderToBase(new_delivery);
 
+    cout << "Thank you for using our services!" << endl;
+
     return true;
 }
 
@@ -1335,6 +1337,8 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vecto
 
     //acrescentar ao vetor de orders da base
     base->addOrderToBase(new_delivery);
+
+    cout << "Thank you for using our services!" << endl;
 
     return true;
 }
