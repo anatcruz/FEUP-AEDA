@@ -1428,7 +1428,8 @@ bool makeOrderDeliveryByCuisine(Client &client, Base *base){
             restaurants_available.push_back(rest);
         }
         else{
-            cout << "There is no restaurant with that type of food in you base!" << endl;
+            cout << "There is no restaurant with that type of food in your base!" << endl;
+            enterWait();
             return false;
         }
     }
