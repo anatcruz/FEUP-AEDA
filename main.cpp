@@ -85,6 +85,8 @@ int main() {
 
     // adminRestaurantManagementMenu creation
     adminRestaurantManagementMenu.addOption("Go back", faznada);
+    adminRestaurantManagementMenu.addOption("Add new restaurant", [&](){addRestaurant(openBase);});
+    adminRestaurantManagementMenu.addOption("Remove restaurant", [&](){removeRestaurant(openBase);});
     adminRestaurantManagementMenu.addOption("View all restaurants", [&](){showAllRestaurants(ugh);});
     adminRestaurantManagementMenu.addOption("View restaurants by base", [&](){showRestaurantsByBase(ugh);});
     adminRestaurantManagementMenu.addOption("View specific restaurant", [&](){showSpecificRestaurant(ugh);});
@@ -92,14 +94,16 @@ int main() {
 
     // Start!
     startMenu.start();
-    /*
-    updateBasesFile(ugh);
-    updateCompanyFile(ugh);
-    for (int i = 0; i<ugh.getCompanyBases().size(); i++) {
-        updateClientsFile(ugh.getCompanyBases().at(i));
-        updateWorkersFile(ugh.getCompanyBases().at(i));
-        updateRestaurantsFile(ugh.getCompanyBases().at(i));
-    }*/
+
+//    updateBasesFile(ugh);
+//    updateCompanyFile(ugh);
+//    for (int i = 0; i<ugh.getCompanyBases().size(); i++) {
+//        updateClientsFile(ugh.getCompanyBases().at(i));
+//        updateWorkersFile(ugh.getCompanyBases().at(i));
+//        updateRestaurantsFile(ugh.getCompanyBases().at(i));
+//        updateProductsFile(ugh.getCompanyBases().at(i));
+//        updateOrdersFile(ugh.getCompanyBases().at(i));
+//    }
 //    cout << *openClient;
 //    openWorker->print(cout);
 //    cout << *openBase;

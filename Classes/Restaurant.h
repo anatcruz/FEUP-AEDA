@@ -29,6 +29,7 @@ public:
     /** Constructor of a Restaurant from the name, Address, cuisine, products, Base and products'file.
 */
     Restaurant(string name, Address address, vector<string> cuisine, vector<Product> products, Base* base);
+    bool makeRestaurant(Base* base);
     //Metodos Set
     /** Sets the name of a Restaurant.
       * @param name is the parameter you want the new Restaurant to have.

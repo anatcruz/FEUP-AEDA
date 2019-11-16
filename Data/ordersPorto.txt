@@ -11,7 +11,7 @@ Big Mac,Big Mac
 
 -----
 Pedra Alta
-000222555
+222555
 08/11/2019
 12:00:00
 Bacalhau Assado

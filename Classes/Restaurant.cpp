@@ -8,6 +8,65 @@ Restaurant::Restaurant(string name, Address address, vector<string> cuisine, vec
     this->base=base;
 }
 
+bool Restaurant::makeRestaurant(Base* base) {
+    string str;
+    Address address;
+    vector<string> cuisine;
+    vector<Product> products;
+
+    this->base = base;
+
+    cout << "Name: (* - cancel): ";
+    getline(cin,str);
+    if(str == "*") {
+        return false;
+    } else if (find_if(base->getBaseRestaurantsAddr()->begin(), base->getBaseRestaurantsAddr()->end(), [&](Restaurant &r){return r.getRestaurantName() == trim(str);}) != base->getBaseRestaurantsAddr()->end()) {
+        cinERR("Restaurant with the same name already exists!");
+        enterWait();
+        return false;
+    }
+    name = trim(str);
+
+    productsFile = "products" + removeSpaces(str) + ".txt";
+
+    address.makeAddress();
+    vector<string> municipalities = base->getBaseMunicipalities();
+    if (find(municipalities.begin(), municipalities.end(), address.getMunicipality()) != municipalities.end()) {
+        this->address = address;
+    } else {
+        cinERR("This restaurant cannot be assigned to this base!");
+        enterWait();
+        return false;
+    }
+
+    while(true){
+        cout << "Add food type: ";
+        getline(cin,str);
+        cuisine.push_back(trim(str));
+        cout << "Add more? (Y/N): ";
+        getline(cin, str);
+        if(str != "Y" && str != "y"){
+            break;
+        }
+    }
+    this->cuisine = cuisine;
+
+    while(true){
+        Product p;
+        cout << "Add product to menu: " << endl;
+        p.makeProduct();
+        products.push_back(p);
+        cout << "Add more? (Y/N): ";
+        getline(cin, str);
+        if(str != "Y" || str != "y"){
+            break;
+        }
+    }
+
+    this->products= products;
+
+    return true;
+}
 
 //Metodos Set
 
