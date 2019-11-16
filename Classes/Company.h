@@ -333,10 +333,20 @@ void showRestaurantsByBase(Company &company);
        * @param company is our Company Ugh-Eats.
 */
 void showSpecificRestaurant(Company &company);
-
-void showAllProducts(Base* base); // TODO documentar
-void showProductsByRestaurant(Base* base); // TODO documentar
-void showProductsByCuisine(Base* base); // TODO documentar
+/** Allows an admin to see all the products from all the restaurants in the Base.
+       * @param base is the Base the admin wants to see the products from.
+*/
+void showAllProducts(Base* base);
+/** Allows an admin to see all the products in a specific restaurant in the Base.
+       * The user must search the restaurant by it's name.
+       * @param base is the Base the admin wants to see the products from.
+*/
+void showProductsByRestaurant(Base* base);
+/** Allows an admin to see all the products that are a specific type of food in the Base.
+       * The user must search the products by the type of food.
+       * @param base is the Base the admin wants to see the products from.
+*/
+void showProductsByCuisine(Base* base);
 
 /** Allows an admin to see the workers from a Base.
        * @param base is the Base you want to see the workers from.
@@ -372,8 +382,8 @@ void showSpecificClientOrders(Base* base);
 */
 void showCompanyTotalEarnings(Company &company);
 
-/** Allows an admin to see the total earnings of the Company of their Base.
-       * @param company is the worker's base.
+/** Allows an admin to see the total earnings of a base.
+       * @param base is the Base you want to see the earnings from.
 */
 void showEarningsByBase(Base* base);
 

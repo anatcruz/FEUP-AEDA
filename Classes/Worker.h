@@ -139,8 +139,14 @@ public:
       * @return the Vehicle.
 */
     Vehicle getVehicle() const;
-    vector<Delivery*> getDeliveries() const; // TODO documentar
-    double getDeliveryEarnings() const; // TODO documentar
+    /**
+      * @return all the deliveries done by a Deliveryperson.
+*/
+    vector<Delivery*> getDeliveries() const;
+    /**
+      * @return the money the Deliveryperson should receive depending on the his deliveries.
+*/
+    double getDeliveryEarnings() const;
     //Other Methods
     /** Displays the Deliveryperson in a nice format.
       * @param out is the ostream.

@@ -1758,7 +1758,7 @@ void showSpecificClientOrders(Base* base){
     viewClientOrdersHistory(*it);
 }
 
-// TODO show products (all, by restaurant, by cuisine)
+
 // TODO show orders by date
 
 
