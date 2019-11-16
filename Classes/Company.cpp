@@ -1107,6 +1107,8 @@ bool removeRestaurant(Base* base){
     return false;
 }
 
+// TODO product management
+
 
 // Order functions
 
@@ -1416,12 +1418,14 @@ bool makeOrderDeliveryByCuisine(Client &client, Base *base){
         if (it != cuisines.end()) {
             restaurants_available.push_back(rest);
         }
-        else{
-            cout << "There is no restaurant with that type of food in your base!" << endl;
-            enterWait();
-            return false;
-        }
     }
+
+    if (restaurants_available.empty()) {
+        cout << "There is no restaurant with that type of food in your base!" << endl;
+        enterWait();
+        return false;
+    }
+
     cout << "These are the restaurants with that type of food:" << endl;
     for (int i = 0; i < restaurants_available.size(); i++){
         cout << i+1 << ": " << restaurants_available.at(i) << endl;
@@ -1432,12 +1436,6 @@ bool makeOrderDeliveryByCuisine(Client &client, Base *base){
         getOption(opt);
         if(opt>0 && opt<=restaurants_available.size()){
             choosen_restaurant = restaurants_available.at(opt-1);
-            /*for(int i = 0; i<choosen_restaurant.getRestaurantProducts().size();i++){
-                if(choosen_restaurant.getRestaurantProducts().at(i).getCuisine() == user_cuisine){
-                    selected_products.push_back(choosen_restaurant.getRestaurantProducts().at(i));
-                }
-            }
-            return makeOrderDelivery(client,base->getRestaurant(choosen_restaurant.getRestaurantName()),base,selected_products);*/
             return makeOrderDelivery(client,base->getRestaurant(choosen_restaurant.getRestaurantName()),base);
         } else if(opt == 0){
             cout << "Your order was canceled!" << endl;
@@ -1451,7 +1449,8 @@ bool makeOrderDeliveryByCuisine(Client &client, Base *base){
 }
 
 
-// Show functions
+// Show client functions
+
 void showAllClients(Company &company){
     cout << "-----All Clients' Information-----\n"<<endl;
     for(int i=0;i<company.getCompanyBases().size();i++){
@@ -1504,6 +1503,9 @@ void showSpecificClient(Company &company){
     }
 }
 
+
+// Show restaurant functions
+
 void showAllRestaurants(Company &company){
     cout << "-----All Restaurants' Information-----" << endl;
     for(int i=0;i<company.getCompanyBases().size();i++){
@@ -1549,6 +1551,78 @@ void showSpecificRestaurant(Company &company){
         enterWait();
     }
 }
+
+
+// Show products functions
+
+void showAllProducts(Base* base) {
+    for (auto rest : base->getBaseRestaurants()) {
+        cout << endl << rest.getRestaurantName() << endl;
+        for (auto prod : rest.getRestaurantProducts()) {
+            cout << "-" << prod << endl;
+        }
+    }
+    enterWait();
+}
+
+void showProductsByRestaurant(Base* base) {
+    string str;
+
+    cout << "Restaurant name: ";
+    getline(cin, str);
+    str = trim(str);
+
+    auto it = find_if(base->getBaseRestaurantsAddr()->begin(), base->getBaseRestaurantsAddr()->end(), [&](Restaurant &r){ return r.getRestaurantName() == str;});
+    if (it == base->getBaseRestaurantsAddr()->end()) {
+        cinERR("No restaurant with given name in this base!");
+        enterWait();
+        return;
+    }
+
+    for (auto ord : it->getRestaurantOrders()) {
+        cout << it->getRestaurantName() << endl;
+        for (auto prod : it->getRestaurantProducts()) {
+            cout << "-" << prod << endl;
+        }
+    }
+
+    enterWait();
+}
+
+void showProductsByCuisine(Base* base) {
+    string str;
+    bool found = false;
+
+    cout << "Cuisine: ";
+    getline(cin,str);
+    str = trim(str);
+
+    for(auto rest : base->getBaseRestaurants()){
+        vector<string> cuisines = rest.getRestaurantCuisine();
+        auto it = find_if(cuisines.begin(), cuisines.end(), [&](string &cus){return cus == str;});
+        if (it != cuisines.end()) {
+            found = true;
+            cout << rest.getRestaurantName() << endl;
+            for (auto prod : rest.getRestaurantProducts()) {
+                if (prod.getCuisine() == str) {
+                    cout << "-" << prod << endl;
+                }
+            }
+        }
+
+    }
+
+    if (!found) {
+        cout << "There is no restaurant with that type of food in your base!" << endl;
+        enterWait();
+        return;
+    }
+
+    enterWait();
+}
+
+
+// Show workers functions
 
 void showWorkers(Base* base) {
     for (auto worker : base->getBaseWorkers()) {
@@ -1619,6 +1693,9 @@ void showSpecificWorker(Base *base){
     enterWait();
 }
 
+
+// Show orders functions
+
 void showBaseOrders(Base* base){
     if(base!= nullptr) {
         for (int i= 0; i<base->getBaseOrders().size() ; i++) {
@@ -1670,92 +1747,81 @@ void showSpecificClientOrders(Base* base){
         }
         cinERR("ERROR: Invalid NIF, try again!");
     }
+
     auto it = find_if(clients.begin(), clients.end(), [&](Client client) { return client.getClientNif() == nif; });
-    if (it != clients.end()){
-        for(int i=0; i<base->getBaseOrders().size();i++){
-            if(base->getBaseOrders().at(i)->getOrderClient() == nif)
-                cout << *(Delivery *)(base->getBaseOrders().at(i)) << endl;
-        }
+    if (it == clients.end()) {
+        cinERR("ERROR: Client with given nif does not exist!");
         enterWait();
         return;
     }
-    cinERR("ERROR: Client with given nif does not exist!");
-    enterWait();
+
+    viewClientOrdersHistory(*it);
 }
 
-// TODO show products (all, by restaurant, by cuisine, by client)
+// TODO show products (all, by restaurant, by cuisine)
 // TODO show orders by date
 
 
 // Finance functions
 
 void showCompanyTotalEarnings(Company &company){
-    float total=0;
-    for(int i=0; i<company.getCompanyBases().size() ; i++){
-        for(int j=0; j<company.getCompanyBases().at(i).getBaseOrders().size(); j++){
-            Delivery *d = dynamic_cast<Delivery *> (company.getCompanyBases().at(i).getBaseOrders().at(j));
-            if(d!=NULL)
-                total += d->getDeliveryPrice();
+    double total_revenue = 0;
+    double total_expenses = 0;
+    double balance = 0;
+    for(auto base : company.getCompanyBases()){
+        for(auto ord : base.getBaseOrders()){
+            auto d = dynamic_cast<Delivery *>(ord);
+            if(d != nullptr)
+                total_revenue += (d->getOrderPrice()) * 0.2 + (d->getDeliveryPrice() - d->getOrderPrice());
+        }
+        for (auto worker : base.getBaseWorkers()) {
+            total_expenses -= worker->getWorkerSalary();
+            auto deliveryperson = dynamic_cast<Deliveryperson*>(worker);
+            if(deliveryperson != nullptr) {
+                total_expenses -= deliveryperson->getDeliveryEarnings();
+            }
         }
     }
-    cout << "Total company earning: " << total << endl;
+
+    balance = total_revenue + total_expenses;
+
+    cout << "/" << endl;
+    cout << "|   Total company revenue: " << total_revenue << endl;
+    cout << "|   Total company expenses with salaries: " << total_expenses << endl;
+    cout << "|   Global balance: " << balance << endl;
+    cout << "\\" << endl;
+
     enterWait();
 }
 
-void showEarningsByBase(Company &company){
-    float total=0;
-    Base* base = selectBase(company);
-    if(base!= nullptr){
-        vector<Order*> orders = base->getBaseOrders();
-        for (int i=0; i< orders.size(); i++){
-            Delivery *d = dynamic_cast<Delivery *> (orders.at(i));
-            if(d!=NULL)
-                total += d->getDeliveryPrice();
+void showEarningsByBase(Base* base){
+    double total_revenue = 0;
+    double total_expenses = 0;
+    double balance = 0;
+
+    for (auto ord : base->getBaseOrders()){
+        auto d = dynamic_cast<Delivery *> (ord);
+        if(d != nullptr)
+            total_revenue += (d->getOrderPrice()) * 0.2 + (d->getDeliveryPrice() - d->getOrderPrice());
+    }
+    for (auto worker : base->getBaseWorkers()) {
+        total_expenses -= worker->getWorkerSalary();
+        auto deliveryperson = dynamic_cast<Deliveryperson*>(worker);
+        if(deliveryperson != nullptr) {
+            total_expenses -= deliveryperson->getDeliveryEarnings();
         }
     }
-    cout << "Total earnings for this base: " << total << endl;
+
+    balance = total_revenue + total_expenses;
+
+    cout << base->getBaseLocation().getLocationAddress().getMunicipality() << endl;
+    cout << "/" << endl;
+    cout << "|   Total base revenue: " << total_revenue << endl;
+    cout << "|   Total base expenses with salaries: " << total_expenses << endl;
+    cout << "|   Global balance: " << balance << endl;
+    cout << "\\" << endl << endl;
+
     enterWait();
 }
 
-void showDeliveypersonEarnings(Base* base){
-    string str_nif, str;
-    int nif, opt;
-    float total=0;
-
-    if(base!= nullptr) {
-        while (true) {
-            cout << "Enter worker's nif (* - cancel): ";
-            getline(cin, str_nif);
-            if (validNIF(str_nif)) {
-                nif = stoi(str_nif);
-                break;
-            } else if (str_nif == "*") {
-                cout << "Canceled successfully!" << endl;
-                return;
-            }
-            cinERR("ERROR: Invalid NIF, try again!");
-        }
-        for (int i = 0; i < base->getBaseWorkers().size(); i++) {
-            if (base->getBaseWorkers().at(i)->getWorkerNif() == nif) {
-                Worker *worker = base->getBaseWorkers().at(i);
-                Deliveryperson *d = dynamic_cast<Deliveryperson *> (worker);
-                if (d != NULL) {
-                    total = d->getWorkerSalary();
-                    cout << "Base salary: " << total << endl;
-                    for (int j=0; j< base->getBaseOrders().size(); j++){
-                        Delivery *del = dynamic_cast<Delivery *> (base->getBaseOrders().at(j));
-                        if(del != NULL){
-                            if(del->getDeliveryPerson() == nif)
-                                total += 2;
-                        }
-                    }
-                    cout << "Total salary with deliveries rewards: " << total << endl;
-                    enterWait();
-                    return;
-                }
-            }
-        }
-        cinERR("ERROR: No deliveryperson in this base with the given nif!");
-        enterWait();
-    }
-}
+// TODO show earnings by client, restaurant and by time period

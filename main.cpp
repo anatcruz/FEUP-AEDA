@@ -32,6 +32,7 @@ int main() {
     Menu adminWorkerViewMenu("View workers");
     Menu adminRestaurantManagementMenu("Restaurant management");
     Menu adminRestaurantViewMenu("View restaurants");
+    Menu adminRestaurantProductsMenu("Products");
     Menu adminRestaurantOrdersMenu("View orders");
     Menu adminFinanceMenu("Finance");
 
@@ -93,6 +94,7 @@ int main() {
     adminRestaurantManagementMenu.addOption("Go back", faznada);
     adminRestaurantManagementMenu.addOption("View restaurants", [&](){adminRestaurantViewMenu.start();});
     adminRestaurantManagementMenu.addOption("View orders", [&](){adminRestaurantOrdersMenu.start();});
+    adminRestaurantManagementMenu.addOption("Products", [&](){adminRestaurantProductsMenu.start();});
     adminRestaurantManagementMenu.addOption("Add new restaurant", [&](){addRestaurant(openBase);});
     adminRestaurantManagementMenu.addOption("Remove restaurant", [&](){removeRestaurant(openBase);});
 
@@ -108,11 +110,16 @@ int main() {
     adminRestaurantOrdersMenu.addOption("View orders by restaurant", [&](){showSpecificRestaurantsOrders(openBase);});
     adminRestaurantOrdersMenu.addOption("View orders by client", [&](){showSpecificClientOrders(openBase);});
 
+    //adminRestaurantProductsMenu creation
+    adminRestaurantProductsMenu.addOption("Go back", faznada);
+    adminRestaurantProductsMenu.addOption("View all products",[&](){showAllProducts(openBase);});
+    adminRestaurantProductsMenu.addOption("View products by restaurant",[&](){showProductsByRestaurant(openBase);});
+    adminRestaurantProductsMenu.addOption("View products by cuisine",[&](){showProductsByCuisine(openBase);});
+
     // adminFinanceMenu creation
     adminFinanceMenu.addOption("Go back", faznada);
     adminFinanceMenu.addOption("Company earnings", [&](){showCompanyTotalEarnings(ugh);});
-    adminFinanceMenu.addOption("Base earnings", [&](){showEarningsByBase(ugh);});
-    adminFinanceMenu.addOption("Deliveryperson earnings", [&](){showDeliveypersonEarnings(openBase);});
+    adminFinanceMenu.addOption("Base earnings", [&](){showEarningsByBase(openBase);});
 
     // Start!
     startMenu.start();
