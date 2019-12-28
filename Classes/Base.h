@@ -7,7 +7,9 @@
 #include "Worker.h"
 #include "Client.h"
 #include "Restaurant.h"
+#include "Vehicle.h"
 #include "../utils.h"
+#include "bst.h"
 
 using namespace std;
 
@@ -46,6 +48,7 @@ private:
     /** The file that contains the orders of the Base.
  */
     string ordersFile;
+    BST<Vehicle> baseVehicles;
 protected:
     /** Location of the Base.
  */
@@ -53,10 +56,8 @@ protected:
 public:
     /** Default Constructor.
  */
-    Base() = default;
-    /** Constructor of a Base from the Location, manager, clients, restaurants, workers, orders, municipalities, clients'file, restaurants'file and workers'file.
-*/
-    Base(Location location, Admin* manager, vector<Client> clients, vector<Restaurant> restaurants, vector<Worker*> workers, vector<Order*> orders, vector<string> municipalities, string clientsFile, string restaurantsFile, string workersFile);
+    Base(): baseVehicles(Vehicle()) {};
+
     //Metodos Set
     /** Sets the Location of a Base.
       * @param Location is the parameter you want the new Base to have.
@@ -170,6 +171,9 @@ public:
  */
     Restaurant* getRestaurant(const string &name);
     //Other Methods
+
+    void addVehicle(const Vehicle& v);
+
     /** Displays the Base in a nice format.
       * @param out is the ostream.
       * @param base is the Base you want to display.

@@ -1,20 +1,5 @@
 #include "Base.h"
 
-Base::Base(Location location, Admin *manager, vector<Client> clients, vector<Restaurant> restaurants,
-           vector<Worker *> workers, vector<Order *> orders, vector<string> municipalities, string clientsFile, string restaurantsFile, string workersFile){
-    this->location=location;
-    this->manager=manager;
-    this->clients=clients;
-    this->restaurants=restaurants;
-    this->municipalities=municipalities;
-    this->workers=workers;
-    this->orders=orders;
-    this->clientsFile=clientsFile;
-    this->restaurantsFile=restaurantsFile;
-    this->workersFile=workersFile;
-}
-
-
 //Metodos Set
 void Base::setBaseLocation(Location location) {
     this->location = location;
@@ -133,6 +118,10 @@ Restaurant* Base::getRestaurant(const string &name) {
 }
 
 //Other Methods
+
+void Base::addVehicle(const class Vehicle & v) {
+    baseVehicles.insert(v);
+}
 
 ostream& operator<<(ostream& out, const Base &base){
     out << "/" << endl;
