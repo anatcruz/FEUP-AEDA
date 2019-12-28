@@ -1,7 +1,7 @@
 #include "Base.h"
 
 Base::Base(Location location, Admin *manager, vector<Client> clients, vector<Restaurant> restaurants,
-           vector<Worker *> workers, vector<Order *> orders, vector<string> municipalities, string clientsFile, string restaurantsFile, string workersFile){
+           tabHWorker workers, vector<Order *> orders, vector<string> municipalities, string clientsFile, string restaurantsFile, string workersFile){
     this->location=location;
     this->manager=manager;
     this->clients=clients;
@@ -41,7 +41,7 @@ void Base::setBaseMunicipalities(vector<string> municipalities) {
 }
 
 
-void Base::setBaseWorkers(vector<Worker *> workers) {
+void Base::setBaseWorkers(tabHWorker workers) {
     this->workers=workers;
 }
 
@@ -90,11 +90,11 @@ vector<string> Base::getBaseMunicipalities() const {
     return municipalities;
 }
 
-vector<Worker*> Base::getBaseWorkers() const {
+tabHWorker Base::getBaseWorkers() const {
     return workers;
 }
 
-vector<Worker*>* Base::getBaseWorkersAddr() {
+tabHWorker* Base::getBaseWorkersAddr() {
     return &workers;
 }
 
@@ -119,9 +119,16 @@ string Base::getBaseOrdersFile() const {
 }
 
 Worker* Base::getWorker(const int &nif) {
-    auto it = find_if(workers.begin(), workers.end(),[&](Worker* &w){return w->getWorkerNif() == nif;});
-    if (it != workers.end())
+//    auto it = find_if(workers.begin(), workers.end(),[&](Worker* &w){return w->getWorkerNif() == nif;});
+//    if (it != workers.end())
+//        return *it;
+//    return nullptr;
+    Worker* w1;
+    w1->setWorkerNif(nif);
+    auto it = workers.find(w1);
+    if(it!=workers.end()){
         return *it;
+    }
     return nullptr;
 }
 
@@ -160,7 +167,7 @@ void Base::addRestaurantToBase(const Restaurant &restaurant) {
 }
 
 void Base::addWorkerToBase(Worker *worker){
-    workers.push_back(worker);
+    workers.insert(worker);
 }
 
 void Base::addOrderToBase(Order *order) {

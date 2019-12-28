@@ -228,9 +228,12 @@ Company::Company(const string &filesPath){
         b.setBaseOrders(base_ords);
 
         getline(bases_file, str);
-        vector<Worker*> work = b.getBaseWorkers();
-        auto it = find_if(work.begin(),work.end(), [&](Worker* w){return w->getWorkerNif() == stoi(str);}); //Get Admin for this base
-        b.setBaseManager((Admin*)*(it));
+        tabHWorker work = b.getBaseWorkers();
+        //auto it = find_if(work.begin(),work.end(), [&](Worker* w){return w->getWorkerNif() == stoi(str);}); //Get Admin for this base
+        auto it=b.getWorker(stoi(str));
+        if(it!= nullptr){
+            b.setBaseManager((Admin*)it);
+        }
 
         getline(bases_file,str);
         b.setBaseMunicipalities(strToVect(str, ',')); //Base Municipalities
@@ -457,15 +460,16 @@ Worker* adminLogin(Company &company) {
         if (nif_str == "*") {
             return nullptr;
         } else if (validNIF(nif_str)) {
-            auto it = find_if(base->getBaseWorkersAddr()->begin(), base->getBaseWorkersAddr()->end(),
-                              [&](Worker* w){return w->getWorkerNif() == stoi(nif_str);});
-            if (it != base->getBaseWorkersAddr()->end()) {
-                if (dynamic_cast<Admin*>(*it) == 0) {
+            auto it = base->getWorker(stoi(nif_str));
+            /*auto it = find_if(base->getBaseWorkersAddr()->begin(), base->getBaseWorkersAddr()->end(),
+                              [&](Worker* w){return w->getWorkerNif() == stoi(nif_str);});*/
+            if (it != nullptr) {
+                if (dynamic_cast<Admin*>(it) == 0) {
                     cout << "You are not an admin!" << endl;
                     enterWait();
                     return nullptr;
                 } else {
-                    return *it;
+                    return it;
                 }
             } else {
                 cinERR("Worker does not exist, try again!");
@@ -838,7 +842,7 @@ bool hireWorker(Base *base){
             getline(cin, str);
             new_worker->setWorkerDescription(trim(str));
 
-            base->getBaseWorkersAddr()->push_back(new_worker);
+            base->addWorkerToBase(new_worker);
         }
         else if(opt==2){
             string brand, type, date;

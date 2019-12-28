@@ -11,6 +11,7 @@
 #include "Location.h"
 #include "Worker.h"
 #include "Base.h"
+#include <unordered_set>
 #include "../utils.h"
 
 using namespace std;
