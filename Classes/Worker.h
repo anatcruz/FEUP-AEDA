@@ -37,7 +37,7 @@ public:
     Worker() = default;
     /** Constructor of a Worker from the name, nif, date of birth and salary given.
 */
-    Worker(string name, int nif, Date birthdate, double salary);
+    Worker(string name, int nif, Date birthdate, double salary, Base *base);
     //Metodos Set
     /** Sets the name of a Worker.
        * @param name is the parameter you want the new Worker to have.
@@ -155,5 +155,30 @@ public:
     friend ostream& operator<<(ostream& out, const Deliveryperson &deliveryperson);
 };
 
+class RepairMan: public Worker{
+protected:
+    /** Each Repairman becames unavailable when taking a car for maintenance.
+*/
+    Time became_unavailable;
+    /** The vehicle the Repairman is taking for maintenance.
+   */
+    Vehicle* vehicle_to_repair;
+    /** Number of maintenance the Repairman has done.
+*/
+    int num_maintenance;
+public:
+    RepairMan() = default;
+    RepairMan(string name, int nif, Date birthdate, double salary,Base* base,Time became_unavailable,Vehicle* vehicle, int num_maintenance);
+    //Metodos Set
+    void setTime(Time became_unavailable);
+    void setVehicle(Vehicle* vehicle);
+    void setNumMaintenances(int num_maintenances);
+    //Metodos Get
+    Time getTime() const;
+    Vehicle* getVehicle() const;
+    int getNumMaintenance() const;
+    //Other Methods
+    friend ostream& operator<<(ostream& out, const RepairMan &repairman);
+};
 
 #endif //AEDA_UGHEATS_WORKER_H
