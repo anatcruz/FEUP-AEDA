@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_set>
 #include "Location.h"
 #include "Worker.h"
 #include "Client.h"
@@ -18,6 +19,25 @@ class Restaurant;
 class Admin;
 class Worker;
 
+struct workerHash
+{
+    int operator() (const Worker* &w) const
+    {
+        string s1=w->getWorkerName();
+        int v = 0;
+        for ( unsigned int i=0; i< s1.size(); i++ )
+            v = 37*v + s1[i];
+        return v;
+    }
+
+    bool operator() (const Worker* &w1, const Worker* &w2) const
+    {
+        return w1->getWorkerNif()==w2->getWorkerNif();
+    }
+};
+
+typedef unordered_set<Worker*, workerHash, workerHash> tabHWorker;
+
 class Base {
 private:
     Admin* manager;
@@ -29,7 +49,7 @@ private:
     vector<Restaurant> restaurants;
     /** The workers that work in that Base.
  */
-    vector<Worker*> workers;
+    tabHWorker workers;
     /** All the orders that were made from restaurants located in that Base.
  */
     vector<Order*> orders;
@@ -78,7 +98,7 @@ public:
     /** Sets the workers of a Base.
       * @param workers is the parameter you want the new Base to have.
 */
-    void setBaseWorkers(vector<Worker*> workers);
+    void setBaseWorkers(tabHWorker workers);
     /** Sets the orders of a Base.
       * @param orders is the parameter you want the new Base to have.
 */
@@ -131,11 +151,11 @@ public:
     /**
        * @return the Base's workers.
 */
-    vector<Worker*> getBaseWorkers() const;
+    tabHWorker getBaseWorkers() const;
     /**
        * @return the Base's workers'address.
 */
-    vector<Worker*>* getBaseWorkersAddr();
+    tabHWorker* getBaseWorkersAddr();
     /**
        * @return the Base's orders.
 */

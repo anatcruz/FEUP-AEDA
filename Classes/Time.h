@@ -58,6 +58,9 @@ public:
       * @param time is the Time you want to display.
 */
     friend ostream& operator<<(ostream& out, const Time &time);
+    bool operator<(const Time &t);
+    bool operator>(const Time &t);
+    bool operator==(const Time &t);
     /** Adds certain minutes to a Time.
        * @param min is the amount of minutes to add.
        * @return the Time updated.

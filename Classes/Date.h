@@ -50,7 +50,10 @@ public:
 */
     int getYear() const;
     //Other Methods
-
+    /** Compares 2 Dates.
+      * @param date is the Date you want to compare too.
+      * @return true if the Date passed as parameter is after the Date.
+     */
     bool operator<(const Date &date) const;
 
     /** Displays the Date in a nice format.
