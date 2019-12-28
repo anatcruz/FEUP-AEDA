@@ -50,6 +50,9 @@ public:
 */
     int getYear() const;
     //Other Methods
+
+    bool operator<(const Date &date) const;
+
     /** Displays the Date in a nice format.
       * @param out is the ostream.
       * @param date is the Date you want to display.

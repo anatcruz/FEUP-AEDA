@@ -41,6 +41,17 @@ int Date::getYear() const {
 
 //Other Methods
 
+bool Date::operator<(const class Date & date) const {
+    if (this->year < date.getYear()) {
+        return true;
+    } else if (this->year == date.getYear() && this->month < date.getMonth()) {
+        return true;
+    } else if (this->year == date.getYear() && this->month == date.getMonth() && this->day < date.getDay()) {
+        return true;
+    }
+    return false;
+}
+
 ostream& operator<<(ostream& out, const Date & date){
     out << right << setw(2) << setfill('0') << to_string(date.day);
     out << "/" << setfill('0') << setw(2) << to_string(date.month);
