@@ -35,7 +35,7 @@ public:
     /** Default Constructor.
 */
     Worker() = default;
-    /** Constructor of a Worker from the name, nif, date of birth and salary given.
+    /** Constructor of a Worker from the name, nif, date of birth, salary and base given.
 */
     Worker(string name, int nif, Date birthdate, double salary, Base *base);
     //Metodos Set
@@ -96,9 +96,9 @@ public:
     /** Default Constructor.
 */
     Admin() = default;
-    /** Constructor of an Admin from the name, nif, date of birth, salary and description given.
+    /** Constructor of an Admin from the name, nif, date of birth, salary, base and description given.
 */
-    Admin(string name, int nif, Date birthdate, double salary, string description);
+    Admin(string name, int nif, Date birthdate, double salary,Base *base, string description);
     //Metodos Set
     /** Sets the job description of an Admin.
        * @param description is the parameter you want the new Admin to have.
@@ -126,9 +126,9 @@ public:
     /** Default Constructor.
 */
     Deliveryperson() = default;
-    /** Constructor of a Deliveryperson from the name, nif, date of birth, salary and Vehicle given.
+    /** Constructor of a Deliveryperson from the name, nif, date of birth, salary, base and Vehicle given.
  */
-    Deliveryperson(string name, int nif, Date birthdate, double salary, Vehicle vehicle);
+    Deliveryperson(string name, int nif, Date birthdate, double salary,Base* base, Vehicle vehicle);
     //Metodos Set
     /** Sets the Vehicle of a Deliveryperson.
        * @param vehicle is the parameter you want the new Deliveryperson to have.
@@ -167,17 +167,43 @@ protected:
 */
     int num_maintenance;
 public:
+    /** Default Constructor.
+*/
     RepairMan() = default;
+    /** Constructor of a RepairMan from the name, nif, date of birth, salary, base and Vehicle given.
+ */
     RepairMan(string name, int nif, Date birthdate, double salary,Base* base,Time became_unavailable,Vehicle* vehicle, int num_maintenance);
     //Metodos Set
+    /** Sets the Time of a RepairMan.
+       * @param became_unavailable is the parameter you want the new RepairMan to have.
+*/
     void setTime(Time became_unavailable);
+    /** Sets the Vehicle of a RepairMan.
+       * @param vehicle is the parameter you want the new RepairMan to have.
+*/
     void setVehicle(Vehicle* vehicle);
-    void setNumMaintenances(int num_maintenances);
+    /** Sets the number of maintenance done by a RepairMan.
+       * @param num_maintenance is the parameter you want the new RepairMan to have.
+*/
+    void setNumMaintenance(int num_maintenance);
     //Metodos Get
+    /**
+      * @return the Time the RepairMan became unavailable.
+*/
     Time getTime() const;
+    /**
+      * @return the RepairMan's Vehicle.
+*/
     Vehicle* getVehicle() const;
+    /**
+      * @return the RepairMan's number of maintenance made.
+*/
     int getNumMaintenance() const;
     //Other Methods
+    /** Displays the RepairMan in a nice format.
+      * @param out is the ostream.
+      * @param repairman is the RepairMan you want to display.
+     */
     friend ostream& operator<<(ostream& out, const RepairMan &repairman);
 };
 

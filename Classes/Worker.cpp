@@ -1,11 +1,12 @@
 #include "Worker.h"
 //CLASS WORKER
 
-Worker::Worker(string name, int nif, Date birthdate, double salary) {
+Worker::Worker(string name, int nif, Date birthdate, double salary, Base *base) {
     this->name=name;
     this->nif=nif;
     this->birthdate=birthdate;
     this->salary=salary;
+    this->base=base;
 }
 
 
@@ -65,7 +66,7 @@ void Worker::print(ostream &out) const {
 
 //CLASS ADMIN
 
-Admin::Admin(string name, int nif, Date birthdate, double salary, string description):Worker(name, nif, birthdate, salary) {
+Admin::Admin(string name, int nif, Date birthdate, double salary,Base *base, string description):Worker(name, nif, birthdate, salary,base) {
     this->description=description;
 }
 
@@ -90,7 +91,7 @@ ostream &operator<<(ostream &out, const Admin &admin) {
 
 //CLASS DELIVERYPERSON
 
-Deliveryperson::Deliveryperson(string name, int nif, Date birthdate, double salary, Vehicle vehicle):Worker(name, nif, birthdate, salary) {
+Deliveryperson::Deliveryperson(string name, int nif, Date birthdate, double salary, Base* base, Vehicle vehicle):Worker(name, nif, birthdate, salary, base) {
     this->vehicle=vehicle;
 }
 
@@ -131,3 +132,50 @@ ostream &operator<<(ostream &out, const Deliveryperson &deliveryperson) {
     return out;
 }
 
+//CLASS REPAIRMAN
+RepairMan::RepairMan(string name, int nif, Date birthdate, double salary, Base *base, Time became_unavailable, Vehicle *vehicle, int num_maintenance) {
+    this->name=name;
+    this->nif=nif;
+    this->birthdate=birthdate;
+    this->salary=salary;
+    this->base=base;
+    this->became_unavailable=became_unavailable;
+    this->vehicle_to_repair=vehicle;
+    this->num_maintenance=num_maintenance;
+}
+
+//Metodos Set
+void RepairMan::setTime(Time became_unavailable) {
+    this->became_unavailable=became_unavailable;
+}
+
+void RepairMan::setVehicle(Vehicle *vehicle) {
+    this->vehicle_to_repair=vehicle;
+}
+
+void RepairMan::setNumMaintenance(int num_maintenance) {
+    this->num_maintenance=num_maintenance;
+}
+
+//Metodos Get
+Time RepairMan::getTime() const {
+    return became_unavailable;
+}
+
+Vehicle *RepairMan::getVehicle() const {
+    return vehicle_to_repair;
+}
+
+int RepairMan::getNumMaintenance() const {
+    return num_maintenance;
+}
+
+//Other Methods
+ostream &operator<<(ostream &out, const RepairMan &repairman) {
+    repairman.print(out);
+    out << setw(4) << left << '|' << "Time he became unavailable: " << repairman.became_unavailable << endl;
+    out << setw(4) << left << '|' << "Vehicle: " << repairman.vehicle_to_repair << endl;
+    out << setw(4) << left << '|' << "Number of maintenance made: " << repairman.num_maintenance << endl;
+    out << "\\_" << endl;
+    return out;
+}
