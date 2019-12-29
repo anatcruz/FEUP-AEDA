@@ -76,7 +76,7 @@ void Worker::print(ostream &out) const {
     out << setw(4) << left << '|' << "NIF: " << right << setfill('0') << setw(9) << nif << setfill(' ') << endl;
     out << setw(4) << left << '|' << "Birthdate: " << birthdate << endl;
     out << setw(4) << left << '|' << "Salary: " << salary << endl;
-    out << setw(4) << left << '|' << "Base: " << base << endl;
+    out << setw(4) << left << '|' << "Base: " << base->getBaseLocation() << endl;
     out << setw(4) << left << '|' << "Currently working: " << working << endl;
 }
 
@@ -194,10 +194,10 @@ Date RepairMan::getDate() const {
 //Other Methods
 ostream &operator<<(ostream &out, const RepairMan &repairman) {
     repairman.print(out);
+    out << setw(4) << left << '|' << "Date he became unavailable: " << repairman.became_unavailable_d << endl;
     out << setw(4) << left << '|' << "Time he became unavailable: " << repairman.became_unavailable_t << endl;
     out << setw(4) << left << '|' << "Vehicle: " << repairman.vehicle_to_repair << endl;
     out << setw(4) << left << '|' << "Number of maintenance made: " << repairman.num_maintenance << endl;
-    out << setw(4) << left << '|' << "Date he became unavailable: " << repairman.became_unavailable_d << endl;
     out << "\\_" << endl;
     return out;
 }
