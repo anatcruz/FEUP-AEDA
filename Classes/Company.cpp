@@ -1046,33 +1046,6 @@ bool fireWorker(Base *base){
             return false;
         }
     }
-    /*
-    for (int i = 0; i < base->getBaseWorkers().size(); i++) {
-        if (base->getBaseWorkers().at(i)->getWorkerNif() == nif) {
-            Worker *worker = base->getBaseWorkers().at(i);
-            if (worker != base->getBaseManager()) {
-                cout << "Are you sure you want to fire this worker? (Y/N): ";
-                getline(cin, str);
-                if(str == "Y" || str == "y"){
-                    base->getBaseWorkersAddr()->erase(base->getBaseWorkersAddr()->begin() + i);
-                    cout << "Worker successfully fired" << endl;
-                    enterWait();
-                    return true;
-                }
-                else {
-                    cout << "Worker not fired" << endl;
-                    return false;
-                }
-            }
-            cinERR("ERROR: Can't fire base manager");
-            enterWait();
-            return false;
-        }
-    }
-    cinERR("ERROR: No worker in this base with the given nif!");
-    enterWait();
-    return false;
-    */
 }
 
 

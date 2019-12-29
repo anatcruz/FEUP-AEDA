@@ -9,6 +9,7 @@
 #include <fstream>
 #include <cstdio>
 #include "Base.h"
+#include <unordered_set>
 #include "../utils.h"
 
 using namespace std;

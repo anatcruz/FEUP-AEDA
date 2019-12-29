@@ -55,3 +55,25 @@ Time Time::addtime(int min) {
     result.hour %= 24;
     return result;
 }
+
+bool Time::operator<(const Time &t) {
+    if(hour == t.getHour()){
+        if(min == t.getMin())
+            return sec < t.getSec();
+        return min < t.getMin();
+    }
+    return hour < t.getHour();
+}
+
+bool Time::operator>(const Time &t) {
+    if(hour == t.getHour()){
+        if(min == t.getMin())
+            return sec > t.getSec();
+        return min > t.getMin();
+    }
+    return hour > t.getHour();
+}
+
+bool Time::operator==(const Time &t) {
+    return (hour == t.getHour() && min == t.getMin() && sec == t.getSec());
+}
