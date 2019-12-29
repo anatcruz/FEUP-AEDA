@@ -3,8 +3,8 @@
 
 #include <string>
 #include <vector>
+#include "Time.h"
 #include "Order.h"
-#include "Vehicle.h"
 #include "../utils.h"
 
 
@@ -36,6 +36,10 @@ public:
     /** Default Constructor.
 */
     Worker();
+    /** Parametrized constructor
+     *
+     */
+     Worker(string name, int nif, Date birthdate, double salary, Base *base, bool working);
     //Metodos Set
     /** Sets the name of a Worker.
        * @param name is the parameter you want the new Worker to have.

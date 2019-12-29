@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Location.h"
+#include "Vehicle.h"
 #include "Worker.h"
 #include "tabHWorker.h"
 #include "../utils.h"
@@ -16,6 +17,7 @@ class Restaurant;
 class Admin;
 class Worker;
 class Order;
+class Vehicle;
 
 class Base {
 private:

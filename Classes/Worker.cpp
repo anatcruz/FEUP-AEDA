@@ -8,6 +8,14 @@ Worker::Worker() {
     base = nullptr;
 }
 
+Worker::Worker(string name, int nif, Date birthdate, double salary, Base *base, bool working) {
+    this->name = name;
+    this->nif = nif;
+    this->birthdate = birthdate;
+    this->salary = salary;
+    this->base = base;
+    this->working = working;
+}
 
 
 //Metodos Set
