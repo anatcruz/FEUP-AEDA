@@ -209,5 +209,16 @@ bool RepairMan::isAvailable() {
     Time current_t = Time(current->tm_hour,current->tm_min,current->tm_sec);
     Date current_d = Date(current->tm_mday,current->tm_mon + 1,current->tm_year + 1900);
     Time nedded_time = Time(became_unavailable_t.addtime(240));
-    return true;
+    if(became_unavailable_t.getHour() + 4 < 24 ){
+        if(current_t > nedded_time || current_t == nedded_time){
+            return true;
+        }
+    }
+    else{
+        Date nedded_date = Date(became_unavailable_d.addDay());
+        if((current_d < nedded_date || current_d == nedded_date) && (current_t > nedded_time || current_t == nedded_time)){
+            return true;
+        }
+    }
+    return false;
 }
