@@ -222,3 +222,12 @@ bool RepairMan::isAvailable() {
     }
     return false;
 }
+
+bool RepairMan::operator<(RepairMan &repairman) {
+    if(became_unavailable_d == repairman.getDate()){
+        return became_unavailable_t < repairman.getTime();
+    }
+    return became_unavailable_d < repairman.getDate();
+}
+
+
