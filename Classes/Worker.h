@@ -221,6 +221,7 @@ public:
      */
     friend ostream& operator<<(ostream& out, const RepairMan &repairman);
     bool isAvailable();
+    bool operator<(RepairMan &repairman);
 };
 
 #endif //AEDA_UGHEATS_WORKER_H
