@@ -119,6 +119,10 @@ Restaurant* Base::getRestaurant(const string &name) {
 
 //Other Methods
 
+void Base::addVehicle(const class Vehicle & v) {
+    baseVehicles.insert(v);
+}
+
 ostream& operator<<(ostream& out, const Base &base){
     out << "/" << endl;
     out << setw(4) << left << '|' << "Location: " << base.location <<endl;

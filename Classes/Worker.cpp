@@ -135,6 +135,7 @@ double Deliveryperson::getDeliveryEarnings() const {
 //Other Methods
 ostream &operator<<(ostream &out, const Deliveryperson &deliveryperson) {
     deliveryperson.print(out);
+    out << setw(4) << left << '|' << "Number of deliveries: " << deliveryperson.getDeliveries().size() << endl;
     out << setw(4) << left << '|' << "Vehicle: " << deliveryperson.vehicle << endl;
     out << "\\_" << endl;
     return out;

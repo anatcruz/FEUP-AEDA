@@ -7,6 +7,7 @@
 #include "Worker.h"
 #include "tabHWorker.h"
 #include "../utils.h"
+#include "bst.h"
 
 using namespace std;
 
@@ -46,6 +47,7 @@ private:
     /** The file that contains the orders of the Base.
  */
     string ordersFile;
+    BST<Vehicle> baseVehicles;
 protected:
     /** Location of the Base.
  */
@@ -53,7 +55,7 @@ protected:
 public:
     /** Default Constructor.
  */
-    Base() = default;
+    Base(): baseVehicles(Vehicle()) {};
     //Metodos Set
     /** Sets the Location of a Base.
       * @param Location is the parameter you want the new Base to have.
@@ -162,6 +164,9 @@ public:
  */
     Restaurant* getRestaurant(const string &name);
     //Other Methods
+
+    void addVehicle(const Vehicle& v);
+
     /** Displays the Base in a nice format.
       * @param out is the ostream.
       * @param base is the Base you want to display.
