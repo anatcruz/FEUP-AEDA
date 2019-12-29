@@ -1,6 +1,13 @@
 #include "Worker.h"
 //CLASS WORKER
 
+Worker::Worker() {
+    name = "";
+    nif = 0;
+    salary = 0;
+    base = nullptr;
+}
+
 Worker::Worker(string name, int nif, Date birthdate, double salary) {
     this->name=name;
     this->nif=nif;

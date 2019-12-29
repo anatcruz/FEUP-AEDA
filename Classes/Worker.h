@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 #include "Order.h"
-#include "Date.h"
 #include "Vehicle.h"
 #include "../utils.h"
+
 
 class Order;
 class Delivery;
@@ -34,7 +34,7 @@ protected:
 public:
     /** Default Constructor.
 */
-    Worker() = default;
+    Worker();
     /** Constructor of a Worker from the name, nif, date of birth and salary given.
 */
     Worker(string name, int nif, Date birthdate, double salary);

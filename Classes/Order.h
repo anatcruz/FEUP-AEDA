@@ -5,7 +5,6 @@
 #include <string>
 #include "Restaurant.h"
 #include "Date.h"
-#include "Product.h"
 #include "Worker.h"
 #include "Client.h"
 #include "Time.h"

@@ -1,20 +1,5 @@
 #include "Base.h"
 
-Base::Base(Location location, Admin *manager, vector<Client> clients, vector<Restaurant> restaurants,
-           vector<Worker *> workers, vector<Order *> orders, vector<string> municipalities, string clientsFile, string restaurantsFile, string workersFile){
-    this->location=location;
-    this->manager=manager;
-    this->clients=clients;
-    this->restaurants=restaurants;
-    this->municipalities=municipalities;
-    this->workers=workers;
-    this->orders=orders;
-    this->clientsFile=clientsFile;
-    this->restaurantsFile=restaurantsFile;
-    this->workersFile=workersFile;
-}
-
-
 //Metodos Set
 void Base::setBaseLocation(Location location) {
     this->location = location;
@@ -41,8 +26,11 @@ void Base::setBaseMunicipalities(vector<string> municipalities) {
 }
 
 
-void Base::setBaseWorkers(vector<Worker *> workers) {
-    this->workers=workers;
+void Base::setBaseWorkers(vector<Worker *> workers_v) {
+    workers.clear();
+    for (auto worker : workers_v) {
+        workers.insert(worker);
+    }
 }
 
 void Base::setBaseClientsFile(string clientsFile) {
@@ -91,10 +79,14 @@ vector<string> Base::getBaseMunicipalities() const {
 }
 
 vector<Worker*> Base::getBaseWorkers() const {
-    return workers;
+    vector<Worker*> ret;
+    for (auto worker : workers) {
+        ret.push_back(worker);
+    }
+    return ret;
 }
 
-vector<Worker*>* Base::getBaseWorkersAddr() {
+tabHWorker* Base::getBaseWorkersAddr() {
     return &workers;
 }
 
@@ -116,13 +108,6 @@ vector<Client>* Base::getBaseClientsAddr() {
 
 string Base::getBaseOrdersFile() const {
     return ordersFile;
-}
-
-Worker* Base::getWorker(const int &nif) {
-    auto it = find_if(workers.begin(), workers.end(),[&](Worker* &w){return w->getWorkerNif() == nif;});
-    if (it != workers.end())
-        return *it;
-    return nullptr;
 }
 
 Restaurant* Base::getRestaurant(const string &name) {
@@ -160,11 +145,23 @@ void Base::addRestaurantToBase(const Restaurant &restaurant) {
 }
 
 void Base::addWorkerToBase(Worker *worker){
-    workers.push_back(worker);
+    workers.insert(worker);
+}
+
+size_t Base::removeWorker(int nif) {
+    Worker* worker = new Worker;
+    worker->setWorkerNif(nif);
+    return workers.erase(worker);
 }
 
 void Base::addOrderToBase(Order *order) {
     orders.push_back(order);
+}
+
+Worker* Base::findWorker(int nif) {
+    Worker* worker = new Worker;
+    worker->setWorkerNif(nif);
+    return *workers.find(worker);
 }
 
 bool searchbyMunicipality(string municipality, vector<string> municipalities){
@@ -181,4 +178,13 @@ bool exitsBase(vector<Base> bases, string municipality){
             return true;
     }
     return false;
+}
+
+size_t workerHash::operator() (const Worker* w) const {
+    return w->getWorkerNif();
+}
+
+
+bool workerEq::operator() (const Worker* w1, const Worker* w2) const {
+    return w1->getWorkerNif() == w2->getWorkerNif();
 }

@@ -8,8 +8,6 @@
 #include <iostream>
 #include <fstream>
 #include <cstdio>
-#include "Location.h"
-#include "Worker.h"
 #include "Base.h"
 #include "../utils.h"
 

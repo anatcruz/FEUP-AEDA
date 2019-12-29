@@ -228,15 +228,13 @@ Company::Company(const string &filesPath){
         b.setBaseOrders(base_ords);
 
         getline(bases_file, str);
-        vector<Worker*> work = b.getBaseWorkers();
-        auto it = find_if(work.begin(),work.end(), [&](Worker* w){return w->getWorkerNif() == stoi(str);}); //Get Admin for this base
-        b.setBaseManager((Admin*)*(it));
+        auto admin = b.findWorker(stoi(str)); //Get Admin for this base
+        b.setBaseManager((Admin*)admin);
 
         getline(bases_file,str);
         b.setBaseMunicipalities(strToVect(str, ',')); //Base Municipalities
 
         bases.push_back(b);
-
 
         getline(bases_file,str);    //Discard delimiter
     }
@@ -248,21 +246,23 @@ Company::Company(const string &filesPath){
         for (int j = 0; j < bases.at(i).getBaseRestaurants().size(); j++) {
             bases.at(i).getBaseRestaurantsAddr()->at(j).setRestaurantBase(&bases.at(i));
         }
-        for (int j = 0; j < bases.at(i).getBaseWorkers().size(); j++) {
-            bases.at(i).getBaseWorkersAddr()->at(j)->setWorkerBase(&bases.at(i));
+        vector<Worker*> workers = bases.at(i).getBaseWorkers();
+        for (int j = 0; j < workers.size(); j++) {
+            workers.at(j)->setWorkerBase(&bases.at(i));
         }
+        bases.at(i).setBaseWorkers(workers);
     }
 
     bases_file.close();
 }
 
 Company::~Company() {
-    for (int i = 0; i < bases.size(); i++) {
-        for (int j = 0; j < bases.at(i).getBaseWorkersAddr()->size(); j++) {
-            delete bases.at(i).getBaseWorkersAddr()->at(j);
+    for (auto base : bases) {
+        for (auto worker : *base.getBaseWorkersAddr()) {
+            delete worker;
         }
-        for (auto ord : bases.at(i).getBaseOrders()) {
-            delete ord;
+        for (auto order : base.getBaseOrders()) {
+            delete order;
         }
     }
 }
@@ -838,7 +838,7 @@ bool hireWorker(Base *base){
             getline(cin, str);
             new_worker->setWorkerDescription(trim(str));
 
-            base->getBaseWorkersAddr()->push_back(new_worker);
+            base->addWorkerToBase(new_worker);
         }
         else if(opt==2){
             string brand, type, date;
@@ -882,7 +882,7 @@ bool hireWorker(Base *base){
             }
             new_worker->setVehicle(Vehicle(trim(brand), trim(type), Date(trim(date))));
 
-            base->getBaseWorkersAddr()->push_back(new_worker);
+            base->addWorkerToBase(new_worker);
         }
         else{
             cinERR("ERROR: Invalid job option!");
@@ -1031,6 +1031,22 @@ bool fireWorker(Base *base){
         }
         cinERR("ERROR: Invalid NIF, try again!");
     }
+    if (nif == base->getBaseManager()->getWorkerNif()) {
+        cinERR("ERROR: Can't fire base manager");
+        enterWait();
+        return false;
+    } else {
+        if (base->removeWorker(nif)) {
+            cout << "Worker successfully fired" << endl;
+            enterWait();
+            return true;
+        } else {
+            cinERR("ERROR: No worker in this base with the given nif!");
+            enterWait();
+            return false;
+        }
+    }
+    /*
     for (int i = 0; i < base->getBaseWorkers().size(); i++) {
         if (base->getBaseWorkers().at(i)->getWorkerNif() == nif) {
             Worker *worker = base->getBaseWorkers().at(i);
@@ -1056,6 +1072,7 @@ bool fireWorker(Base *base){
     cinERR("ERROR: No worker in this base with the given nif!");
     enterWait();
     return false;
+    */
 }
 
 
@@ -1239,7 +1256,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base){
     delivery_time = new_delivery->getOrderTime().addtime(rand() % 16 + 5);
     new_delivery->setDeliveryTime(delivery_time);
 
-    cout << base->getWorker(deliveryperson)->getWorkerName() << " will deliver your order at " << delivery_time << endl;
+    cout << base->findWorker(deliveryperson)->getWorkerName() << " will deliver your order at " << delivery_time << endl;
     cout << "Are you satisfied with your order (Y/N)? ";
     getline(cin,satisfied);
     success = (satisfied == "Y" || satisfied == "y");
@@ -1328,7 +1345,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vecto
     delivery_time = new_delivery->getOrderTime().addtime(rand() % 16 + 5);
     new_delivery->setDeliveryTime(delivery_time);
 
-    cout << base->getWorker(deliveryperson)->getWorkerName() << " will deliver your order at " << delivery_time << endl;
+    cout << base->findWorker(deliveryperson)->getWorkerName() << " will deliver your order at " << delivery_time << endl;
     cout << "Are you satisfied with your order(Y/N)? ";
     getline(cin,satisfied);
     success = (satisfied == "Y" || satisfied == "y");

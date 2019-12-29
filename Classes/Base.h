@@ -5,8 +5,7 @@
 #include <vector>
 #include "Location.h"
 #include "Worker.h"
-#include "Client.h"
-#include "Restaurant.h"
+#include "tabHWorker.h"
 #include "../utils.h"
 
 using namespace std;
@@ -15,6 +14,7 @@ class Client;
 class Restaurant;
 class Admin;
 class Worker;
+class Order;
 
 class Base {
 private:
@@ -27,7 +27,7 @@ private:
     vector<Restaurant> restaurants;
     /** The workers that work in that Base.
  */
-    vector<Worker*> workers;
+    tabHWorker workers;
     /** All the orders that were made from restaurants located in that Base.
  */
     vector<Order*> orders;
@@ -54,9 +54,6 @@ public:
     /** Default Constructor.
  */
     Base() = default;
-    /** Constructor of a Base from the Location, manager, clients, restaurants, workers, orders, municipalities, clients'file, restaurants'file and workers'file.
-*/
-    Base(Location location, Admin* manager, vector<Client> clients, vector<Restaurant> restaurants, vector<Worker*> workers, vector<Order*> orders, vector<string> municipalities, string clientsFile, string restaurantsFile, string workersFile);
     //Metodos Set
     /** Sets the Location of a Base.
       * @param Location is the parameter you want the new Base to have.
@@ -77,7 +74,7 @@ public:
     /** Sets the workers of a Base.
       * @param workers is the parameter you want the new Base to have.
 */
-    void setBaseWorkers(vector<Worker*> workers);
+    void setBaseWorkers(vector<Worker*> workers_v);
     /** Sets the orders of a Base.
       * @param orders is the parameter you want the new Base to have.
 */
@@ -134,7 +131,7 @@ public:
     /**
        * @return the Base's workers'address.
 */
-    vector<Worker*>* getBaseWorkersAddr();
+    tabHWorker* getBaseWorkersAddr();
     /**
        * @return the Base's orders.
 */
@@ -159,11 +156,6 @@ public:
       * @return the Base's orders'file.
 */
     string getBaseOrdersFile() const;
-    /** Search for a Worker in a Base by the nif.
-       * @param nif is how to search for the Worker.
-       * @return the pointer to the Worker wanted or a null pointer if the Worker does not exist.
-*/
-    Worker* getWorker(const int &nif);
     /** Search for a restaurant in a Base by the name.
         * @param name is how to search for the Restaurant.
         * @return the pointer to the Restaurant wanted or a null pointer if the Restaurant does not exist.
@@ -187,10 +179,12 @@ public:
        * @param worker is what you want to add.
 */
     void addWorkerToBase(Worker *worker);
+    size_t removeWorker(int nif);
     /** Updates the orders of a Base.
        * @param order is what you want to add.
 */
     void addOrderToBase(Order* order);
+    Worker* findWorker(int nif);
 };
 
 
