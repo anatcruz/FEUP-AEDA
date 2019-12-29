@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <queue>
 #include "Location.h"
 #include "Vehicle.h"
 #include "Worker.h"
@@ -18,6 +19,8 @@ class Admin;
 class Worker;
 class Order;
 class Vehicle;
+
+typedef priority_queue<RepairMan> HEAP_REPAIRMAN;
 
 class Base {
 private:
@@ -50,6 +53,7 @@ private:
  */
     string ordersFile;
     BST<Vehicle> baseVehicles;
+    HEAP_REPAIRMAN repairmen;
 protected:
     /** Location of the Base.
  */
