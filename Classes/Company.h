@@ -371,10 +371,18 @@ void showAdmins(Base* base);
        * @param base is the Base you want to see the deliverypersons from.
 */
 void showDeliverypersons(Base *base);
+
+void showRepairman(Base *base);
+
 /** Allows an admin to see a specific worker from a Base.
        * @param base is the Base you want to see the worker from.
 */
 void showSpecificWorker(Base *base);
+
+void showActiveWorkers(Base *base);
+
+void showOldWorkers(Base *base);
+
 /** Allows an admin to see the orders from a Base.
        * @param base is the Base you want to see the orders from.
 */

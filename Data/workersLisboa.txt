@@ -3,6 +3,7 @@ Alex Santos
 654821445
 08/12/1999
 580
+1
 Piaggio
 Motociclo
 14/12/1996
@@ -14,6 +15,7 @@ Fiona
 658462456
 25/12/1960
 680
+1
 Contabilista
 -----
 Admin
@@ -21,4 +23,5 @@ Carlos Jorge
 321654986
 19/08/1978
 1000
+1
 Gerente de Lisboa
