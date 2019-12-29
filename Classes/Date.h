@@ -68,5 +68,6 @@ public:
        * @return true if the date is valid.
 */
 bool validDate(string date);
+void addDay(Date d1);
 
 #endif //AEDA_UGHEATS_DATE_H
