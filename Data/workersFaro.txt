@@ -3,6 +3,7 @@ Mariana Silva
 153351153
 27/06/1956
 1000
+1
 Gerente de Faro
 -----
 Deliveryperson
@@ -10,6 +11,7 @@ Manuel Jorge
 684321845
 25/05/1987
 580
+1
 Tucano
 Motociclo
 15/09/1993
