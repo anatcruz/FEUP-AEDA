@@ -203,6 +203,9 @@ ostream &operator<<(ostream &out, const RepairMan &repairman) {
 }
 
 bool RepairMan::isAvailable() {
+    if (became_unavailable_t.getHour()==0 && became_unavailable_t.getMin()==0 && became_unavailable_t.getSec()==0
+          && became_unavailable_d.getDay()==0 && became_unavailable_d.getMonth()==0 && became_unavailable_d.getYear()==0 )
+        return true;
     time_t now;
     time(&now);
     struct tm* current = localtime(&now);
