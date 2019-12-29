@@ -52,6 +52,61 @@ bool Date::operator<(const class Date & date) const {
     return false;
 }
 
+bool Date::operator==(const Date &date) const {
+    return (day == date.getDay() && month == date.getMonth() && year == date.getYear());
+}
+
+Date Date::addDay() {
+    Date result(0,00,year);
+    if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10){
+        if(day == 31){
+            result.setDay(1);
+            result.setMonth(month+1);
+        }
+        else{
+            result.setDay(day+1);
+        }
+    }
+    else if(month == 2){
+        if((year % 4 == 0 && year % 100 != 0) || (year % 4 == 0 && year % 100 == 0 && year % 400 == 0)){
+            if(day == 29){
+                result.setDay(1);
+                result.setMonth(month+1);
+            }
+            else{
+                result.setDay(day+1);
+            }
+        }
+        else{
+            if(day == 28){
+                result.setDay(1);
+                result.setMonth(month+1);
+            }
+            else{
+                result.setDay(day+1);
+            }
+        }
+
+    }
+    else if(month == 4 || month == 6 || month == 9 || month == 11){
+        if(day == 30){
+            result.setDay(1);
+            result.setMonth(month+1);
+        }
+        else{
+            result.setDay(day+1);
+        }
+    }
+    else if(month == 12){
+        if(day == 31){
+            result.setDay(1);
+            result.setMonth(1);
+            result.setYear(year+1);
+        }
+    }
+    return result;
+}
+
 ostream& operator<<(ostream& out, const Date & date){
     out << right << setw(2) << setfill('0') << to_string(date.day);
     out << "/" << setfill('0') << setw(2) << to_string(date.month);
@@ -111,51 +166,3 @@ bool validDate(string date) {
     return true;
 }
 
-void addDay(Date d1){
-    if(d1.getMonth()==1 || d1.getMonth()==3 || d1.getMonth()==5 || d1.getMonth()==7 || d1.getMonth()==8 || d1.getMonth()==10){
-        if(d1.getDay() == 31){
-            d1.setDay(1);
-            d1.setMonth(d1.getMonth()+1);
-        }
-        else{
-            d1.setDay(d1.getDay()+1);
-        }
-    }
-    else if(d1.getMonth() == 2){
-        if((d1.getYear() % 4 == 0 && d1.getYear() % 100 != 0) || (d1.getYear() % 4 == 0 && d1.getYear() % 100 == 0 && d1.getYear() % 400 == 0)){
-            if(d1.getDay() == 29){
-                d1.setDay(1);
-                d1.setMonth(d1.getMonth()+1);
-            }
-            else{
-                d1.setDay(d1.getDay()+1);
-            }
-        }
-        else{
-            if(d1.getDay() == 28){
-                d1.setDay(1);
-                d1.setMonth(d1.getMonth()+1);
-            }
-            else{
-                d1.setDay(d1.getDay()+1);
-            }
-        }
-
-    }
-    else if(d1.getMonth()==4 || d1.getMonth()==6 || d1.getMonth()==9 || d1.getMonth()==11){
-        if(d1.getDay() == 30){
-            d1.setDay(1);
-            d1.setMonth(d1.getMonth()+1);
-        }
-        else{
-            d1.setDay(d1.getDay()+1);
-        }
-    }
-    else if(d1.getMonth()==12){
-        if(d1.getDay() == 31){
-            d1.setDay(1);
-            d1.setMonth(1);
-            d1.setYear(d1.getYear()+1);
-        }
-    }
-}

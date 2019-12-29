@@ -55,12 +55,14 @@ public:
       * @return true if the Date passed as parameter is after the Date.
      */
     bool operator<(const Date &date) const;
+    bool operator==(const Date &date) const;
 
     /** Displays the Date in a nice format.
       * @param out is the ostream.
       * @param date is the Date you want to display.
      */
     friend ostream& operator<<(ostream& out, const Date & date);
+    Date addDay();
 };
 
 /** Checks if a date is valid.
@@ -68,6 +70,6 @@ public:
        * @return true if the date is valid.
 */
 bool validDate(string date);
-void addDay(Date d1);
+
 
 #endif //AEDA_UGHEATS_DATE_H
