@@ -25,3 +25,59 @@ Carlos Jorge
 1000
 1
 Gerente de Lisboa
+-----
+Deliveryperson
+Maria Manuela
+100500600
+15/04/1999
+580
+1
+Fiat
+Carro
+08/09/2002
+84000
+23
+-----
+Repairman
+Ana Catarina
+800400700
+25/08/1979
+670
+0
+14/12/2019
+12:35:06
+45
+-----
+Repairman
+Andre Maria
+500800400
+13/06/1977
+670
+1
+25/11/2019
+18:21:06
+15
+-----
+Deliveryperson
+Antonio Paulo
+9007000333
+22/02/1959
+580
+1
+BMW
+Motociclo
+16/07/2006
+94665
+18
+-----
+Deliveryperson
+Pedro Jose
+600258400
+19/03/1972
+580
+1
+Suzuki
+Motociclo
+16/11/2019
+2300
+5
