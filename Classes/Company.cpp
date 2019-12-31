@@ -926,7 +926,9 @@ bool hireWorker(Base *base){
             enterWait();
             return false;
         }
-        new_worker->setVehicle(Vehicle(trim(brand), trim(type), Date(trim(date))));
+        Vehicle v(trim(brand), trim(type), Date(trim(date)));
+        new_worker->setVehicle(v);
+        base->addVehicle(v);
         new_worker->setWorking(true);
 
         base->addWorkerToBase(new_worker);
@@ -1042,7 +1044,7 @@ bool editWorkerInfo(Base *base){
                 cout << "Select which deliveryperson's information you want to modify:" << endl;
                 cout << "1. Name" << endl;
                 cout << "2. Salary" << endl;
-                cout << "3. Vehicle" << endl;
+                cout << "3. New Vehicle" << endl;
                 cout << "0. Go back" << endl;
                 getOption(opt);
                 switch(opt){
@@ -1078,7 +1080,13 @@ bool editWorkerInfo(Base *base){
                             enterWait();
                             return false;
                         }
-                        d->setVehicle(Vehicle(trim(brand), trim(type), Date(trim(date))));
+                        if(!base->removeVehicle(d->getVehicle())){
+                            cinERR("ERROR: Couldn't remove vehicle");
+                            return false;
+                        }
+                        Vehicle v(trim(brand), trim(type), Date(trim(date)));
+                        d->setVehicle(v);
+                        base->addVehicle(v);
                         break;
                     }
                     default:

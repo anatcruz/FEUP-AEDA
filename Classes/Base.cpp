@@ -123,6 +123,10 @@ void Base::addVehicle(const class Vehicle & v) {
     baseVehicles.insert(v);
 }
 
+bool Base::removeVehicle(const Vehicle &v){
+    return baseVehicles.remove(v);
+}
+
 ostream& operator<<(ostream& out, const Base &base){
     out << "/" << endl;
     out << setw(4) << left << '|' << "Location: " << base.location <<endl;

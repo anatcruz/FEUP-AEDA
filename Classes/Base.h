@@ -172,6 +172,7 @@ public:
     //Other Methods
 
     void addVehicle(const Vehicle& v);
+    bool removeVehicle(const Vehicle &v);
 
     /** Displays the Base in a nice format.
       * @param out is the ostream.
