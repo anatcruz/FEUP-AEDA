@@ -17,10 +17,11 @@ class Client;
 class Restaurant;
 class Admin;
 class Worker;
+class RepairMan;
 class Order;
 class Vehicle;
 
-typedef priority_queue<RepairMan> HEAP_REPAIRMAN;
+typedef priority_queue<RepairMan*> HEAP_REPAIRMAN;
 
 class Base {
 private:
