@@ -14,6 +14,7 @@ Manuel Jorge
 1
 Tucano
 Motociclo
+XX-69-XX
 15/09/1993
 50121
 3
@@ -34,6 +35,7 @@ Jorge Passos
 0
 Peugeot
 Motociclo
+ZZ-69-ZZ
 31/01/1996
 50146
 18
@@ -46,6 +48,7 @@ Catarna Lopes
 1
 Mazda
 Carro
+YY-69-YY
 15/11/1998
 561567
 22

@@ -84,4 +84,6 @@ void enterWait();
 */
 string removeSpaces(string str);
 
+bool validLicensePlate(string const &plate);
+
 #endif //AEDA_UGHEATS_UTILS_H

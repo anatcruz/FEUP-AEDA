@@ -21,6 +21,7 @@ private:
     */
     Date purchaseDate;
 
+    string licensePlate;
     int drivenKms;
     int numDeliveries;
 public:
@@ -30,7 +31,7 @@ public:
 
     /** Constructor of a Vehicle from the manufacturer, type and purchase date given.
     */
-    Vehicle(string manufacturer, string type, Date purchaseDate);
+    Vehicle(string manufacturer, string type, Date purchaseDate, string licensePlate);
 
 
     //Metodos Set
@@ -49,6 +50,8 @@ public:
        * @param purchaseDate is the parameter you want the new Vehicle to have.
     */
     void setPurchaseDate(Date purchaseDate);
+
+    void setLicensePlate(string licensePlate);
 
     void setDrivenKms(int kms);
 
@@ -71,6 +74,8 @@ public:
        * @return the Vehicle's purchase date.
     */
     Date getPurchaseDate() const;
+
+    string getLicensePlate() const;
 
     int getDrivenKms() const;
 
