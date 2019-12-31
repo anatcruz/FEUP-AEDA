@@ -198,7 +198,7 @@ public:
     void addOrderToBase(Order* order);
     Worker* findWorker(int nif);
     Client* findClient(int nif);
-    int assignDelivery();
+    int assignDelivery(Time order_time, Time& delivery_time);
 };
 
 

@@ -141,9 +141,18 @@ double Deliveryperson::getDeliveryEarnings() const {
 }
 
 bool Deliveryperson::isAvailable() const {
-    Time last_delivery = this->getDeliveries().back()->getDeliveryTime();
+    vector<Delivery*> deliveries = this->getDeliveries();
+    if (deliveries.empty()) {
+        return true;
+    }
+    Time last_delivery = deliveries.back()->getDeliveryTime();
     Time now(time(NULL));
     return working && (now > last_delivery);
+}
+
+void Deliveryperson::new_delivery(const int &kms) {
+    vehicle.setDrivenKms(vehicle.getDrivenKms() + kms);
+    vehicle.setNumDeliveries(vehicle.getNumDeliveries() + 1);
 }
 
 //Other Methods

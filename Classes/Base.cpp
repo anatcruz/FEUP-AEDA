@@ -183,10 +183,14 @@ Client* Base::findClient(int nif) {
     }
 }
 
-int Base::assignDelivery() {
+int Base::assignDelivery(Time order_time, Time &delivery_time) {
     for (auto worker : workers) {
         auto d_person = dynamic_cast<Deliveryperson*>(worker);
         if (d_person != NULL && d_person->isAvailable()) {
+            srand(time(NULL));
+            int delta = rand() % 16 + 5;
+            delivery_time = order_time.addtime(delta);
+            d_person->new_delivery(0.8 * delta);
             return d_person->getWorkerNif();
         }
     }

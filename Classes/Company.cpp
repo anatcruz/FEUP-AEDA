@@ -1260,11 +1260,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base){
     int deliveryperson;
     Time delivery_time;
 
-    time_t now;
-    time(&now);
-    struct tm* current_t = localtime(&now);
-    new_delivery->setOrderTime(Time(current_t->tm_hour,current_t->tm_min,current_t->tm_sec));
-    new_delivery->setOrderDate(Date(current_t->tm_mday,current_t->tm_mon + 1,current_t->tm_year + 1900));
+    new_delivery->setOrderTime(Time(time(NULL)));
 
     cout << endl << "Choose the products you want" << endl;
     cout << "Products: " << endl;
@@ -1309,7 +1305,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base){
 
     new_delivery->setDeliveryPrice(delivery_price);
 
-    deliveryperson = base->assignDelivery();
+    deliveryperson = base->assignDelivery(new_delivery->getOrderTime(), delivery_time);
 
     if (deliveryperson == -1) {
         cout << "We are not able to deliver your order at this time" << endl
@@ -1320,8 +1316,6 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base){
 
     new_delivery->setDeliveryPerson(deliveryperson);
 
-    srand(time(NULL));
-    delivery_time = new_delivery->getOrderTime().addtime(rand() % 16 + 5);
     new_delivery->setDeliveryTime(delivery_time);
 
     cout << base->findWorker(deliveryperson)->getWorkerName() << " will deliver your order at " << delivery_time << endl;
@@ -1348,11 +1342,8 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vecto
     int deliveryperson;
     Time delivery_time;
 
-    time_t now;
-    time(&now);
-    struct tm* current_t = localtime(&now);
-    new_delivery->setOrderTime(Time(current_t->tm_hour,current_t->tm_min,current_t->tm_sec));
-    new_delivery->setOrderDate(Date(current_t->tm_mday,current_t->tm_mon + 1,current_t->tm_year + 1900));
+
+    new_delivery->setOrderTime(Time(time(NULL)));
 
     cout << endl << "Choose the products you want" << endl;
     cout << "Products: " << endl;
@@ -1397,7 +1388,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vecto
 
     new_delivery->setDeliveryPrice(delivery_price);
 
-    deliveryperson = base->assignDelivery();
+    deliveryperson = base->assignDelivery(new_delivery->getOrderTime(), delivery_time);
 
     if (deliveryperson == -1) {
         cout << "We are not able to deliver your order at this time" << endl
@@ -1407,10 +1398,8 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vecto
     }
 
     new_delivery->setDeliveryPerson(deliveryperson);
-
-    srand(time(NULL));
-    delivery_time = new_delivery->getOrderTime().addtime(rand() % 16 + 5);
     new_delivery->setDeliveryTime(delivery_time);
+
 
     cout << base->findWorker(deliveryperson)->getWorkerName() << " will deliver your order at " << delivery_time << endl;
     cout << "Are you satisfied with your order(Y/N)? ";
@@ -1459,8 +1448,8 @@ bool makeOrderDeliveryByMunicipality(Client &client, Base *base){
         vector<string> municipality_rest;
         for(int i=0;i<base->getBaseRestaurants().size();i++){
             if(base->getBaseRestaurants().at(i).getRestaurantAddress().getMunicipality() == municipality){
-                cout <<  i+1 << ": " << base->getBaseRestaurants().at(i) << endl;
                 municipality_rest.push_back(base->getBaseRestaurants().at(i).getRestaurantName());
+                cout <<  municipality_rest.size() << ": " << base->getBaseRestaurants().at(i) << endl;
             }
         }
         cout << endl << "0 - cancel order" << endl;
@@ -1585,6 +1574,32 @@ bool makeOrderDeliveryByCuisine(Client &client, Base *base){
             cout << "ERROR: Invalid restaurant choice!Try again: ";
         }
     }while(opt != 0);
+}
+
+bool makeOrderDeliveryAll(Client &client, Base *base) {
+    int opt;
+    int cnt = 1;
+    vector<Restaurant> restaurants = base->getBaseRestaurants();
+    for (auto rest : restaurants) {
+        cout <<  cnt << ": " << rest << endl;
+        cnt++;
+    }
+    cout << endl << "0 - cancel order" << endl;
+
+    while(true){
+        getOption(opt);
+        if(opt > 0 && opt <= restaurants.size()){
+            Restaurant* ord_rest = base->getRestaurant(restaurants.at(opt - 1).getRestaurantName());
+            return makeOrderDelivery(client,ord_rest,base);
+        }
+        else if(opt==0){
+            cout << "Order canceled successfully" << endl;
+            return false;
+        }
+        else{
+            cout << "ERROR: Invalid restaurant choice! Try again: ";
+        }
+    }
 }
 
 

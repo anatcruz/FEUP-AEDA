@@ -154,6 +154,8 @@ public:
 
     bool isAvailable() const;
 
+    void new_delivery(const int &kms);
+
     //Other Methods
     /** Displays the Deliveryperson in a nice format.
       * @param out is the ostream.

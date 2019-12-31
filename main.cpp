@@ -53,6 +53,7 @@ int main() {
 
     // restaurantsMenu
     restaurantsMenu.addOption("Go back", faznada);
+    restaurantsMenu.addOption("All restaurants", [&](){makeOrderDeliveryAll(*openClient, openBase);});
     restaurantsMenu.addOption("By name", [&](){makeOrderDeliveryByRestaurant(*openClient,openBase);});
     restaurantsMenu.addOption("By municipality", [&](){makeOrderDeliveryByMunicipality(*openClient,openBase);});
     restaurantsMenu.addOption("By price range", [&](){makeOrderDeliveryByPrice(*openClient,openBase);});

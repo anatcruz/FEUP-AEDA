@@ -66,9 +66,10 @@ ostream &operator<<(ostream &out, const Time &time) {
 }
 
 Time Time::addtime(int min) {
-    Time result(0,0,0);
-    result.min = this->min + min;
-    result.hour = this->hour + this->min / 60;
+    Time result = *this;
+    result.min += min;
+    result.hour += result.min / 60;
+    result.date = result.date.addDay(result.hour / 24);
     result.min %= 60;
     result.hour %= 24;
     return result;

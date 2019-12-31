@@ -288,6 +288,13 @@ bool makeOrderDeliveryByPrice(Client &client, Base *base);
        * @return true if the Client made an order successfully.
 */
 bool makeOrderDeliveryByCuisine(Client &client, Base *base);
+/** Allows a Client to make an order and the delivery associated.
+       * The Client can order from any restaurant in the base and this function calls makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base) to finish the process.The Client can cancel his order at any moment.
+       * @param client is the Client who wants to make an order.
+       * @param base is the Base of the Client.
+       * @return true if the Client made an order successfully.
+*/
+bool makeOrderDeliveryAll(Client &client, Base *base);
 
 //Worker functions: only allowed to admins.
 /** Allows an Admin to hire a Worker and create his account.

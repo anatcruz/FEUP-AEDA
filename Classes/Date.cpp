@@ -56,53 +56,52 @@ bool Date::operator==(const Date &date) const {
     return (year == date.getYear() && month == date.getMonth() && day == date.getDay());
 }
 
-Date Date::addDay() {
-    Date result(0,00,year);
-    if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10){
-        if(day == 31){
-            result.setDay(1);
-            result.setMonth(month+1);
-        }
-        else{
-            result.setDay(day+1);
-        }
-    }
-    else if(month == 2){
-        if((year % 4 == 0 && year % 100 != 0) || (year % 4 == 0 && year % 100 == 0 && year % 400 == 0)){
-            if(day == 29){
-                result.setDay(1);
-                result.setMonth(month+1);
+Date Date::addDay(int numDays) {
+    Date result = *this;
+    while (numDays) {
+        result = *this;
+        if (result.month == 1 || result.month == 3 || result.month == 5 || result.month == 7 || result.month == 8 ||
+            result.month == 10) {
+            if (result.day == 31) {
+                result.day = 1;
+                result.month++;
+            } else {
+                result.day++;
             }
-            else{
-                result.setDay(day+1);
+        } else if (result.month == 2) {
+            if ((result.year % 4 == 0 && result.year % 100 != 0) ||
+                (result.year % 4 == 0 && result.year % 100 == 0 && result.year % 400 == 0)) {
+                if (result.day == 29) {
+                    result.day = 1;
+                    result.month++;
+                } else {
+                    result.day++;
+                }
+            } else {
+                if (result.day == 28) {
+                    result.day = 1;
+                    result.month++;
+                } else {
+                    result.day++;
+                }
+            }
+        } else if (result.month == 4 || result.month == 6 || result.month == 9 || result.month == 11) {
+            if (result.day == 30) {
+                result.day = 1;
+                result.month++;
+            } else {
+                result.day++;
+            }
+        } else if (result.month == 12) {
+            if (result.day == 31) {
+                result.day = 1;
+                result.month = 1;
+                result.year++;
+            } else {
+                result.day++;
             }
         }
-        else{
-            if(day == 28){
-                result.setDay(1);
-                result.setMonth(month+1);
-            }
-            else{
-                result.setDay(day+1);
-            }
-        }
-
-    }
-    else if(month == 4 || month == 6 || month == 9 || month == 11){
-        if(day == 30){
-            result.setDay(1);
-            result.setMonth(month+1);
-        }
-        else{
-            result.setDay(day+1);
-        }
-    }
-    else if(month == 12){
-        if(day == 31){
-            result.setDay(1);
-            result.setMonth(1);
-            result.setYear(year+1);
-        }
+        numDays--;
     }
     return result;
 }
