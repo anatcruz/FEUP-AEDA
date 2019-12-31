@@ -76,7 +76,7 @@ void Worker::print(ostream &out) const {
     out << setw(4) << left << '|' << "NIF: " << right << setfill('0') << setw(9) << nif << setfill(' ') << endl;
     out << setw(4) << left << '|' << "Birthdate: " << birthdate << endl;
     out << setw(4) << left << '|' << "Salary: " << salary << endl;
-    out << setw(4) << left << '|' << "Base: " << base << endl;
+    out << setw(4) << left << '|' << "Base: " << base->getBaseLocation() << endl;
     out << setw(4) << left << '|' << "Currently working: " << working << endl;
 }
 
@@ -200,20 +200,43 @@ Date RepairMan::getDate() const {
 //Other Methods
 ostream &operator<<(ostream &out, const RepairMan &repairman) {
     repairman.print(out);
+    out << setw(4) << left << '|' << "Date he became unavailable: " << repairman.became_unavailable_d << endl;
     out << setw(4) << left << '|' << "Time he became unavailable: " << repairman.became_unavailable_t << endl;
     out << setw(4) << left << '|' << "Vehicle: " << repairman.vehicle_to_repair << endl;
     out << setw(4) << left << '|' << "Number of maintenance made: " << repairman.num_maintenance << endl;
-    out << setw(4) << left << '|' << "Date he became unavailable: " << repairman.became_unavailable_d << endl;
     out << "\\_" << endl;
     return out;
 }
 
 bool RepairMan::isAvailable() {
+    if (became_unavailable_t.getHour()==0 && became_unavailable_t.getMin()==0 && became_unavailable_t.getSec()==0
+          && became_unavailable_d.getDay()==0 && became_unavailable_d.getMonth()==0 && became_unavailable_d.getYear()==0 )
+        return true;
     time_t now;
     time(&now);
     struct tm* current = localtime(&now);
     Time current_t = Time(current->tm_hour,current->tm_min,current->tm_sec);
     Date current_d = Date(current->tm_mday,current->tm_mon + 1,current->tm_year + 1900);
     Time nedded_time = Time(became_unavailable_t.addtime(240));
-    return true;
+    if(became_unavailable_t.getHour() + 4 < 24 ){
+        if(current_t > nedded_time || current_t == nedded_time){
+            return true;
+        }
+    }
+    else{
+        Date nedded_date = Date(became_unavailable_d.addDay());
+        if((current_d < nedded_date || current_d == nedded_date) && (current_t > nedded_time || current_t == nedded_time)){
+            return true;
+        }
+    }
+    return false;
 }
+
+bool RepairMan::operator<(RepairMan &repairman) {
+    if(became_unavailable_d == repairman.getDate()){
+        return became_unavailable_t < repairman.getTime();
+    }
+    return became_unavailable_d < repairman.getDate();
+}
+
+

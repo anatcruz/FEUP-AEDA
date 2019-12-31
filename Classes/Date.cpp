@@ -56,6 +56,57 @@ bool Date::operator==(const Date &date) const {
     return (year == date.getYear() && month == date.getMonth() && day == date.getDay());
 }
 
+Date Date::addDay() {
+    Date result(0,00,year);
+    if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10){
+        if(day == 31){
+            result.setDay(1);
+            result.setMonth(month+1);
+        }
+        else{
+            result.setDay(day+1);
+        }
+    }
+    else if(month == 2){
+        if((year % 4 == 0 && year % 100 != 0) || (year % 4 == 0 && year % 100 == 0 && year % 400 == 0)){
+            if(day == 29){
+                result.setDay(1);
+                result.setMonth(month+1);
+            }
+            else{
+                result.setDay(day+1);
+            }
+        }
+        else{
+            if(day == 28){
+                result.setDay(1);
+                result.setMonth(month+1);
+            }
+            else{
+                result.setDay(day+1);
+            }
+        }
+
+    }
+    else if(month == 4 || month == 6 || month == 9 || month == 11){
+        if(day == 30){
+            result.setDay(1);
+            result.setMonth(month+1);
+        }
+        else{
+            result.setDay(day+1);
+        }
+    }
+    else if(month == 12){
+        if(day == 31){
+            result.setDay(1);
+            result.setMonth(1);
+            result.setYear(year+1);
+        }
+    }
+    return result;
+}
+
 ostream& operator<<(ostream& out, const Date & date){
     out << right << setw(2) << setfill('0') << to_string(date.day);
     out << "/" << setfill('0') << setw(2) << to_string(date.month);

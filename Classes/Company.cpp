@@ -157,6 +157,8 @@ Company::Company(const string &filesPath){
                 a->setWorkerBirthdate(Date(str));
                 getline(workers_file, str); //Salary
                 a->setWorkerSalary(stod(str));
+                getline(workers_file, str); //Working
+                a->setWorking(stoi(str));
                 getline(workers_file, str); //Description
                 a->setWorkerDescription(str);
                 b.addWorkerToBase(a);
@@ -171,6 +173,8 @@ Company::Company(const string &filesPath){
                 d->setWorkerBirthdate(Date(str));
                 getline(workers_file, str); //Salary
                 d->setWorkerSalary(stod(str));
+                getline(workers_file, str); //Working
+                d->setWorking(stoi(str));
                 Vehicle v;
                 getline(workers_file, str); //Vehicle Manufacturer
                 v.setManufacturer(str);
@@ -186,10 +190,31 @@ Company::Company(const string &filesPath){
                 b.addVehicle(v);
                 b.addWorkerToBase(d);
             }
+            else if(str=="Repairman"){
+                RepairMan *r = new RepairMan;
+                getline(workers_file, str); //Name
+                r->setWorkerName(str);
+                getline(workers_file, str); //Nif
+                r->setWorkerNif(stoi(str));
+                getline(workers_file, str); //Birthdate
+                r->setWorkerBirthdate(Date(str));
+                getline(workers_file, str); //Salary
+                r->setWorkerSalary(stod(str));
+                getline(workers_file, str); //Working
+                r->setWorking(stoi(str));
+                getline(workers_file, str); //Unavailable Date
+                r->setDate(Date(str));
+                getline(workers_file, str); //Unavailable Time
+                r->setTime(Time(str));
+                getline(workers_file, str); //Number of maintenance made
+                r->setNumMaintenance(stoi(str));
+                b.addWorkerToBase(r);
+            }
             getline(workers_file, str); //Discard delimiter
         }
         workers_file.close();
 
+        //Get Orders
         getline(bases_file, str);
         b.setBaseOrdersFile(str);
         ifstream orders_file(filePath + str);
@@ -509,27 +534,41 @@ void updateWorkersFile(Base &base){
     ofstream out_file(file);
 
     for(int i = 0; i < temp.size(); i++){
-        Admin *a = dynamic_cast<Admin *> (temp.at(i));
-        if (a!= NULL){
+        if (dynamic_cast<Admin *> (temp.at(i)) != NULL){
+            Admin* a = dynamic_cast<Admin *> (temp.at(i));
             out_file << "Admin" << endl;
             out_file << a->getWorkerName() << endl;
             out_file << a->getWorkerNif() << endl;
             out_file << a->getWorkerBirthdate() << endl;
             out_file << a->getWorkerSalary() << endl;
+            out_file << a->getWorking() << endl;
             out_file << a->getWorkerDescription();
         }
-        else{
+        else if(dynamic_cast<Deliveryperson *> (temp.at(i))!=NULL){
             Deliveryperson *d = dynamic_cast<Deliveryperson *> (temp.at(i));
-            if(d!=NULL){
-                out_file << "Deliveryperson" << endl;
-                out_file << d->getWorkerName() << endl;
-                out_file << d->getWorkerNif() << endl;
-                out_file << d->getWorkerBirthdate() << endl;
-                out_file << d->getWorkerSalary() << endl;
-                out_file << d->getVehicle().getManufacturer() << endl;
-                out_file << d->getVehicle().getType() << endl;
-                out_file << d->getVehicle().getPurchaseDate();
-            }
+            out_file << "Deliveryperson" << endl;
+            out_file << d->getWorkerName() << endl;
+            out_file << d->getWorkerNif() << endl;
+            out_file << d->getWorkerBirthdate() << endl;
+            out_file << d->getWorkerSalary() << endl;
+            out_file << d->getWorking() << endl;
+            out_file << d->getVehicle().getManufacturer() << endl;
+            out_file << d->getVehicle().getType() << endl;
+            out_file << d->getVehicle().getPurchaseDate();
+            out_file << d->getVehicle().getDrivenKms();
+            out_file << d->getVehicle().getNumDeliveries();
+        }
+        else if(dynamic_cast<RepairMan *> (temp.at(i))){
+            RepairMan *r = dynamic_cast<RepairMan *> (temp.at(i));
+            out_file << "Deliveryperson" << endl;
+            out_file << r->getWorkerName() << endl;
+            out_file << r->getWorkerNif() << endl;
+            out_file << r->getWorkerBirthdate() << endl;
+            out_file << r->getWorkerSalary() << endl;
+            out_file << r->getWorking() << endl;
+            out_file << r->getDate() << endl;
+            out_file << r->getTime() << endl;
+            out_file << r->getNumMaintenance();
         }
         if(i!=temp.size()-1)
             out_file<<endl << "-----"<<endl;
@@ -789,6 +828,7 @@ bool hireWorker(Base *base){
     cout << "Select job qualifications:" << endl;
     cout << "1. Admin" << endl;
     cout << "2. Deliveryperson" << endl;
+    cout << "3. Repairman" << endl;
     getOption(opt);
 
     if(opt==1){
@@ -823,6 +863,7 @@ bool hireWorker(Base *base){
         cout << "Administrator's function description: ";
         getline(cin, str);
         new_worker->setWorkerDescription(trim(str));
+        new_worker->setWorking(true);
 
         base->addWorkerToBase(new_worker);
     }
@@ -867,14 +908,51 @@ bool hireWorker(Base *base){
             return false;
         }
         new_worker->setVehicle(Vehicle(trim(brand), trim(type), Date(trim(date))));
+        new_worker->setWorking(true);
 
         base->addWorkerToBase(new_worker);
-        }
-        else{
-            cinERR("ERROR: Invalid job option!");
+    }
+    else if(opt==3){
+        RepairMan *new_worker = new RepairMan();
+        new_worker->setWorkerNif(nif);
+        new_worker->setWorkerBase(base);
+        cout << "Name: (* - cancel): ";
+        getline(cin,str);
+        if(str == "*")
+            return false;
+        else
+            new_worker->setWorkerName(trim(str));
+
+        cout << "Birthdate (dd/mm/yyyy): ";
+        getline(cin, str);
+        if(!validDate(trim(str))){
+            cinERR("ERROR: Invalid birthdate");
             enterWait();
             return false;
         }
+        new_worker->setWorkerBirthdate(Date(trim(str)));
+
+        cout << "Base salary: ";
+        getline(cin, str);
+        if(stod(trim(str)) < 0){
+            cinERR("ERROR: Invalid salary");
+            enterWait();
+            return false;
+        }
+        new_worker->setWorkerSalary(stod(trim(str)));
+
+        new_worker->setDate(Date(0,0,0));
+        new_worker->setTime(Time(0,0,0));
+        new_worker->setNumMaintenance(0);
+        new_worker->setWorking(true);
+
+        base->addWorkerToBase(new_worker);
+    }
+    else{
+        cinERR("ERROR: Invalid job option!");
+        enterWait();
+        return false;
+    }
 
     cout << "Worker created successfully!" << endl;
     enterWait();
@@ -900,8 +978,8 @@ bool editWorkerInfo(Base *base){
     for (int i = 0; i < base->getBaseWorkers().size(); i++) {
         if (base->getBaseWorkers().at(i)->getWorkerNif() == nif) {
             Worker* worker = base->getBaseWorkers().at(i);
-            Admin *a = dynamic_cast<Admin *> (worker);
-            if (a!= NULL) {
+            if (dynamic_cast<Admin *> (worker)!= NULL) {
+                Admin *a = dynamic_cast<Admin *> (worker);
                 cout << "Select which admin's information you want to modify:" << endl;
                 cout << "1. Name" << endl;
                 cout << "2. Salary" << endl;
@@ -940,58 +1018,90 @@ bool editWorkerInfo(Base *base){
                 enterWait();
                 return true;
             }
-            else{
+            else if (dynamic_cast<Deliveryperson *> (worker)!=NULL){
                 Deliveryperson *d = dynamic_cast<Deliveryperson *> (worker);
-                if(d!=NULL){
-                    cout << "Select which deliveryperson's information you want to modify:" << endl;
-                    cout << "1. Name" << endl;
-                    cout << "2. Salary" << endl;
-                    cout << "3. Vehicle" << endl;
-                    cout << "0. Go back" << endl;
-                    getOption(opt);
-                    switch(opt){
-                        case 0:
+                cout << "Select which deliveryperson's information you want to modify:" << endl;
+                cout << "1. Name" << endl;
+                cout << "2. Salary" << endl;
+                cout << "3. Vehicle" << endl;
+                cout << "0. Go back" << endl;
+                getOption(opt);
+                switch(opt){
+                    case 0:
+                        return false;
+                    case 1:
+                        cout << "New name (* - cancel): ";
+                        getline(cin,str);
+                        if(str == "*")
                             return false;
-                        case 1:
-                            cout << "New name (* - cancel): ";
-                            getline(cin,str);
-                            if(str == "*")
-                                return false;
-                            d->setWorkerName(trim(str));
-                            break;
-                        case 2:
-                            cout << "New base salary: ";
-                            getline(cin, str);
-                            if(stod(trim(str)) < 0){
-                                cinERR("ERROR: Invalid salary");
-                                enterWait();
-                                return false;
-                            }
-                            d->setWorkerSalary(stod(trim(str)));
-                            break;
-                        case 3:{
-                            string brand, type, date;
-                            cout << "New vehicle's brand: ";
-                            getline(cin, brand);
-                            cout << "Vehicle's type: ";
-                            getline(cin, type);
-                            cout << "Vehicle's plate date: ";
-                            getline(cin, date);
-                            if(!validDate(trim(date))){
-                                cinERR("ERROR: Invalid date");
-                                enterWait();
-                                return false;
-                            }
-                            d->setVehicle(Vehicle(trim(brand), trim(type), Date(trim(date))));
-                            break;
+                        d->setWorkerName(trim(str));
+                        break;
+                    case 2:
+                        cout << "New base salary: ";
+                        getline(cin, str);
+                        if(stod(trim(str)) < 0){
+                            cinERR("ERROR: Invalid salary");
+                            enterWait();
+                            return false;
                         }
-                        default:
+                        d->setWorkerSalary(stod(trim(str)));
+                        break;
+                    case 3:{
+                        string brand, type, date;
+                        cout << "New vehicle's brand: ";
+                        getline(cin, brand);
+                        cout << "Vehicle's type: ";
+                        getline(cin, type);
+                        cout << "Vehicle's plate date: ";
+                        getline(cin, date);
+                        if(!validDate(trim(date))){
+                            cinERR("ERROR: Invalid date");
+                            enterWait();
                             return false;
+                        }
+                        d->setVehicle(Vehicle(trim(brand), trim(type), Date(trim(date))));
+                        break;
                     }
-                    cout << "\nInformation successfully updated!" << endl;
-                    enterWait();
-                    return true;
+                    default:
+                        return false;
+                    }
+                cout << "\nInformation successfully updated!" << endl;
+                enterWait();
+                return true;
+            }
+            else if(dynamic_cast<RepairMan*>(worker)!=NULL){
+                RepairMan* r = dynamic_cast<RepairMan*>(worker);
+                cout << "Select which admin's information you want to modify:" << endl;
+                cout << "1. Name" << endl;
+                cout << "2. Salary" << endl;
+                cout << "0. Go back" << endl;
+                getOption(opt);
+                switch(opt){
+                    case 0:
+                        return false;
+                    case 1:
+                        cout << "New name (* - cancel): ";
+                        getline(cin,str);
+                        if(str == "*")
+                            return false;
+                        r->setWorkerName(trim(str));
+                        break;
+                    case 2:
+                        cout << "New base salary: ";
+                        getline(cin, str);
+                        if(stod(trim(str)) < 0){
+                            cinERR("ERROR: Invalid salary");
+                            enterWait();
+                            return false;
+                        }
+                        r->setWorkerSalary(stod(trim(str)));
+                        break;
+                    default:
+                        return false;
                 }
+                cout << "\nInformation successfully updated!" << endl;
+                enterWait();
+                return true;
             }
         }
     }
@@ -1000,7 +1110,7 @@ bool editWorkerInfo(Base *base){
     return false;
 
 }//BY ADMIN
-
+//TODO Change remove worker
 bool fireWorker(Base *base){
     string str_nif, str;
     int nif, opt;
@@ -1657,8 +1767,12 @@ void showWorkers(Base* base) {
     for (auto worker : base->getBaseWorkers()) {
         if (dynamic_cast<Admin *>(worker) != 0) {
             cout << *(Admin *)(worker);
-        } else {
+        }
+        else if (dynamic_cast<Deliveryperson*>(worker) != 0){
             cout << *(Deliveryperson *)(worker);
+        }
+        else if(dynamic_cast<RepairMan*>(worker) != 0){
+            cout << *(RepairMan *)(worker);
         }
     }
     enterWait();
@@ -1677,6 +1791,15 @@ void showDeliverypersons(Base *base){
     for (auto worker : base->getBaseWorkers()) {
         if (dynamic_cast<Deliveryperson *>(worker) != 0){
             cout << *(Deliveryperson *)(worker);
+        }
+    }
+    enterWait();
+}
+
+void showRepairman(Base *base){
+    for (auto worker : base->getBaseWorkers()) {
+        if (dynamic_cast<RepairMan *>(worker) != 0){
+            cout << *(RepairMan *)(worker);
         }
     }
     enterWait();
@@ -1702,23 +1825,58 @@ void showSpecificWorker(Base *base){
     for (int i = 0; i < base->getBaseWorkers().size(); i++) {
         if (base->getBaseWorkers().at(i)->getWorkerNif() == nif) {
             Worker *worker = base->getBaseWorkers().at(i);
-            Admin *a = dynamic_cast<Admin *> (worker);
-            if (a != NULL) {
-                cout << *a;
+            if (dynamic_cast<Admin *>(worker) != 0) {
+                cout << *(Admin *)(worker);
                 enterWait();
                 return;
             }
-            else {
-                Deliveryperson *d = dynamic_cast<Deliveryperson *> (worker);
-                if (d != NULL) {
-                    cout << *d;
-                    enterWait();
-                    return;
-                }
+            else if (dynamic_cast<Deliveryperson*>(worker) != 0){
+                cout << *(Deliveryperson *)(worker);
+                enterWait();
+                return;
+            }
+            else if(dynamic_cast<RepairMan*>(worker) != 0){
+                cout << *(RepairMan *)(worker);
+                enterWait();
+                return;
             }
         }
     }
     cinERR("ERROR: No worker in this base with the given nif!");
+    enterWait();
+}
+
+void showActiveWorkers(Base *base){
+    for (auto worker : base->getBaseWorkers()) {
+        if(worker->getWorking()){
+            if (dynamic_cast<Admin *>(worker) != 0) {
+                cout << *(Admin *)(worker);
+            }
+            else if (dynamic_cast<Deliveryperson*>(worker) != 0){
+                cout << *(Deliveryperson *)(worker);
+            }
+            else if(dynamic_cast<RepairMan*>(worker) != 0){
+                cout << *(RepairMan *)(worker);
+            }
+        }
+    }
+    enterWait();
+}
+
+void showOldWorkers(Base *base){
+    for (auto worker : base->getBaseWorkers()) {
+        if(!worker->getWorking()){
+            if (dynamic_cast<Admin *>(worker) != 0) {
+                cout << *(Admin *)(worker);
+            }
+            else if (dynamic_cast<Deliveryperson*>(worker) != 0){
+                cout << *(Deliveryperson *)(worker);
+            }
+            else if(dynamic_cast<RepairMan*>(worker) != 0){
+                cout << *(RepairMan *)(worker);
+            }
+        }
+    }
     enterWait();
 }
 

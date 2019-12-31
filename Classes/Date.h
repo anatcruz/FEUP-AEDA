@@ -62,6 +62,7 @@ public:
       * @param date is the Date you want to display.
      */
     friend ostream& operator<<(ostream& out, const Date & date);
+    Date addDay();
 };
 
 /** Checks if a date is valid.

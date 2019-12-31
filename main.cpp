@@ -88,8 +88,11 @@ int main() {
     // adminWorkerViewMenu creation
     adminWorkerViewMenu.addOption("Go back", faznada);
     adminWorkerViewMenu.addOption("View all base workers", [&](){showWorkers(openBase);});
+    adminWorkerViewMenu.addOption("View all active workers", [&](){showActiveWorkers(openBase);});
+    adminWorkerViewMenu.addOption("View all old workers", [&](){showOldWorkers(openBase);});
     adminWorkerViewMenu.addOption("View base Administrators", [&](){showAdmins(openBase);});
     adminWorkerViewMenu.addOption("View base Deliverypersons", [&](){showDeliverypersons(openBase);});
+    adminWorkerViewMenu.addOption("View base Repairman", [&](){showRepairman(openBase);});
     adminWorkerViewMenu.addOption("View specific worker", [&](){showSpecificWorker(openBase);});
 
     // adminRestaurantManagementMenu creation

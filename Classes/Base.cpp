@@ -149,6 +149,7 @@ void Base::addRestaurantToBase(const Restaurant &restaurant) {
 }
 
 void Base::addWorkerToBase(Worker *worker){
+    workers.erase(worker);
     workers.insert(worker);
 }
 
