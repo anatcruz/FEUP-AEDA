@@ -1295,7 +1295,7 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vecto
         enterWait();
         return false;
     }
-    
+
     new_delivery->setDeliveryPerson(deliveryperson);
 
     srand(time(NULL));
