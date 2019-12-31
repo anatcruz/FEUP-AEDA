@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iomanip>
 #include <vector>
+#include "Date.h"
 #include "../utils.h"
 
 using namespace std;
@@ -15,6 +16,7 @@ private:
     int hour;
     int min;
     int sec;
+    Date date;
 public:
     /**Default Constructor.
 */
@@ -22,6 +24,8 @@ public:
     /** Constructor of a Time from the hour, minutes and seconds given.
 */
     Time(int hour, int min, int sec);
+    Time(int hour, int min, int sec, Date date);
+    Time(const time_t &time);
     /** Constructor of a Time from a given time in the format of a string.
        * @param time_str is what you want to transform in a Time.
 */
@@ -52,6 +56,7 @@ public:
      * @return the Time's seconds.
 */
     int getSec() const;
+    Date getDate() const;
     //Other Methods
     /** Displays the Time in a nice format.
       * @param out is the ostream.

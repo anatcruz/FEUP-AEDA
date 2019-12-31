@@ -53,7 +53,7 @@ bool Date::operator<(const class Date & date) const {
 }
 
 bool Date::operator==(const Date &date) const {
-    return (day == date.getDay() && month == date.getMonth() && year == date.getYear());
+    return (year == date.getYear() && month == date.getMonth() && day == date.getDay());
 }
 
 Date Date::addDay() {
@@ -165,4 +165,3 @@ bool validDate(string date) {
     }
     return true;
 }
-

@@ -55,6 +55,12 @@ void cinERR(const string &message);
 */
 void getOption(int &dest, const string &message = "Option: ");
 
+/** Gets a valid nif input from cin
+ * @param nif return variable where grabbed nif is stored
+ * @return specifies if nif capture was successful or not
+ */
+bool inputNIF(int &nif, const string &message);
+
 /** Checks if the nif is valid.
        * @param nif is what you want to check.
        * @return true if the nif is valid.

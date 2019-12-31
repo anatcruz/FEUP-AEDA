@@ -151,6 +151,9 @@ public:
       * @return the money the Deliveryperson should receive depending on his deliveries.
 */
     double getDeliveryEarnings() const;
+
+    bool isAvailable() const;
+
     //Other Methods
     /** Displays the Deliveryperson in a nice format.
       * @param out is the ostream.

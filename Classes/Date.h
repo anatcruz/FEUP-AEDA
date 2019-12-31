@@ -56,7 +56,7 @@ public:
      */
     bool operator<(const Date &date) const;
     bool operator==(const Date &date) const;
-
+    bool operator!=(const Date &date) const { return !(*this == date);};
     /** Displays the Date in a nice format.
       * @param out is the ostream.
       * @param date is the Date you want to display.
@@ -70,6 +70,5 @@ public:
        * @return true if the date is valid.
 */
 bool validDate(string date);
-
 
 #endif //AEDA_UGHEATS_DATE_H
