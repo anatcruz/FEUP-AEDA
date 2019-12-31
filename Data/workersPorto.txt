@@ -22,6 +22,7 @@ Rui Carlos
 1
 Opel
 Carro
+XX-90-XX
 12/04/2002
 94665
 2
@@ -74,6 +75,7 @@ Ana Felipa
 1
 Honda
 Scooter
+YY-90-YY
 12/12/2018
 50200
 5
@@ -86,6 +88,7 @@ Pedro Carlos
 0
 Mercedes
 Carro
+ZZ-90-ZZ
 06/02/2001
 946650
 20
@@ -98,6 +101,7 @@ Rui Carlos
 1
 Citroen
 Carro
+AB-90-AB
 15/02/2005
 25030
 15

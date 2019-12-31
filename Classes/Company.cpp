@@ -180,11 +180,13 @@ Company::Company(const string &filesPath){
                 v.setManufacturer(str);
                 getline(workers_file, str); //Vehicle Type
                 v.setType(str);
+                getline(workers_file, str); //Vehicle License Plate
+                v.setLicensePlate(str);
                 getline(workers_file, str); //Vehicle purchaseDate
                 v.setPurchaseDate(Date(str));
-                getline(workers_file, str);
+                getline(workers_file, str); //Vehicle Driven Kms
                 v.setDrivenKms(stoi(str));
-                getline(workers_file, str);
+                getline(workers_file, str); //Vehicle Deliveries
                 v.setNumDeliveries(stoi(str));
                 d->setVehicle(v);
                 b.addVehicle(v);
@@ -554,13 +556,14 @@ void updateWorkersFile(Base &base){
             out_file << d->getWorking() << endl;
             out_file << d->getVehicle().getManufacturer() << endl;
             out_file << d->getVehicle().getType() << endl;
+            out_file << d->getVehicle().getLicensePlate() << endl;
             out_file << d->getVehicle().getPurchaseDate();
             out_file << d->getVehicle().getDrivenKms();
             out_file << d->getVehicle().getNumDeliveries();
         }
         else if(dynamic_cast<RepairMan *> (temp.at(i))){
             RepairMan *r = dynamic_cast<RepairMan *> (temp.at(i));
-            out_file << "Deliveryperson" << endl;
+            out_file << "Repairman" << endl;
             out_file << r->getWorkerName() << endl;
             out_file << r->getWorkerNif() << endl;
             out_file << r->getWorkerBirthdate() << endl;
@@ -868,7 +871,7 @@ bool hireWorker(Base *base){
         base->addWorkerToBase(new_worker);
     }
     else if(opt==2){
-        string brand, type, date;
+        string brand, type, date, plate;
         Deliveryperson *new_worker = new Deliveryperson();
         new_worker->setWorkerNif(nif);
         new_worker->setWorkerBase(base);
@@ -900,14 +903,21 @@ bool hireWorker(Base *base){
         getline(cin, brand);
         cout << "Deliveryperson vehicle's type: ";
         getline(cin, type);
-        cout << "Deliveryperson vehicle's plate date: ";
-        getline(cin, date);
-        if(!validDate(trim(date))){
-            cinERR("ERROR: Invalid birthdate");
+        cout << "Deliveryperson vehicle's license plate: ";
+        getline(cin, plate);
+        if(!validLicensePlate(trim(plate))){
+            cinERR("ERROR: Invalid license plate");
             enterWait();
             return false;
         }
-        Vehicle v(trim(brand), trim(type), Date(trim(date)));
+        cout << "Deliveryperson vehicle's plate date: ";
+        getline(cin, date);
+        if(!validDate(trim(date))){
+            cinERR("ERROR: Invalid date");
+            enterWait();
+            return false;
+        }
+        Vehicle v(trim(brand), trim(type), Date(trim(date)), trim(plate));
         new_worker->setVehicle(v);
         base->addVehicle(v);
         new_worker->setWorking(true);
@@ -1049,11 +1059,18 @@ bool editWorkerInfo(Base *base){
                         d->setWorkerSalary(stod(trim(str)));
                         break;
                     case 3:{
-                        string brand, type, date;
+                        string brand, type, date, plate;
                         cout << "New vehicle's brand: ";
                         getline(cin, brand);
                         cout << "Vehicle's type: ";
                         getline(cin, type);
+                        cout << "Vehicle's license plate: ";
+                        getline(cin, plate);
+                        if(!validLicensePlate(trim(date))){
+                            cinERR("ERROR: Invalid date");
+                            enterWait();
+                            return false;
+                        }
                         cout << "Vehicle's plate date: ";
                         getline(cin, date);
                         if(!validDate(trim(date))){
@@ -1065,7 +1082,7 @@ bool editWorkerInfo(Base *base){
                             cinERR("ERROR: Couldn't remove vehicle");
                             return false;
                         }
-                        Vehicle v(trim(brand), trim(type), Date(trim(date)));
+                        Vehicle v(trim(brand), trim(type), Date(trim(date)), trim(plate));
                         d->setVehicle(v);
                         base->addVehicle(v);
                         break;
@@ -1788,8 +1805,10 @@ void showWorkers(Base* base) {
 
 void showAdmins(Base* base){
     for (auto worker : base->getBaseWorkers()) {
-        if (dynamic_cast<Admin *>(worker) != 0) {
-            cout << *(Admin *) (worker);
+        if(worker->getWorking()){
+            if (dynamic_cast<Admin *>(worker) != 0) {
+                cout << *(Admin *) (worker);
+            }
         }
     }
     enterWait();
@@ -1797,8 +1816,10 @@ void showAdmins(Base* base){
 
 void showDeliverypersons(Base *base){
     for (auto worker : base->getBaseWorkers()) {
-        if (dynamic_cast<Deliveryperson *>(worker) != 0){
-            cout << *(Deliveryperson *)(worker);
+        if(worker->getWorking()){
+            if (dynamic_cast<Deliveryperson *>(worker) != 0){
+                cout << *(Deliveryperson *)(worker);
+            }
         }
     }
     enterWait();
@@ -1806,8 +1827,10 @@ void showDeliverypersons(Base *base){
 
 void showRepairman(Base *base){
     for (auto worker : base->getBaseWorkers()) {
-        if (dynamic_cast<RepairMan *>(worker) != 0){
-            cout << *(RepairMan *)(worker);
+        if(worker->getWorking()){
+            if (dynamic_cast<RepairMan *>(worker) != 0){
+                cout << *(RepairMan *)(worker);
+            }
         }
     }
     enterWait();

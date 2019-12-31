@@ -71,7 +71,7 @@ bool Worker::getWorking() const {
 //Other Methods
 
 void Worker::print(ostream &out) const {
-    out << "/" << endl;
+    out << "|" << endl;
     out << setw(4) << left << '|' << "Name: " << name << endl;
     out << setw(4) << left << '|' << "NIF: " << right << setfill('0') << setw(9) << nif << setfill(' ') << endl;
     out << setw(4) << left << '|' << "Birthdate: " << birthdate << endl;
@@ -98,6 +98,7 @@ string Admin::getWorkerDescription() const {
 
 //Other Methods
 ostream &operator<<(ostream &out, const Admin &admin) {
+    out << setw(4) << left << '/' << "Admin" << endl;
     admin.print(out);
     out << setw(4) << left << '|' << "Description: " << admin.description << endl;
     out << "\\_" << endl;
@@ -148,6 +149,7 @@ bool Deliveryperson::isAvailable() const {
 
 //Other Methods
 ostream &operator<<(ostream &out, const Deliveryperson &deliveryperson) {
+    out << setw(4) << left << '/' << "Deliveryperson" << endl;
     deliveryperson.print(out);
     out << setw(4) << left << '|' << "Number of deliveries: " << deliveryperson.getDeliveries().size() << endl;
     out << setw(4) << left << '|' << "Vehicle: " << deliveryperson.vehicle << endl;
@@ -199,6 +201,7 @@ Date RepairMan::getDate() const {
 
 //Other Methods
 ostream &operator<<(ostream &out, const RepairMan &repairman) {
+    out << setw(4) << left << '/' << "Repairman" << endl;
     repairman.print(out);
     out << setw(4) << left << '|' << "Date he became unavailable: " << repairman.became_unavailable_d << endl;
     out << setw(4) << left << '|' << "Time he became unavailable: " << repairman.became_unavailable_t << endl;

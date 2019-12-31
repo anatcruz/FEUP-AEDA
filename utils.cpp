@@ -104,6 +104,10 @@ bool validPostcode(string const &postcode){
 
 }
 
+bool validLicensePlate(string const &plate){
+    return strToVect(plate,'-').size()==3;
+}
+
 void enterWait() {
     string str;
     cout << "ENTER to go back" << endl;
