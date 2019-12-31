@@ -165,7 +165,31 @@ void Base::addOrderToBase(Order *order) {
 Worker* Base::findWorker(int nif) {
     Worker* worker = new Worker;
     worker->setWorkerNif(nif);
-    return *workers.find(worker);
+    auto it = workers.find(worker);
+    if (it != workers.end()) {
+        return *it;
+    } else {
+        return nullptr;
+    }
+}
+
+Client* Base::findClient(int nif) {
+    auto it = find_if(clients.begin(), clients.end(), [&](Client &c){ return c.getClientNif() == nif; });
+    if (it != clients.end()) {
+        return &*it;
+    } else {
+        return nullptr;
+    }
+}
+
+int Base::assignDelivery() {
+    for (auto worker : workers) {
+        auto d_person = dynamic_cast<Deliveryperson*>(worker);
+        if (d_person != NULL && d_person->isAvailable()) {
+            return d_person->getWorkerNif();
+        }
+    }
+    return -1;
 }
 
 bool searchbyMunicipality(string municipality, vector<string> municipalities){

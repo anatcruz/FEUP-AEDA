@@ -192,6 +192,8 @@ public:
 */
     void addOrderToBase(Order* order);
     Worker* findWorker(int nif);
+    Client* findClient(int nif);
+    int assignDelivery();
 };
 
 

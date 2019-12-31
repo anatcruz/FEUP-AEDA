@@ -4,6 +4,7 @@ Time::Time(int hour, int min, int sec) {
     this->hour = hour;
     this->min = min;
     this->sec = sec;
+    date = Date(0,0,0);
 }
 
 Time::Time(string time_str) {
@@ -11,6 +12,19 @@ Time::Time(string time_str) {
     this->hour =stoi(tmp.at(0));
     this->min = stoi(tmp.at(1));
     this->sec = stoi(tmp.at(2));
+    date = Date(0, 0, 0);
+}
+
+Time::Time(int hour, int min, int sec, Date date):Time(hour, min, sec) {
+    this->date = date;
+}
+
+Time::Time(const time_t &time) {
+    tm* t = localtime(&time);
+    this->hour = t->tm_hour;
+    this->min = t->tm_min;
+    this->sec = t->tm_sec;
+    this->date = Date(t->tm_mday, t->tm_mon, t->tm_year + 1900);
 }
 
 //Metodos Set
@@ -39,6 +53,10 @@ int Time::getSec() const {
     return sec;
 }
 
+Date Time::getDate() const {
+    return date;
+}
+
 //Other Methods
 ostream &operator<<(ostream &out, const Time &time) {
     out << setfill('0') << right << setw(2) << to_string(time.hour);
@@ -57,23 +75,33 @@ Time Time::addtime(int min) {
 }
 
 bool Time::operator<(const Time &t) {
-    if(hour == t.getHour()){
-        if(min == t.getMin())
-            return sec < t.getSec();
-        return min < t.getMin();
+    Date null_date = Date(0,0,0);
+    if (date != null_date && t.getDate() != null_date) {
+        if (date < t.getDate()) {
+            return true;
+        } else if (date == t.getDate() && hour < t.getHour()) {
+            return true;
+        } else if (date == t.getDate() && hour == t.getHour() && min < t.getMin()) {
+            return true;
+        } else if (date == t.getDate() && hour == t.getHour() && min == t.getMin() && sec < t.getSec()) {
+            return true;
+        }
+    } else {
+        if (date == t.getDate() && hour < t.getHour()) {
+            return true;
+        } else if (date == t.getDate() && hour == t.getHour() && min < t.getMin()) {
+            return true;
+        } else if (date == t.getDate() && hour == t.getHour() && min == t.getMin() && sec < t.getSec()) {
+            return true;
+        }
     }
-    return hour < t.getHour();
+    return false;
 }
 
 bool Time::operator>(const Time &t) {
-    if(hour == t.getHour()){
-        if(min == t.getMin())
-            return sec > t.getSec();
-        return min > t.getMin();
-    }
-    return hour > t.getHour();
+    return !(*this < t) && !(*this == t);
 }
 
 bool Time::operator==(const Time &t) {
-    return (hour == t.getHour() && min == t.getMin() && sec == t.getSec());
+    return (hour == t.getHour() && min == t.getMin() && sec == t.getSec() && date == t.getDate());
 }

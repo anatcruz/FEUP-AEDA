@@ -52,6 +52,10 @@ bool Date::operator<(const class Date & date) const {
     return false;
 }
 
+bool Date::operator==(const Date &date) const {
+    return (year == date.getYear() && month == date.getMonth() && day == date.getDay());
+}
+
 ostream& operator<<(ostream& out, const Date & date){
     out << right << setw(2) << setfill('0') << to_string(date.day);
     out << "/" << setfill('0') << setw(2) << to_string(date.month);

@@ -73,6 +73,22 @@ void getOption(int &dest, const string &message) {
     }
 }
 
+bool inputNIF(int &nif, const string &message) {
+    string str;
+    while (true) {
+        cout << message;
+        getline(cin, str);
+        if (validNIF(str)) {
+            nif = stoi(str);
+            return true;
+        } else if (str == "*") {
+            cout << "Canceled successfully!" << endl;
+            return false;
+        }
+        cinERR("ERROR: Invalid NIF, try again!");
+    }
+}
+
 bool validNIF(string const &nif) {
     return !(nif.length() != 9 || !isNumeric(nif));
 }

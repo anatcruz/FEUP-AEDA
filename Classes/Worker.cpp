@@ -140,6 +140,12 @@ double Deliveryperson::getDeliveryEarnings() const {
     return earnings;
 }
 
+bool Deliveryperson::isAvailable() const {
+    Time last_delivery = this->getDeliveries().back()->getDeliveryTime();
+    Time now(time(NULL));
+    return working && (now > last_delivery);
+}
+
 //Other Methods
 ostream &operator<<(ostream &out, const Deliveryperson &deliveryperson) {
     deliveryperson.print(out);

@@ -55,7 +55,8 @@ public:
       * @return true if the Date passed as parameter is after the Date.
      */
     bool operator<(const Date &date) const;
-
+    bool operator==(const Date &date) const;
+    bool operator!=(const Date &date) const { return !(*this == date);};
     /** Displays the Date in a nice format.
       * @param out is the ostream.
       * @param date is the Date you want to display.

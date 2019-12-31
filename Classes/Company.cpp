@@ -413,70 +413,51 @@ Base* selectBase(Company &company){
 // LogIn
 
 Client* clientLogin(Company &company) {
-    vector<Base>* companyBases = company.getCompanyBasesAddr();
     Base* base = selectBase(company);
-
     if (base == nullptr) {
         return nullptr;
     }
 
-    string nif_str;
-    while (true) {
-        cout << "NIF (* - cancel): ";
-        getline(cin, nif_str);
-        if (nif_str == "*") {
-            return nullptr;
-        } else if (validNIF(nif_str)) {
-            auto it = find_if(base->getBaseClientsAddr()->begin(), base->getBaseClientsAddr()->end(),
-                              [&](Client &c){return c.getClientNif() == stoi(nif_str);});
-            if (it != base->getBaseClientsAddr()->end()) {
-                if (!(*it).getBlack_listed()) {
-                    return &*it;
-                }
-                else {
-                    cinERR("YOU HAVE BEEN BLACKLISTED - YOU CANNOT ACCESS OUR SERVICES");
-                    enterWait();
-                    return nullptr;
-                }
+    int nif;
+    if (!inputNIF(nif, "NIF (* - cancel): ")) {
+        return nullptr;
+    } else {
+        auto it = base->findClient(nif);
+        if (it != nullptr) {
+            if (it->getBlack_listed()) {
+                cinERR("YOU HAVE BEEN BLACKLISTED - YOU CANNOT ACCESS OUR SERVICES");
+                enterWait();
+                return nullptr;
             } else {
-                cinERR("Client does not exist, try again!");
-                cout << "\n";
+                return it;
             }
         } else {
-            cinERR("Invalid NIF, try again!");
-            cout << "\n";
+            cinERR("Worker does not exist, try again!");
         }
     }
 }
 
 Worker* adminLogin(Company &company) {
-    vector<Base>* companyBases = company.getCompanyBasesAddr();
     Base* base = selectBase(company);
     if (base == nullptr) {
         return nullptr;
     }
-    string nif_str;
-    while (true) {
-        cout << "NIF (* - cancel): ";
-        getline(cin, nif_str);
-        if (nif_str == "*") {
-            return nullptr;
-        } else if (validNIF(nif_str)) {
-            auto it = find_if(base->getBaseWorkersAddr()->begin(), base->getBaseWorkersAddr()->end(),
-                              [&](Worker* w){return w->getWorkerNif() == stoi(nif_str);});
-            if (it != base->getBaseWorkersAddr()->end()) {
-                if (dynamic_cast<Admin*>(*it) == 0) {
-                    cout << "You are not an admin!" << endl;
-                    enterWait();
-                    return nullptr;
-                } else {
-                    return *it;
-                }
+
+    int nif;
+    if (!inputNIF(nif, "NIF (* - cancel): ")) {
+        return nullptr;
+    } else {
+        auto it = base->findWorker(nif);
+        if (it != nullptr) {
+            if (dynamic_cast<Admin*>(it) == 0) {
+                cout << "You are not an admin!" << endl;
+                enterWait();
+                return nullptr;
             } else {
-                cinERR("Worker does not exist, try again!");
+                return it;
             }
         } else {
-            cinERR("Invalid NIF, try again!");
+            cinERR("Worker does not exist, try again!");
         }
     }
 }
@@ -1218,16 +1199,15 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base){
 
     new_delivery->setDeliveryPrice(delivery_price);
 
-    vector<Worker*> workers = client.getBase()->getBaseWorkers();
-    while(true){
-        srand(time(NULL));
-        int worker_index = rand() % workers.size();
-        Deliveryperson *d = dynamic_cast<Deliveryperson *> (workers.at(worker_index));
-        if (d!=NULL){
-            deliveryperson=d->getWorkerNif();
-            break;
-        }
+    deliveryperson = base->assignDelivery();
+
+    if (deliveryperson == -1) {
+        cout << "We are not able to deliver your order at this time" << endl
+        << "Please try again in a few moments. We apologize for the inconvenience" << endl;
+        enterWait();
+        return false;
     }
+
     new_delivery->setDeliveryPerson(deliveryperson);
 
     srand(time(NULL));
@@ -1307,16 +1287,15 @@ bool makeOrderDelivery(Client &client, Restaurant *restaurant, Base *base, vecto
 
     new_delivery->setDeliveryPrice(delivery_price);
 
-    vector<Worker*> workers = client.getBase()->getBaseWorkers();
-    while(true){
-        srand(time(NULL));
-        int worker_index = rand() % workers.size();
-        Deliveryperson *d = dynamic_cast<Deliveryperson *> (workers.at(worker_index));
-        if (d!=NULL){
-            deliveryperson=d->getWorkerNif();
-            break;
-        }
+    deliveryperson = base->assignDelivery();
+
+    if (deliveryperson == -1) {
+        cout << "We are not able to deliver your order at this time" << endl
+             << "Please try again in a few moments. We apologize for the inconvenience" << endl;
+        enterWait();
+        return false;
     }
+    
     new_delivery->setDeliveryPerson(deliveryperson);
 
     srand(time(NULL));
