@@ -32,6 +32,8 @@ int main() {
     Menu adminClientManagementMenu("Client management");
     Menu adminWorkerManagementMenu("Worker management");
     Menu adminWorkerViewMenu("View workers");
+    Menu adminVehicleManagementMenu("Worker management");
+    Menu adminVehicleViewMenu("View Vehicles");
     Menu adminRestaurantManagementMenu("Restaurant management");
     Menu adminRestaurantViewMenu("View restaurants");
     Menu adminRestaurantProductsMenu("Products");
@@ -70,6 +72,7 @@ int main() {
     adminMenu.addOption("Log-out", faznada);
     adminMenu.addOption("Client management", [&](){adminClientManagementMenu.start();});
     adminMenu.addOption("Worker management", [&](){adminWorkerManagementMenu.start();});
+    adminMenu.addOption("Vehicle management", [&](){adminVehicleManagementMenu.start();});
     adminMenu.addOption("Restaurant management", [&](){adminRestaurantManagementMenu.start();});
     adminMenu.addOption("Finance", [&](){adminFinanceMenu.start();});
 
@@ -95,6 +98,15 @@ int main() {
     adminWorkerViewMenu.addOption("View base Deliverypersons", [&](){showDeliverypersons(openBase);});
     adminWorkerViewMenu.addOption("View base Repairman", [&](){showRepairman(openBase);});
     adminWorkerViewMenu.addOption("View specific worker", [&](){showSpecificWorker(openBase);});
+
+    // adminVehicleManagementMenu creation
+    adminVehicleManagementMenu.addOption("Go back", faznada);
+    adminVehicleManagementMenu.addOption("View base vehicles", [&](){adminVehicleViewMenu.start();});
+    adminVehicleManagementMenu.addOption("Change Deliveryperson vehicle", [&](){changeDeliveryPersonVehicle(openBase);});
+
+    // adminVehicleViewMenu creation
+    adminVehicleViewMenu.addOption("Go back", faznada);
+    adminVehicleViewMenu.addOption("View all base vehicles", [&](){showBaseVehicles(openBase);});
 
     // adminRestaurantManagementMenu creation
     adminRestaurantManagementMenu.addOption("Go back", faznada);

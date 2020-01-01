@@ -557,8 +557,8 @@ void updateWorkersFile(Base &base){
             out_file << d->getVehicle().getManufacturer() << endl;
             out_file << d->getVehicle().getType() << endl;
             out_file << d->getVehicle().getLicensePlate() << endl;
-            out_file << d->getVehicle().getPurchaseDate();
-            out_file << d->getVehicle().getDrivenKms();
+            out_file << d->getVehicle().getPurchaseDate() << endl;
+            out_file << d->getVehicle().getDrivenKms() << endl;
             out_file << d->getVehicle().getNumDeliveries();
         }
         else if(dynamic_cast<RepairMan *> (temp.at(i))){
@@ -1066,8 +1066,8 @@ bool editWorkerInfo(Base *base){
                         getline(cin, type);
                         cout << "Vehicle's license plate: ";
                         getline(cin, plate);
-                        if(!validLicensePlate(trim(date))){
-                            cinERR("ERROR: Invalid date");
+                        if(!validLicensePlate(trim(plate))){
+                            cinERR("ERROR: Invalid plate");
                             enterWait();
                             return false;
                         }
@@ -1989,6 +1989,77 @@ void showSpecificClientOrders(Base* base){
     }
 
     viewClientOrdersHistory(*it);
+}
+
+
+//Show vehicles functions
+
+void showBaseVehicles(Base* base){
+    BSTItrIn<Vehicle> it(base->getBaseVehicles());
+    while(!it.isAtEnd()){
+        cout << it.retrieve() << endl;
+        it.advance();
+    }
+    cout << endl;
+    enterWait();
+}
+
+bool changeDeliveryPersonVehicle(Base* base){
+    string str_nif, str;
+    int nif, opt;
+
+    while (true) {
+        cout << "Enter worker's nif (* - cancel): ";
+        getline(cin, str_nif);
+        if (validNIF(str_nif)) {
+            nif = stoi(str_nif);
+            break;
+        } else if (str_nif == "*") {
+            cout << "Canceled successfully!" << endl;
+            return false;
+        }
+        cinERR("ERROR: Invalid NIF, try again!");
+    }
+    for (int i = 0; i < base->getBaseWorkers().size(); i++) {
+        if (base->getBaseWorkers().at(i)->getWorkerNif() == nif) {
+            Worker *worker = base->getBaseWorkers().at(i);
+            Deliveryperson *d = dynamic_cast<Deliveryperson *> (worker);
+            if (d != NULL) {
+                string brand, type, date, plate;
+                cout << "New vehicle's brand: ";
+                getline(cin, brand);
+                cout << "Vehicle's type: ";
+                getline(cin, type);
+                cout << "Vehicle's license plate: ";
+                getline(cin, plate);
+                if (!validLicensePlate(trim(plate))) {
+                    cinERR("ERROR: Invalid plate");
+                    enterWait();
+                    return false;
+                }
+                cout << "Vehicle's plate date: ";
+                getline(cin, date);
+                if (!validDate(trim(date))) {
+                    cinERR("ERROR: Invalid date");
+                    enterWait();
+                    return false;
+                }
+                if (!base->removeVehicle(d->getVehicle())) {
+                    cinERR("ERROR: Couldn't remove vehicle");
+                    return false;
+                }
+                Vehicle v(trim(brand), trim(type), Date(trim(date)), trim(plate));
+                d->setVehicle(v);
+                base->addVehicle(v);
+                cout << "\nInformation successfully updated!" << endl;
+                enterWait();
+                return true;
+            }
+        }
+    }
+    cinERR("ERROR: No worker in this base with the given nif!");
+    enterWait();
+    return false;
 }
 
 

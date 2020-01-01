@@ -127,6 +127,10 @@ bool Base::removeVehicle(const Vehicle &v){
     return baseVehicles.remove(v);
 }
 
+BST<Vehicle> &Base::getBaseVehicles() {
+    return baseVehicles;
+}
+
 ostream& operator<<(ostream& out, const Base &base){
     out << "/" << endl;
     out << setw(4) << left << '|' << "Location: " << base.location <<endl;

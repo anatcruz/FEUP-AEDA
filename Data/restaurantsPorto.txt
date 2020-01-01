@@ -1,6 +1,6 @@
 McDonalds
 Estrada da Circunvalacao,8114-8116,-,4200-163,Porto
-Fast food,Vegetariano,Sobremesas
+Fast Food,Vegetariano,Sobremesas
 productsMcDonalds.txt
 -----
 Pedra Alta
