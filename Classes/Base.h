@@ -176,6 +176,9 @@ public:
     bool removeVehicle(const Vehicle &v);
     BST<Vehicle> &getBaseVehicles();
 
+    void addRepairmanToHeap(RepairMan *r);
+    bool removeRepairmanFromHeap(int nif);
+
     /** Displays the Base in a nice format.
       * @param out is the ostream.
       * @param base is the Base you want to display.

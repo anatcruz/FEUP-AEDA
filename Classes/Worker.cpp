@@ -245,10 +245,13 @@ bool RepairMan::isAvailable() {
 }
 
 bool RepairMan::operator<(RepairMan &repairman) {
-    if(became_unavailable_d == repairman.getDate()){
-        return became_unavailable_t < repairman.getTime();
+    if(became_unavailable_d == repairman.getDate() && became_unavailable_t == repairman.getTime()){
+        return num_maintenance < repairman.getNumMaintenance();
     }
-    return became_unavailable_d < repairman.getDate();
+    else if(became_unavailable_d == repairman.getDate()){
+        return became_unavailable_t > repairman.getTime();
+    }
+    return became_unavailable_d > repairman.getDate();
 }
 
 

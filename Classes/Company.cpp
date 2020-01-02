@@ -211,6 +211,8 @@ Company::Company(const string &filesPath){
                 getline(workers_file, str); //Number of maintenance made
                 r->setNumMaintenance(stoi(str));
                 b.addWorkerToBase(r);
+                if(r->getWorking())
+                    b.addRepairmanToHeap(r);
             }
             getline(workers_file, str); //Discard delimiter
         }
@@ -959,6 +961,7 @@ bool hireWorker(Base *base){
         new_worker->setWorking(true);
 
         base->addWorkerToBase(new_worker);
+        base->addRepairmanToHeap(new_worker);
     }
     else{
         cinERR("ERROR: Invalid job option!");
@@ -988,7 +991,7 @@ bool editWorkerInfo(Base *base){
         cinERR("ERROR: Invalid NIF, try again!");
     }
     for (int i = 0; i < base->getBaseWorkers().size(); i++) {
-        if (base->getBaseWorkers().at(i)->getWorkerNif() == nif) {
+        if (base->getBaseWorkers().at(i)->getWorkerNif() == nif && base->getBaseWorkers().at(i)->getWorking()) {
             Worker* worker = base->getBaseWorkers().at(i);
             if (dynamic_cast<Admin *> (worker)!= NULL) {
                 Admin *a = dynamic_cast<Admin *> (worker);
@@ -1130,12 +1133,13 @@ bool editWorkerInfo(Base *base){
             }
         }
     }
-    cinERR("ERROR: No worker in this base with the given nif!");
+    cinERR("ERROR: No active worker in this base with the given nif!");
     enterWait();
     return false;
 
 }//BY ADMIN
 //TODO Change remove worker
+//TODO removeWorkerFromHeap Not Working
 bool fireWorker(Base *base){
     string str_nif, str;
     int nif, opt;
@@ -1158,11 +1162,12 @@ bool fireWorker(Base *base){
         return false;
     } else {
         if (base->removeWorker(nif)) {
+            base->removeRepairmanFromHeap(nif);
             cout << "Worker successfully fired" << endl;
             enterWait();
             return true;
         } else {
-            cinERR("ERROR: No worker in this base with the given nif!");
+            cinERR("ERROR: No active worker in this base with the given nif!");
             enterWait();
             return false;
         }

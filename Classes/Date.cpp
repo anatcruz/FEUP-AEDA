@@ -52,6 +52,10 @@ bool Date::operator<(const class Date & date) const {
     return false;
 }
 
+bool Date::operator>(const Date &date) const {
+    return !(*this < date) && !(*this == date);
+}
+
 bool Date::operator==(const Date &date) const {
     return (year == date.getYear() && month == date.getMonth() && day == date.getDay());
 }

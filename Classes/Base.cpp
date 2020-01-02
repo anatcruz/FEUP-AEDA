@@ -131,6 +131,34 @@ BST<Vehicle> &Base::getBaseVehicles() {
     return baseVehicles;
 }
 
+void Base::addRepairmanToHeap(RepairMan *r){
+    repairmen.push(r);
+}
+
+bool Base::removeRepairmanFromHeap(int nif){
+    HEAP_REPAIRMAN aux = repairmen;
+    bool found = false;
+    while(!found){
+        if(repairmen.empty()){
+            return false;
+        }
+
+        if(repairmen.top()->getWorkerNif()==nif){
+            found=true;
+        }
+        else{
+            aux.push(repairmen.top());
+        }
+        repairmen.pop();
+    }
+    while(!aux.empty()) {
+        repairmen.push(aux.top());
+        aux.pop();
+    }
+
+    return found;
+}
+
 ostream& operator<<(ostream& out, const Base &base){
     out << "/" << endl;
     out << setw(4) << left << '|' << "Location: " << base.location <<endl;
@@ -162,8 +190,8 @@ void Base::addWorkerToBase(Worker *worker){
 }
 
 size_t Base::removeWorker(int nif) {
-    Worker* worker = new Worker;
-    worker->setWorkerNif(nif);
+    Worker* worker = findWorker(nif);
+    if(worker == nullptr || !worker->getWorking())   return 0;
     return workers.erase(worker);
 }
 
