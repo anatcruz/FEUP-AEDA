@@ -25,6 +25,8 @@ typedef priority_queue<RepairMan*> HEAP_REPAIRMAN;
 
 class Base {
 private:
+    /** The Admin who manages the Base.
+ */
     Admin* manager;
     /** The clients that live in that Base.
  */
@@ -53,7 +55,11 @@ private:
     /** The file that contains the orders of the Base.
  */
     string ordersFile;
+    /** The binary search tree for the vehicles of the Base.
+ */
     BST<Vehicle> baseVehicles;
+    /** The priority queue containing the RepairMan of the Base.
+ */
     HEAP_REPAIRMAN repairmen;
 protected:
     /** Location of the Base.
@@ -178,6 +184,8 @@ public:
 
     void addRepairmanToHeap(RepairMan *r);
     bool removeRepairmanFromHeap(int nif);
+
+    bool vehicleToMaintenance();
 
     /** Displays the Base in a nice format.
       * @param out is the ostream.
