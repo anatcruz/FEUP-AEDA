@@ -1,0 +1,19 @@
+McDonalds
+Estrada da Circunvalacao,8114-8116,-,4200-163,Porto
+Fast Food,Vegetariano,Sobremesas
+productsMcDonalds.txt
+-----
+Pedra Alta
+Rua Baixa Fofa,544,-,4450-855,Matosinhos
+Marisco,Peixe,Grelhados
+productsPedraAlta.txt
+-----
+Ze do Leitao
+Rua dos porquinhos,420,-,4420-349,Gondomar
+Carne,Grelhados
+productsZedoLeitao.txt
+-----
+Okone Sushi e Peruano
+Rua de Nossa Sra. de Fatima,471,-,4050-426,Vila Nova de Gaia
+Sushi,Japones,Peixe
+productsOkoneSushiePeruano.txt

@@ -7,6 +7,7 @@ Tamboril
 30.07
 684321845
 1
+12/11/2019
 20:22:21
 
 -----
@@ -19,6 +20,7 @@ Pizza de Presunto,Pizza de 4 queijos
 21.05
 654821445
 1
+07/11/2019
 12:10:00
 Trazer bastantes pauzinhos
 -----
@@ -31,6 +33,7 @@ Pizza de Presunto,Pizza de 4 queijos
 19.5
 684321845
 1
+16/11/2019
 22:35:00
 Muitos guardanapos
 -----
@@ -43,5 +46,6 @@ Pizza de 4 queijos
 10.75
 684321845
 0
+16/11/2019
 22:48:00
 Mais guardanapos

@@ -125,24 +125,24 @@ class Deliveryperson: public Worker {
 protected:
     /** Each Deliveryperson is assigned a Vehicle for the deliveries.
 */
-    Vehicle vehicle;
+    string vehicle;
 public:
     /** Default Constructor.
 */
     Deliveryperson() = default;
     /** Constructor of a Deliveryperson from the name, nif, date of birth, salary, base and Vehicle given.
  */
-    Deliveryperson(string name, int nif, Date birthdate, double salary,Base* base, bool working, Vehicle vehicle);
+    Deliveryperson(string name, int nif, Date birthdate, double salary,Base* base, bool working, string vehicle);
     //Metodos Set
     /** Sets the Vehicle of a Deliveryperson.
        * @param vehicle is the parameter you want the new Deliveryperson to have.
 */
-    void setVehicle(Vehicle vehicle);
+    void setVehicle(string vehicle);
     //Metodos Get
     /**
       * @return the Deliveryperson's Vehicle.
 */
-    Vehicle getVehicle() const;
+    string getVehicle() const;
     /**
       * @return all the deliveries done by a Deliveryperson.
 */
@@ -154,8 +154,6 @@ public:
 
     bool isAvailable() const;
 
-    void new_delivery(const int &kms);
-
     //Other Methods
     /** Displays the Deliveryperson in a nice format.
       * @param out is the ostream.
@@ -166,42 +164,40 @@ public:
 
 class RepairMan: public Worker{
 protected:
-    /** Each Repairman becames unavailable when taking a car for maintenance.
-*/
-    Time became_unavailable_t;
+    /**
+     * Time at which a repairman last started a maintenance job
+     */
+    Time lastMaintenance;
     /** The licence plate of the Vehicle the Repairman is taking for maintenance.
    */
     string licence_plate;
     /** Number of maintenance the Repairman has done.
 */
     int num_maintenance;
-    /** Each Repairman becames unavailable when taking a car for maintenance.
-    */
-    Date became_unavailable_d;
 public:
     /** Default Constructor.
 */
     RepairMan() = default;
-    /** Constructor of a RepairMan from the name, nif, date of birth, salary, base, licence plate of the Vehicle, time and date he became unavailable and the number of maintenance he has done.
+    /** Constructor of a RepairMan from the name, nif, date of birth, salary, base, licence plate of the Vehicle, time he became unavailable and the number of maintenance he has done.
  */
-    RepairMan(string name, int nif, Date birthdate, double salary,Base* base, bool working,Time became_unavailable_t,string licence_plate, int num_maintenance, Date became_unavailable_d);
+    RepairMan(string name, int nif, Date birthdate, double salary,Base* base, bool working,Time lastMaintenance,string licence_plate, int num_maintenance);
     //Metodos Set
-    /** Sets the Time of a RepairMan.
-       * @param became_unavailable_t is the parameter you want the new RepairMan to have.
-*/
-    void setTime(Time became_unavailable_t);
-    /** Sets the licence plate of the Vehicle of a RepairMan.
-       * @param licence_plate is the parameter you want the new RepairMan to have.
-*/
+    /**
+     * Sets time at which Repairman last started a maintenance job
+     * @param lastMaintenance is the time the last maintenance started
+     */
+    void setTime(Time lastMaintenance);
+    /**
+     * Sets the licence plate of the Vehicle of a RepairMan.
+     * @param licence_plate is the parameter you want the new RepairMan to have.
+     */
     void setLicencePlate(string licence_plate);
-    /** Sets the number of maintenance done by a RepairMan.
-       * @param num_maintenance is the parameter you want the new RepairMan to have.
-*/
+    /**
+     * Sets the number of maintenance done by a RepairMan.
+     * @param num_maintenance is the parameter you want the new RepairMan to have.
+     */
     void setNumMaintenance(int num_maintenance);
-    /** Sets the Date of a RepairMan.
-       * @param became_unavailable_d is the parameter you want the new RepairMan to have.
-*/
-    void setDate(Date became_unavailable_d);
+
     //Metodos Get
     /**
       * @return the Time the RepairMan became unavailable.
@@ -215,10 +211,7 @@ public:
       * @return the RepairMan's number of maintenance made.
 */
     int getNumMaintenance() const;
-    /**
-      * @return the Date the RepairMan became unavailable.
-*/
-    Date getDate() const;
+
     //Other Methods
     /** Displays the RepairMan in a nice format.
       * @param out is the ostream.

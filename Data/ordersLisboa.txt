@@ -7,6 +7,7 @@ Bacalhau a Bras Avenida
 29
 654821445
 1
+11/11/2019
 20:22:21
 
 -----
@@ -19,5 +20,6 @@ Quim oto,Quim oto,Quim oto,Quim oto
 67
 654821445
 1
+09/11/2019
 12:10:00
 Trazer bastantes pauzinhos

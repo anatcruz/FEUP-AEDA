@@ -2,10 +2,9 @@
 
 //CLASS ORDER
 
-Order::Order(string restaurant, int client, Date date, Time orderTime, vector<string> products, float orderPrice) {
+Order::Order(string restaurant, int client, Time orderTime, vector<string> products, float orderPrice) {
     this->restaurant=restaurant;
     this->client = client;
-    this->date=date;
     this->orderTime=orderTime;
     this->products=products;
     this->orderPrice=orderPrice;
@@ -15,10 +14,6 @@ Order::Order(string restaurant, int client, Date date, Time orderTime, vector<st
 //Metodos Set
 void Order::setOrderRestaurant(string restaurant) {
     this->restaurant = restaurant;
-}
-
-void Order::setOrderDate(Date date) {
-    this->date = date;
 }
 
 void Order::setOrderTime(Time orderTime) {
@@ -42,10 +37,6 @@ string Order::getRestaurant() const {
     return restaurant;
 }
 
-Date Order::getOrderDate() const {
-    return date;
-}
-
 Time Order::getOrderTime() const {
     return orderTime;
 }
@@ -67,8 +58,7 @@ void Order::print(ostream &out) const {
     out << "/" << endl;
     out << setw(4) << left << '|' << "Restaurant: " << restaurant << endl;
     out << setw(4) << left << '|' << "Client: "<< setw(9) << right << setfill('0') << client << setfill(' ') << endl;
-    out << setw(4) << left << '|' << "Date: " << date << endl;
-    out << setw(4) << left << '|' << "Order time: " << orderTime << endl;
+    out << setw(4) << left << '|' << "Order time: " << orderTime << " - " << orderTime.getDate() << endl;
     out << setw(4) << left << '|' << "Products: ";
     for(int i=0 ; i< products.size() ; i++){
         if (i == products.size() - 1)
@@ -83,7 +73,7 @@ void Order::print(ostream &out) const {
 //CLASE DELIVERY
 
 
-Delivery::Delivery(string restaurant, int client, Date date, Time orderTime, vector<string> products, float orderPrice, float deliveryPrice, int deliveryperson, bool success, Time deliveryTime, string notes):Order(restaurant, client, date, orderTime, products, orderPrice){
+Delivery::Delivery(string restaurant, int client, Time orderTime, vector<string> products, float orderPrice, float deliveryPrice, int deliveryperson, bool success, Time deliveryTime, string notes):Order(restaurant, client, orderTime, products, orderPrice){
     this->deliveryPrice=deliveryPrice;
     this->deliveryperson=deliveryperson;
     this->success=success;
@@ -139,7 +129,7 @@ ostream &operator<<(ostream &out, const Delivery &delivery) {
     out << setw(4) << left << '|' << "Delivery price: "<< delivery.deliveryPrice << endl;
     out << setw(4) << left << '|' << "Delivery person: " << delivery.deliveryperson << endl;
     out << setw(4) << left << '|' << "Sucess: " << delivery.success << endl;
-    out << setw(4) << left << '|' << "Delivery time: " << delivery.deliveryTime << endl;
+    out << setw(4) << left << '|' << "Delivery time: " << delivery.deliveryTime << " - " << delivery.deliveryTime.getDate() << endl;
     out << setw(4) << left << '|' << "Notes: " << delivery.notes << endl;
     out << "\\_" << endl;
     return out;

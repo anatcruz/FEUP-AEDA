@@ -36,10 +36,6 @@ void Vehicle::setNumDeliveries(int deliveries) {
     numDeliveries = deliveries;
 }
 
-void Vehicle::setLastMaintenance(Time time) {
-    lastMaintenance = time;
-}
-
 
 //Metodos Get
 
@@ -55,14 +51,14 @@ int Vehicle::getDrivenKms() const { return drivenKms; }
 
 int Vehicle::getNumDeliveries() const { return numDeliveries; }
 
-Time Vehicle::getLastMaintenance() const { return lastMaintenance; }
 
 //Other Methods
 
-bool Vehicle::isAvailable() const {
-    Time available = lastMaintenance;
-    return available.addtime(240) > Time(time(NULL));
+void Vehicle::new_delivery(int kms) {
+    numDeliveries++;
+    drivenKms += kms;
 }
+
 
 bool Vehicle::operator<(const class Vehicle & vhc) const {
     if (this->numDeliveries < vhc.getNumDeliveries()) {

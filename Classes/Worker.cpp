@@ -108,17 +108,17 @@ ostream &operator<<(ostream &out, const Admin &admin) {
 
 //CLASS DELIVERYPERSON
 
-Deliveryperson::Deliveryperson(string name, int nif, Date birthdate, double salary, Base* base, bool working,  Vehicle vehicle):Worker(name, nif, birthdate, salary, base, working) {
+Deliveryperson::Deliveryperson(string name, int nif, Date birthdate, double salary, Base* base, bool working,  string vehicle):Worker(name, nif, birthdate, salary, base, working) {
     this->vehicle=vehicle;
 }
 
 //Metodos Set
-void Deliveryperson::setVehicle(Vehicle vehicle) {
+void Deliveryperson::setVehicle(string vehicle) {
     this->vehicle = vehicle;
 }
 
 //Metodos Get
-Vehicle Deliveryperson::getVehicle() const {
+string Deliveryperson::getVehicle() const {
     return vehicle;
 }
 
@@ -142,19 +142,18 @@ double Deliveryperson::getDeliveryEarnings() const {
 }
 
 bool Deliveryperson::isAvailable() const {
+    if (!working) {
+        return false;
+    }
     vector<Delivery*> deliveries = this->getDeliveries();
     if (deliveries.empty()) {
         return true;
     }
     Time last_delivery = deliveries.back()->getDeliveryTime();
     Time now(time(NULL));
-    return working && (now > last_delivery);
+    return (now > last_delivery) && base->isVehicleOperational(vehicle);
 }
 
-void Deliveryperson::new_delivery(const int &kms) {
-    vehicle.setDrivenKms(vehicle.getDrivenKms() + kms);
-    vehicle.setNumDeliveries(vehicle.getNumDeliveries() + 1);
-}
 
 //Other Methods
 ostream &operator<<(ostream &out, const Deliveryperson &deliveryperson) {
@@ -162,21 +161,21 @@ ostream &operator<<(ostream &out, const Deliveryperson &deliveryperson) {
     deliveryperson.print(out);
     out << setw(4) << left << '|' << "Number of deliveries: " << deliveryperson.getDeliveries().size() << endl;
     out << setw(4) << left << '|' << "Vehicle: " << deliveryperson.vehicle << endl;
+    out << setw(4) << left << '|' << "Currently available: " << deliveryperson.isAvailable() << endl;
     out << "\\_" << endl;
     return out;
 }
 
 //CLASS REPAIRMAN
-RepairMan::RepairMan(string name, int nif, Date birthdate, double salary, Base *base, bool working, Time became_unavailable_t, string licence_plate, int num_maintenance, Date became_unavailable_d):Worker(name, nif, birthdate, salary, base, working) {
-    this->became_unavailable_t=became_unavailable_t;
+RepairMan::RepairMan(string name, int nif, Date birthdate, double salary, Base *base, bool working, Time lastMaintenance, string licence_plate, int num_maintenance):Worker(name, nif, birthdate, salary, base, working) {
+    this->lastMaintenance = lastMaintenance;
     this->licence_plate=licence_plate;
     this->num_maintenance=num_maintenance;
-    this->became_unavailable_d=became_unavailable_d;
 }
 
 //Metodos Set
-void RepairMan::setTime(Time became_unavailable_t) {
-    this->became_unavailable_t=became_unavailable_t;
+void RepairMan::setTime(Time lastMaintenance) {
+    this->lastMaintenance = lastMaintenance;
 }
 
 void RepairMan::setLicencePlate(string licence_plate) {
@@ -187,13 +186,10 @@ void RepairMan::setNumMaintenance(int num_maintenance) {
     this->num_maintenance=num_maintenance;
 }
 
-void RepairMan::setDate(Date became_unavailable_d) {
-    this->became_unavailable_d=became_unavailable_d;
-}
 
 //Metodos Get
 Time RepairMan::getTime() const {
-    return became_unavailable_t;
+    return lastMaintenance;
 }
 
 string RepairMan::getLicencePlate() const {
@@ -204,16 +200,12 @@ int RepairMan::getNumMaintenance() const {
     return num_maintenance;
 }
 
-Date RepairMan::getDate() const {
-    return became_unavailable_d;
-}
 
 //Other Methods
 ostream &operator<<(ostream &out, const RepairMan &repairman) {
     out << setw(4) << left << '/' << "Repairman" << endl;
     repairman.print(out);
-    out << setw(4) << left << '|' << "Date he became unavailable: " << repairman.became_unavailable_d << endl;
-    out << setw(4) << left << '|' << "Time he became unavailable: " << repairman.became_unavailable_t << endl;
+    out << setw(4) << left << '|' << "Last maintenance: " << repairman.lastMaintenance << " - " << repairman.lastMaintenance.getDate() << endl;
     out << setw(4) << left << '|' << "Licence plate of the Vehicle: " << repairman.licence_plate << endl;
     out << setw(4) << left << '|' << "Number of maintenance made: " << repairman.num_maintenance << endl;
     out << "\\_" << endl;
@@ -221,37 +213,15 @@ ostream &operator<<(ostream &out, const RepairMan &repairman) {
 }
 
 bool RepairMan::isAvailable() {
-    if (became_unavailable_t.getHour()==0 && became_unavailable_t.getMin()==0 && became_unavailable_t.getSec()==0
-          && became_unavailable_d.getDay()==0 && became_unavailable_d.getMonth()==0 && became_unavailable_d.getYear()==0 )
-        return true;
-    time_t now;
-    time(&now);
-    struct tm* current = localtime(&now);
-    Time current_t = Time(current->tm_hour,current->tm_min,current->tm_sec);
-    Date current_d = Date(current->tm_mday,current->tm_mon + 1,current->tm_year + 1900);
-    Time nedded_time = Time(became_unavailable_t.addtime(240));
-    if(became_unavailable_t.getHour() + 4 < 24 ){
-        if(current_t > nedded_time || current_t == nedded_time){
-            return true;
-        }
-    }
-    else{
-        Date nedded_date = Date(became_unavailable_d.addDay());
-        if((current_d < nedded_date || current_d == nedded_date) && (current_t > nedded_time || current_t == nedded_time)){
-            return true;
-        }
-    }
-    return false;
+    Time maintenance = lastMaintenance;
+    return Time(time(NULL)) > maintenance.addtime(240);
 }
 
 bool RepairMan::operator<(RepairMan* repairman) {
-    if(became_unavailable_d == repairman->getDate() && became_unavailable_t == repairman->getTime()){
-        return num_maintenance < repairman->getNumMaintenance();
+    if(lastMaintenance == repairman->lastMaintenance){
+        return num_maintenance < repairman->num_maintenance;
     }
-    else if(became_unavailable_d == repairman->getDate()){
-        return became_unavailable_t < repairman->getTime();
-    }
-    return became_unavailable_d < repairman->getDate();
+    return lastMaintenance < repairman->lastMaintenance;
 }
 
 

@@ -29,9 +29,6 @@ private:
     /**The number of deliveries done by the Vehicle.
     */
     int numDeliveries;
-    /**The time of the last maintenance of the Vehicle.
-    */
-    Time lastMaintenance;
 public:
     /**Default Constructor.
     */
@@ -70,10 +67,6 @@ public:
        * @param deliveries is the parameter you want the new Vehicle to have.
     */
     void setNumDeliveries(int deliveries);
-    /** Sets the time of the last vehicle maintenance
-     * @param time is the time of the maintenance
-     */
-    void setLastMaintenance(Time time);
 
 
     //Metodos Get
@@ -104,17 +97,15 @@ public:
        * @return the Vehicle's number of deliveries.
     */
     int getNumDeliveries() const;
-    /**
-     * @return the start time of the vehicle's last maintenance
-     */
-    Time getLastMaintenance() const;
 
 
     //Other Methods
-    /** Checks the lastMaintenance time agains the current time
-     * @return is whether the vehicle is available or not
-     */
-    bool isAvailable() const;
+    /**
+      * Updates vehicle kilometers and number of deliveries.
+      * @param kms
+      */
+    void new_delivery(int kms);
+
 
     /** Compares 2 vehicles. It's the method to order the BST.
      * It is ordered by the number of deliveries done, in the event of a tie, the number of kilometers driven and in the event of a tie, by the date of purchase.

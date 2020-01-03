@@ -21,9 +21,6 @@ protected:
     /** The Client's nif who made the Order.
 */
     int client;
-    /** The Date the Order was made.
-*/
-    Date date;
     /** The Time the Order was made.
 */
     Time orderTime;
@@ -39,16 +36,12 @@ public:
     Order() = default;
     /** Constructor of an Order from the restaurant, nif of the client who made the order, date, order time, products and order price.
 */
-    Order(string restaurant, int client, Date date, Time orderTime, vector<string> products, float orderPrice);
+    Order(string restaurant, int client, Time orderTime, vector<string> products, float orderPrice);
     //Metodos Set
     /** Sets the restaurant of an Order.
        * @param restaurant is the parameter you want the new Order to have.
 */
     void setOrderRestaurant(string restaurant);
-    /** Sets the Date of an Order.
-       * @param date is the parameter you want the new Order to have.
-*/
-    void setOrderDate(Date date);
     /** Sets the Time of an Order.
        * @param orderTime is the parameter you want the new Order to have.
 */
@@ -70,10 +63,6 @@ public:
        * @return the Order's restaurant name.
 */
     string getRestaurant() const;
-    /**
-       * @return the Order's Date.
-*/
-    Date getOrderDate() const;
     /**
        * @return the Order's Time.
 */
@@ -121,7 +110,7 @@ public:
     Delivery() = default;
     /** Constructor of a Delivery from the restaurant, nif of the client, date, order time, products, order price, delivery price, nif of the deliveryperson, success, delivery time and notes given.
 */
-    Delivery(string restaurant, int client, Date date, Time orderTime, vector<string> products, float orderPrice, float deliveryPrice, int deliveryperson, bool success, Time deliveryTime, string notes);
+    Delivery(string restaurant, int client, Time orderTime, vector<string> products, float orderPrice, float deliveryPrice, int deliveryperson, bool success, Time deliveryTime, string notes);
     //Metodos Set
     /** Sets the price of a Delivery.
        * @param deliveryPrice is the parameter you want the new Delivery to have.

@@ -188,7 +188,7 @@ Company::Company(const string &filesPath){
                 v.setDrivenKms(stoi(str));
                 getline(workers_file, str); //Vehicle Deliveries
                 v.setNumDeliveries(stoi(str));
-                d->setVehicle(v);
+                d->setVehicle(v.getLicensePlate());
                 b.addVehicle(v);
                 b.addWorkerToBase(d);
             }
@@ -204,12 +204,16 @@ Company::Company(const string &filesPath){
                 r->setWorkerSalary(stod(str));
                 getline(workers_file, str); //Working
                 r->setWorking(stoi(str));
+                Time lastMaintenance;
                 getline(workers_file, str); //Unavailable Date
-                r->setDate(Date(str));
+                lastMaintenance.setDate(Date(str));
                 getline(workers_file, str); //Unavailable Time
-                r->setTime(Time(str));
+                lastMaintenance.setTime(Time(str));
+                r->setTime(lastMaintenance);
                 getline(workers_file, str); //Number of maintenance made
                 r->setNumMaintenance(stoi(str));
+                getline(workers_file, str); // License plate of last maintenance
+                r->setLicencePlate(str);
                 b.addWorkerToBase(r);
                 if(r->getWorking())
                     b.addRepairmanToHeap(r);
@@ -235,10 +239,12 @@ Company::Company(const string &filesPath){
             ord->setOrderRestaurant(str);
             getline(orders_file, str);
             ord->setOrderClient(stoi(str));
+            Time orderTime;
             getline(orders_file, str);
-            ord->setOrderDate(Date(str));
+            orderTime.setDate(Date(str));
             getline(orders_file, str);
-            ord->setOrderTime(Time(str));
+            orderTime.setTime(Time(str));
+            ord->setOrderTime(orderTime);
             getline(orders_file, str);
             ord->setOrderProducts(strToVect(str,','));
             getline(orders_file,str);
@@ -249,8 +255,12 @@ Company::Company(const string &filesPath){
             ord->setDeliveryPerson(stoi(str));
             getline(orders_file, str);
             ord->setSuccess(stoi(str));
+            Time deliveryTime;
             getline(orders_file, str);
-            ord->setDeliveryTime(Time(str));
+            deliveryTime.setDate(Date(str));
+            getline(orders_file, str);
+            deliveryTime.setTime(Time(str));
+            ord->setDeliveryTime(deliveryTime);
             getline(orders_file, str);
             ord->setDeliveryNotes(str);
             base_ords.push_back(ord);
@@ -461,7 +471,9 @@ Client* clientLogin(Company &company) {
                 return it;
             }
         } else {
-            cinERR("Worker does not exist, try again!");
+            cinERR("Client does not exist, try again!");
+            enterWait();
+            return nullptr;
         }
     }
 }
@@ -487,6 +499,8 @@ Worker* adminLogin(Company &company) {
             }
         } else {
             cinERR("Worker does not exist, try again!");
+            enterWait();
+            return nullptr;
         }
     }
 }
@@ -556,12 +570,13 @@ void updateWorkersFile(Base &base){
             out_file << d->getWorkerBirthdate() << endl;
             out_file << d->getWorkerSalary() << endl;
             out_file << d->getWorking() << endl;
-            out_file << d->getVehicle().getManufacturer() << endl;
-            out_file << d->getVehicle().getType() << endl;
-            out_file << d->getVehicle().getLicensePlate() << endl;
-            out_file << d->getVehicle().getPurchaseDate() << endl;
-            out_file << d->getVehicle().getDrivenKms() << endl;
-            out_file << d->getVehicle().getNumDeliveries();
+            Vehicle v = d->getWorkerBase()->findVehicle(d->getVehicle());
+            out_file << v.getManufacturer() << endl;
+            out_file << v.getType() << endl;
+            out_file << v.getLicensePlate() << endl;
+            out_file << v.getPurchaseDate() << endl;
+            out_file << v.getDrivenKms() << endl;
+            out_file << v.getNumDeliveries();
         }
         else if(dynamic_cast<RepairMan *> (temp.at(i))){
             RepairMan *r = dynamic_cast<RepairMan *> (temp.at(i));
@@ -571,9 +586,10 @@ void updateWorkersFile(Base &base){
             out_file << r->getWorkerBirthdate() << endl;
             out_file << r->getWorkerSalary() << endl;
             out_file << r->getWorking() << endl;
-            out_file << r->getDate() << endl;
+            out_file << r->getTime().getDate() << endl;
             out_file << r->getTime() << endl;
-            out_file << r->getNumMaintenance();
+            out_file << r->getNumMaintenance() << endl;
+            out_file << r->getLicencePlate();
         }
         if(i!=temp.size()-1)
             out_file<<endl << "-----"<<endl;
@@ -642,7 +658,7 @@ void updateOrdersFile(Base &base) {
         Delivery delivery = *(Delivery*)orders.at(i);
         orders_file << delivery.getRestaurant() << endl;
         orders_file << delivery.getOrderClient() << endl;
-        orders_file << delivery.getOrderDate() << endl;
+        orders_file << delivery.getOrderTime().getDate() << endl;
         orders_file << delivery.getOrderTime() << endl;
         for (int j = 0; j < delivery.getOrderProducts().size(); j++) {
             if (j != delivery.getOrderProducts().size() - 1) {
@@ -655,6 +671,7 @@ void updateOrdersFile(Base &base) {
         orders_file << delivery.getDeliveryPrice() << endl;
         orders_file << delivery.getDeliveryPerson() << endl;
         orders_file << delivery.getSuccess() << endl;
+        orders_file << delivery.getDeliveryTime().getDate() << endl;
         orders_file << delivery.getDeliveryTime() << endl;
         orders_file << delivery.getDeliveryNotes();
         if (i != orders.size() - 1) {
@@ -920,7 +937,7 @@ bool hireWorker(Base *base){
             return false;
         }
         Vehicle v(trim(brand), trim(type), Date(trim(date)), trim(plate));
-        new_worker->setVehicle(v);
+        new_worker->setVehicle(v.getLicensePlate());
         base->addVehicle(v);
         new_worker->setWorking(true);
 
@@ -955,7 +972,7 @@ bool hireWorker(Base *base){
         }
         new_worker->setWorkerSalary(stod(trim(str)));
 
-        new_worker->setDate(Date(0,0,0));
+
         new_worker->setTime(Time(0,0,0));
         new_worker->setNumMaintenance(0);
         new_worker->setWorking(true);
@@ -1038,7 +1055,6 @@ bool editWorkerInfo(Base *base){
                 cout << "Select which deliveryperson's information you want to modify:" << endl;
                 cout << "1. Name" << endl;
                 cout << "2. Salary" << endl;
-                cout << "3. New Vehicle" << endl;
                 cout << "0. Go back" << endl;
                 getOption(opt);
                 switch(opt){
@@ -1061,35 +1077,6 @@ bool editWorkerInfo(Base *base){
                         }
                         d->setWorkerSalary(stod(trim(str)));
                         break;
-                    case 3:{
-                        string brand, type, date, plate;
-                        cout << "New vehicle's brand: ";
-                        getline(cin, brand);
-                        cout << "Vehicle's type: ";
-                        getline(cin, type);
-                        cout << "Vehicle's license plate: ";
-                        getline(cin, plate);
-                        if(!validLicensePlate(trim(plate))){
-                            cinERR("ERROR: Invalid plate");
-                            enterWait();
-                            return false;
-                        }
-                        cout << "Vehicle's plate date: ";
-                        getline(cin, date);
-                        if(!validDate(trim(date))){
-                            cinERR("ERROR: Invalid date");
-                            enterWait();
-                            return false;
-                        }
-                        if(!base->removeVehicle(d->getVehicle())){
-                            cinERR("ERROR: Couldn't remove vehicle");
-                            return false;
-                        }
-                        Vehicle v(trim(brand), trim(type), Date(trim(date)), trim(plate));
-                        d->setVehicle(v);
-                        base->addVehicle(v);
-                        break;
-                    }
                     default:
                         return false;
                     }
@@ -2017,7 +2004,7 @@ void showVehiclesUnderMaintenance(Base* base) {
     BSTItrIn<Vehicle> it(base->getBaseVehicles());
     int cnt = 0;
     while(!it.isAtEnd()){
-        if (!it.retrieve().isAvailable()) {
+        if (!base->isVehicleOperational(it.retrieve())) {
             cout << it.retrieve() << endl;
             cnt++;
         }
@@ -2034,7 +2021,7 @@ void showAvailableVehicles(Base* base) {
     BSTItrIn<Vehicle> it(base->getBaseVehicles());
     int cnt = 0;
     while(!it.isAtEnd()){
-        if (it.retrieve().isAvailable()) {
+        if (base->isVehicleOperational(it.retrieve())) {
             cout << it.retrieve() << endl;
             cnt++;
         }
@@ -2087,12 +2074,12 @@ bool changeDeliveryPersonVehicle(Base* base){
                     enterWait();
                     return false;
                 }
-                if (!base->removeVehicle(d->getVehicle())) {
+                if (!base->removeVehicle(base->findVehicle(d->getVehicle()))) {
                     cinERR("ERROR: Couldn't remove vehicle");
                     return false;
                 }
                 Vehicle v(trim(brand), trim(type), Date(trim(date)), trim(plate));
-                d->setVehicle(v);
+                d->setVehicle(v.getLicensePlate());
                 base->addVehicle(v);
                 cout << "\nInformation successfully updated!" << endl;
                 enterWait();

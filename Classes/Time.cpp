@@ -24,7 +24,7 @@ Time::Time(const time_t &time) {
     this->hour = t->tm_hour;
     this->min = t->tm_min;
     this->sec = t->tm_sec;
-    this->date = Date(t->tm_mday, t->tm_mon, t->tm_year + 1900);
+    this->date = Date(t->tm_mday, t->tm_mon + 1, t->tm_year + 1900);
 }
 
 //Metodos Set
@@ -38,6 +38,16 @@ void Time::setMin(int min) {
 
 void Time::setSec(int sec) {
     this->sec = sec;
+}
+
+void Time::setDate(Date date) {
+    this->date = date;
+}
+
+void Time::setTime(Time time) {
+    hour = time.hour;
+    min = time.min;
+    sec = time.sec;
 }
 
 //Metodos Get

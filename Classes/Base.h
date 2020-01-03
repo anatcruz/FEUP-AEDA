@@ -206,6 +206,9 @@ public:
     Client* findClient(int nif);
     Vehicle findVehicle(string licenseplate);
     int assignDelivery(Time order_time, Time& delivery_time);
+    void updateVehicle(const Vehicle& vhc);
+    bool isVehicleOperational(string licenseplate);
+    bool isVehicleOperational(const Vehicle& vhc);
 };
 
 

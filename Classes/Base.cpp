@@ -223,9 +223,14 @@ Client* Base::findClient(int nif) {
 }
 
 Vehicle Base::findVehicle(string licenseplate) {
-    Vehicle v;
-    v.setLicensePlate(licenseplate);
-    return baseVehicles.find(v);
+    BSTItrIn<Vehicle> it(baseVehicles);
+    while (!it.isAtEnd()) {
+        if (it.retrieve().getLicensePlate() == licenseplate) {
+            return it.retrieve();
+        }
+        it.advance();
+    }
+    return Vehicle();
 }
 
 int Base::assignDelivery(Time order_time, Time &delivery_time) {
@@ -235,11 +240,48 @@ int Base::assignDelivery(Time order_time, Time &delivery_time) {
             srand(time(NULL));
             int delta = rand() % 16 + 5;
             delivery_time = order_time.addtime(delta);
-            d_person->new_delivery(0.8 * delta);
+            Vehicle v = this->findVehicle(d_person->getVehicle());
+            v.new_delivery(0.8 * delta);
+            this->updateVehicle(v);
             return d_person->getWorkerNif();
         }
     }
     return -1;
+}
+
+void Base::updateVehicle(const Vehicle &vhc) {
+    baseVehicles.remove(vhc);
+    baseVehicles.insert(vhc);
+}
+
+bool Base::isVehicleOperational(string licenseplate) {
+    Vehicle v = findVehicle(licenseplate);
+    if (v == Vehicle()) { // Not found
+        return false;
+    }
+    HEAP_REPAIRMAN rep = repairmen;
+    while (!rep.empty()) {
+        if (rep.top()->getLicencePlate() == licenseplate) {
+            if (!rep.top()->isAvailable()) {
+                return false;
+            }
+        }
+        rep.pop();
+    }
+    return true;
+}
+
+bool Base::isVehicleOperational(const Vehicle &vhc) {
+    HEAP_REPAIRMAN rep = repairmen;
+    while (!rep.empty()) {
+        if (rep.top()->getLicencePlate() == vhc.getLicensePlate()) {
+            if (!rep.top()->isAvailable()) {
+                return false;
+            }
+        }
+        rep.pop();
+    }
+    return true;
 }
 
 bool searchbyMunicipality(string municipality, vector<string> municipalities){

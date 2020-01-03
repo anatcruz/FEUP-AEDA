@@ -1,0 +1,35 @@
+Tomas
+Faro
+Rua do Olho Bonito,34,3tras,8700-143,Olhao
+456789123
+0
+-----
+Ana Sun
+Faro
+Rua Solarenga,594,3,4444-333,Faro
+112233445
+0
+-----
+Foral
+Faro
+Rua do Joao,34,-,7777-888,Faro
+888555888
+0
+-----
+Francisca Olhao
+Faro
+Rua Ali,3334,2,5555-444,Sao Bras de Alportel
+753357753
+1
+-----
+Teresa Frias
+Faro
+Rua Rafada,9,2,1234-444,Olhao
+444555666
+0
+-----
+Guilhermina Suggia
+Faro
+Avenida das Camelias,78,4,5555-999,Loule
+222444888
+0
