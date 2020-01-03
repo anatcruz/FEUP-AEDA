@@ -161,7 +161,7 @@ bool Base::removeRepairmanFromHeap(int nif){
 
     return found;
 }
-
+/*
 bool Base::vehicleToMaintenance() {
     time_t now;
     time(&now);
@@ -185,7 +185,7 @@ bool Base::vehicleToMaintenance() {
     }
     return false;
 }
-
+*/
 ostream& operator<<(ostream& out, const Base &base){
     out << "/" << endl;
     out << setw(4) << left << '|' << "Location: " << base.location <<endl;
