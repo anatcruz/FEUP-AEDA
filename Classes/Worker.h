@@ -169,9 +169,9 @@ protected:
     /** Each Repairman becames unavailable when taking a car for maintenance.
 */
     Time became_unavailable_t;
-    /** The vehicle the Repairman is taking for maintenance.
+    /** The licence plate of the Vehicle the Repairman is taking for maintenance.
    */
-    Vehicle* vehicle_to_repair;
+    string licence_plate;
     /** Number of maintenance the Repairman has done.
 */
     int num_maintenance;
@@ -182,18 +182,18 @@ public:
     /** Default Constructor.
 */
     RepairMan() = default;
-    /** Constructor of a RepairMan from the name, nif, date of birth, salary, base, Vehicle, time and date he became unavailable and the number of maintenance he has done.
+    /** Constructor of a RepairMan from the name, nif, date of birth, salary, base, licence plate of the Vehicle, time and date he became unavailable and the number of maintenance he has done.
  */
-    RepairMan(string name, int nif, Date birthdate, double salary,Base* base, bool working,Time became_unavailable_t,Vehicle* vehicle, int num_maintenance, Date became_unavailable_d);
+    RepairMan(string name, int nif, Date birthdate, double salary,Base* base, bool working,Time became_unavailable_t,string licence_plate, int num_maintenance, Date became_unavailable_d);
     //Metodos Set
     /** Sets the Time of a RepairMan.
        * @param became_unavailable_t is the parameter you want the new RepairMan to have.
 */
     void setTime(Time became_unavailable_t);
-    /** Sets the Vehicle of a RepairMan.
-       * @param vehicle is the parameter you want the new RepairMan to have.
+    /** Sets the licence plate of the Vehicle of a RepairMan.
+       * @param licence_plate is the parameter you want the new RepairMan to have.
 */
-    void setVehicle(Vehicle* vehicle);
+    void setLicencePlate(string licence_plate);
     /** Sets the number of maintenance done by a RepairMan.
        * @param num_maintenance is the parameter you want the new RepairMan to have.
 */
@@ -208,9 +208,9 @@ public:
 */
     Time getTime() const;
     /**
-      * @return the RepairMan's Vehicle.
+      * @return the RepairMan's Vehicle's licence plate.
 */
-    Vehicle* getVehicle() const;
+    string getLicencePlate() const;
     /**
       * @return the RepairMan's number of maintenance made.
 */
