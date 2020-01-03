@@ -2,7 +2,7 @@
 #define AEDA_UGHEATS_VEHICLE_H
 
 #include <string>
-#include "Date.h"
+#include "Time.h"
 #include "../utils.h"
 
 using namespace std;
@@ -24,6 +24,7 @@ private:
     string licensePlate;
     int drivenKms;
     int numDeliveries;
+    Time lastMaintenance;
 public:
     /**Default Constructor.
     */
@@ -57,6 +58,8 @@ public:
 
     void setNumDeliveries(int deliveries);
 
+    void setLastMaintenance(Time time);
+
 
     //Metodos Get
 
@@ -81,10 +84,16 @@ public:
 
     int getNumDeliveries() const;
 
+    Time getLastMaintenance() const;
+
 
     //Other Methods
 
+    bool isAvailable() const;
+
     bool operator<(const Vehicle &vhc) const;
+
+    bool operator==(const Vehicle &vhc);
 
     /** Displays the Vehicle in a nice format.
       * @param out is the ostream.

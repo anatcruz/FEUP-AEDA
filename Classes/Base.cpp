@@ -117,6 +117,10 @@ Restaurant* Base::getRestaurant(const string &name) {
     return nullptr;
 }
 
+HEAP_REPAIRMAN Base::getBaseRepairmen() const {
+    return repairmen;
+}
+
 //Other Methods
 
 void Base::addVehicle(const class Vehicle & v) {
@@ -199,9 +203,9 @@ void Base::addOrderToBase(Order *order) {
 }
 
 Worker* Base::findWorker(int nif) {
-    Worker* worker = new Worker;
-    worker->setWorkerNif(nif);
-    auto it = workers.find(worker);
+    Worker worker;
+    worker.setWorkerNif(nif);
+    auto it = workers.find(&worker);
     if (it != workers.end()) {
         return *it;
     } else {
@@ -216,6 +220,12 @@ Client* Base::findClient(int nif) {
     } else {
         return nullptr;
     }
+}
+
+Vehicle Base::findVehicle(string licenseplate) {
+    Vehicle v;
+    v.setLicensePlate(licenseplate);
+    return baseVehicles.find(v);
 }
 
 int Base::assignDelivery(Time order_time, Time &delivery_time) {

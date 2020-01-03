@@ -392,6 +392,10 @@ void showOldWorkers(Base *base);
 
 void showBaseVehicles(Base* base);
 
+void showVehiclesUnderMaintenance(Base* base);
+
+void showAvailableVehicles(Base* base);
+
 bool changeDeliveryPersonVehicle(Base* base);
 
 /** Allows an admin to see the orders from a Base.
