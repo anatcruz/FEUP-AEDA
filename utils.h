@@ -76,7 +76,7 @@ bool validPostcode(string const &postcode);
 //Just useful
 /** The program waits until the user presses Enter to continue.
 */
-void enterWait();
+void enterWait(const string &message = "ENTER to go back");
 
 /** Removes the whitespaces in a string.
        * @param str is the string you want to remove the whitespaces.

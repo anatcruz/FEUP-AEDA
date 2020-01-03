@@ -108,9 +108,9 @@ bool validLicensePlate(string const &plate){
     return strToVect(plate,'-').size()==3;
 }
 
-void enterWait() {
+void enterWait(const string &message) {
     string str;
-    cout << "ENTER to go back" << endl;
+    cout << message << endl;
     getline(cin,str);
 }
 

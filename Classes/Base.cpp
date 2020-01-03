@@ -276,7 +276,8 @@ size_t Base::removeWorker(int nif) {
             return 0;
         }
     }
-    return workers.erase(worker);
+    worker->setWorking(false);
+    return 1;
 }
 
 void Base::addOrderToBase(Order *order) {
