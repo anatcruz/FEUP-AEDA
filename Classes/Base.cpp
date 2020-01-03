@@ -136,13 +136,12 @@ void Base::addRepairmanToHeap(RepairMan *r){
 }
 
 bool Base::removeRepairmanFromHeap(int nif){
-    HEAP_REPAIRMAN aux = repairmen;
+    HEAP_REPAIRMAN aux;
     bool found = false;
-    while(!found){
-        if(repairmen.empty()){
-            return false;
-        }
-
+    if(repairmen.empty()){
+        return false;
+    }
+    while(!found || !repairmen.empty()){
         if(repairmen.top()->getWorkerNif()==nif){
             found=true;
         }

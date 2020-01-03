@@ -1139,7 +1139,6 @@ bool editWorkerInfo(Base *base){
 
 }//BY ADMIN
 //TODO Change remove worker
-//TODO removeWorkerFromHeap Not Working
 bool fireWorker(Base *base){
     string str_nif, str;
     int nif, opt;
