@@ -167,9 +167,9 @@ ostream &operator<<(ostream &out, const Deliveryperson &deliveryperson) {
 }
 
 //CLASS REPAIRMAN
-RepairMan::RepairMan(string name, int nif, Date birthdate, double salary, Base *base, bool working, Time became_unavailable_t, Vehicle *vehicle, int num_maintenance, Date became_unavailable_d):Worker(name, nif, birthdate, salary, base, working) {
+RepairMan::RepairMan(string name, int nif, Date birthdate, double salary, Base *base, bool working, Time became_unavailable_t, string licence_plate, int num_maintenance, Date became_unavailable_d):Worker(name, nif, birthdate, salary, base, working) {
     this->became_unavailable_t=became_unavailable_t;
-    this->vehicle_to_repair=vehicle;
+    this->licence_plate=licence_plate;
     this->num_maintenance=num_maintenance;
     this->became_unavailable_d=became_unavailable_d;
 }
@@ -179,8 +179,8 @@ void RepairMan::setTime(Time became_unavailable_t) {
     this->became_unavailable_t=became_unavailable_t;
 }
 
-void RepairMan::setVehicle(Vehicle *vehicle) {
-    this->vehicle_to_repair=vehicle;
+void RepairMan::setLicencePlate(string licence_plate) {
+    this->licence_plate=licence_plate;
 }
 
 void RepairMan::setNumMaintenance(int num_maintenance) {
@@ -196,8 +196,8 @@ Time RepairMan::getTime() const {
     return became_unavailable_t;
 }
 
-Vehicle *RepairMan::getVehicle() const {
-    return vehicle_to_repair;
+string RepairMan::getLicencePlate() const {
+    return licence_plate;
 }
 
 int RepairMan::getNumMaintenance() const {
@@ -214,7 +214,7 @@ ostream &operator<<(ostream &out, const RepairMan &repairman) {
     repairman.print(out);
     out << setw(4) << left << '|' << "Date he became unavailable: " << repairman.became_unavailable_d << endl;
     out << setw(4) << left << '|' << "Time he became unavailable: " << repairman.became_unavailable_t << endl;
-    out << setw(4) << left << '|' << "Vehicle: " << repairman.vehicle_to_repair << endl;
+    out << setw(4) << left << '|' << "Licence plate of the Vehicle: " << repairman.licence_plate << endl;
     out << setw(4) << left << '|' << "Number of maintenance made: " << repairman.num_maintenance << endl;
     out << "\\_" << endl;
     return out;
