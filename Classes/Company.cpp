@@ -1149,16 +1149,12 @@ bool fireWorker(Base *base){
         enterWait();
         return false;
     } else {
-        if (base->removeWorker(nif)) {
-            base->removeRepairmanFromHeap(nif);
+        if (base->removeWorker(nif)){
             cout << "Worker successfully fired" << endl;
             enterWait();
             return true;
-        } else {
-            cinERR("ERROR: No active worker in this base with the given nif!");
-            enterWait();
-            return false;
         }
+        return false;
     }
 }
 

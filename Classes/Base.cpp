@@ -256,7 +256,26 @@ void Base::addWorkerToBase(Worker *worker){
 
 size_t Base::removeWorker(int nif) {
     Worker* worker = findWorker(nif);
-    if(worker == nullptr || !worker->getWorking())   return 0;
+    if(worker == nullptr || !worker->getWorking()){
+        cinERR("ERROR: No active worker in this base with the given nif!");
+        enterWait();
+        return 0;
+    }
+    if(dynamic_cast<Deliveryperson*>(worker)!=NULL){
+        Deliveryperson *d = dynamic_cast<Deliveryperson *>(worker);
+        if (!removeVehicle(findVehicle(d->getVehicle()))) {
+            cinERR("ERROR: Couldn't remove vehicle");
+            enterWait();
+            return 0;
+        }
+    }
+    else if(dynamic_cast<RepairMan*>(worker)!=NULL){
+        if(!removeRepairmanFromHeap(nif)){
+            cinERR("ERROR: Couldn't remove Repairman");
+            enterWait();
+            return 0;
+        }
+    }
     return workers.erase(worker);
 }
 
