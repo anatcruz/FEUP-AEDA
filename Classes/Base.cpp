@@ -263,6 +263,11 @@ size_t Base::removeWorker(int nif) {
     }
     if(dynamic_cast<Deliveryperson*>(worker)!=NULL){
         Deliveryperson *d = dynamic_cast<Deliveryperson *>(worker);
+        if(!d->isAvailable()){
+            cinERR("ERROR: Can't fire a Deliveryperson who is currently in a delivery!");
+            enterWait();
+            return 0;
+        }
         if (!removeVehicle(findVehicle(d->getVehicle()))) {
             cinERR("ERROR: Couldn't remove vehicle");
             enterWait();
@@ -270,6 +275,12 @@ size_t Base::removeWorker(int nif) {
         }
     }
     else if(dynamic_cast<RepairMan*>(worker)!=NULL){
+        RepairMan *r = dynamic_cast<RepairMan*>(worker);
+        if(!r->isAvailable()){
+            cinERR("ERROR: Can't fire a Repairman who is currently doing maintenance!");
+            enterWait();
+            return 0;
+        }
         if(!removeRepairmanFromHeap(nif)){
             cinERR("ERROR: Couldn't remove Repairman");
             enterWait();
