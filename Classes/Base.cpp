@@ -162,6 +162,30 @@ bool Base::removeRepairmanFromHeap(int nif){
     return found;
 }
 
+bool Base::vehicleToMaintenance() {
+    time_t now;
+    time(&now);
+    struct tm* current = localtime(&now);
+    Time current_t = Time(current->tm_hour,current->tm_min,current->tm_sec);
+    Date current_d = Date(current->tm_mday,current->tm_mon + 1,current->tm_year + 1900);
+    string min_str,licence;
+    int min;
+    cout << "Licence plate of the vehicle you want to send to maintenance: ";
+    getline(cin,licence);
+    cout << "Minimum for number of maintenance: ";
+    getline(cin,min_str);
+
+    while(!repairmen.empty()){
+        if(repairmen.top()->isAvailable() && repairmen.top()->getNumMaintenance() >= min){
+            repairmen.top()->setDate(current_d);
+            repairmen.top()->setNumMaintenance(repairmen.top()->getNumMaintenance()+1);
+            repairmen.top()->setTime(current_t);
+
+        }
+    }
+    return false;
+}
+
 ostream& operator<<(ostream& out, const Base &base){
     out << "/" << endl;
     out << setw(4) << left << '|' << "Location: " << base.location <<endl;
