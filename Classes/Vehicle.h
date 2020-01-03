@@ -20,16 +20,21 @@ private:
     /**The Date the Vehicle was purchased.
     */
     Date purchaseDate;
-
+    /**The licence plate of the Vehicle.
+    */
     string licensePlate;
+    /**The total kilometers done by the Vehicle.
+    */
     int drivenKms;
+    /**The number of deliveries done by the Vehicle.
+    */
     int numDeliveries;
 public:
     /**Default Constructor.
     */
     Vehicle() = default;
 
-    /** Constructor of a Vehicle from the manufacturer, type and purchase date given.
+    /** Constructor of a Vehicle from the manufacturer, type, purchase date and licence plate given.
     */
     Vehicle(string manufacturer, string type, Date purchaseDate, string licensePlate);
 
@@ -50,11 +55,17 @@ public:
        * @param purchaseDate is the parameter you want the new Vehicle to have.
     */
     void setPurchaseDate(Date purchaseDate);
-
+    /** Sets the licence plate of a Vehicle.
+       * @param licensePlate is the parameter you want the new Vehicle to have.
+    */
     void setLicensePlate(string licensePlate);
-
+    /** Sets the total kilometers done by a Vehicle.
+       * @param kms is the parameter you want the new Vehicle to have.
+    */
     void setDrivenKms(int kms);
-
+    /** Sets the number of deliveries done by a Vehicle.
+       * @param deliveries is the parameter you want the new Vehicle to have.
+    */
     void setNumDeliveries(int deliveries);
 
 
@@ -74,16 +85,26 @@ public:
        * @return the Vehicle's purchase date.
     */
     Date getPurchaseDate() const;
-
+    /**
+       * @return the Vehicle's licence date.
+    */
     string getLicensePlate() const;
-
+    /**
+       * @return the Vehicle's driven kilometers.
+    */
     int getDrivenKms() const;
-
+    /**
+       * @return the Vehicle's number of deliveries.
+    */
     int getNumDeliveries() const;
 
 
     //Other Methods
 
+    /** Compares 2 vehicles. It's the method to order the BST.
+     * It is ordered by the number of deliveries done, in the event of a tie, the number of kilometers driven and in the event of a tie, by the date of purchase.
+      * @param vhc is the Vehicle to compare to.
+     */
     bool operator<(const Vehicle &vhc) const;
 
     /** Displays the Vehicle in a nice format.
