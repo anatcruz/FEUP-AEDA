@@ -189,7 +189,9 @@ Company::Company(const string &filesPath){
                 getline(workers_file, str); //Vehicle Deliveries
                 v.setNumDeliveries(stoi(str));
                 d->setVehicle(v.getLicensePlate());
-                b.addVehicle(v);
+                if (d->getWorking()) {
+                    b.addVehicle(v);
+                }
                 b.addWorkerToBase(d);
             }
             else if(str=="Repairman"){

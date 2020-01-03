@@ -32,7 +32,7 @@ int main() {
     Menu adminClientManagementMenu("Client management");
     Menu adminWorkerManagementMenu("Worker management");
     Menu adminWorkerViewMenu("View workers");
-    Menu adminVehicleManagementMenu("Worker management");
+    Menu adminVehicleManagementMenu("Vehicle management");
     Menu adminVehicleViewMenu("View Vehicles");
     Menu adminRestaurantManagementMenu("Restaurant management");
     Menu adminRestaurantViewMenu("View restaurants");
@@ -102,6 +102,7 @@ int main() {
     // adminVehicleManagementMenu creation
     adminVehicleManagementMenu.addOption("Go back", faznada);
     adminVehicleManagementMenu.addOption("View base vehicles", [&](){adminVehicleViewMenu.start();});
+    adminVehicleManagementMenu.addOption("Send vehicle to maintenance", [&](){openBase->vehicleToMaintenance();});
     adminVehicleManagementMenu.addOption("Change Deliveryperson vehicle", [&](){changeDeliveryPersonVehicle(openBase);});
 
     // adminVehicleViewMenu creation

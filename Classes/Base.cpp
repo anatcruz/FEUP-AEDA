@@ -161,26 +161,69 @@ bool Base::removeRepairmanFromHeap(int nif){
 
     return found;
 }
-/*
+
 bool Base::vehicleToMaintenance() {
     Time current = Time(time(NULL));
-    string min_str,licence;
+    string licence;
     int min;
+    int lower = 0;
     cout << "Licence plate of the vehicle you want to send to maintenance: ";
     getline(cin,licence);
-    cout << "Minimum for number of maintenance: ";
-    getline(cin,min_str);
+    if (licence == "*") {
+        cout << "Canceled!" << endl;
+        enterWait();
+        return false;
+    }
+    Vehicle v = findVehicle(licence);
+    if (v == Vehicle()) {
+        cinERR("Vehicle does not exist!");
+        enterWait();
+        return false;
+    } else if (!isVehicleOperational(v)) {
+        cinERR("Vehicle is already under maintenance!");
+        enterWait();
+        return false;
+    }
+
+    getOption(min, "Minimum for number of maintenance: ");
+
+    bool assigned = false;
+    RepairMan* r;
+
+    HEAP_REPAIRMAN aux;
 
     while(!repairmen.empty()){
-        if(repairmen.top()->isAvailable() && repairmen.top()->getNumMaintenance() >= min){
-            repairmen.top()->setNumMaintenance(repairmen.top()->getNumMaintenance()+1);
-            repairmen.top()->setTime(current);
-
+        RepairMan* rep = repairmen.top();
+        repairmen.pop();
+        if(!assigned && rep->isAvailable()){
+            if (rep->getNumMaintenance() >= min) {
+                rep->setNumMaintenance(rep->getNumMaintenance() + 1);
+                rep->setTime(current);
+                rep->setLicencePlate(licence);
+                r = rep;
+                assigned = true;
+            } else {
+                lower++;
+            }
         }
+        aux.push(rep);
     }
-    return false;
+
+    repairmen = aux;
+
+    if (!assigned) {
+        cout << "No available repairmen with specified minimum requirements." << endl;
+        cout << "There are " << lower << " technicians with less experience available" << endl;
+        enterWait();
+        return false;
+    } else {
+        cout << "Maintenance task assigned successfully to " << r->getWorkerName() << "." << endl;
+        cout << "The worker will be occupied until " << r->getTime().addtime(240) << " - " << r->getTime().addtime(240).getDate() << endl;
+        enterWait();
+        return true;
+    }
 }
-*/
+
 ostream& operator<<(ostream& out, const Base &base){
     out << "/" << endl;
     out << setw(4) << left << '|' << "Location: " << base.location <<endl;
