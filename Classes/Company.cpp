@@ -1998,11 +1998,50 @@ void showSpecificClientOrders(Base* base){
 
 //Show vehicles functions
 
-void showBaseVehicles(Base* base){
+void showBaseVehicles(Base* base) {
     BSTItrIn<Vehicle> it(base->getBaseVehicles());
+    int cnt = 0;
     while(!it.isAtEnd()){
         cout << it.retrieve() << endl;
+        cnt++;
         it.advance();
+    }
+    if (cnt == 0) {
+        cout << "No vehicles in the base!" << endl;
+    }
+    cout << endl;
+    enterWait();
+}
+
+void showVehiclesUnderMaintenance(Base* base) {
+    BSTItrIn<Vehicle> it(base->getBaseVehicles());
+    int cnt = 0;
+    while(!it.isAtEnd()){
+        if (!it.retrieve().isAvailable()) {
+            cout << it.retrieve() << endl;
+            cnt++;
+        }
+        it.advance();
+    }
+    if (cnt == 0) {
+        cout << "No vehicles under maintenance right now!" << endl;
+    }
+    cout << endl;
+    enterWait();
+}
+
+void showAvailableVehicles(Base* base) {
+    BSTItrIn<Vehicle> it(base->getBaseVehicles());
+    int cnt = 0;
+    while(!it.isAtEnd()){
+        if (it.retrieve().isAvailable()) {
+            cout << it.retrieve() << endl;
+            cnt++;
+        }
+        it.advance();
+    }
+    if (cnt == 0) {
+        cout << "No available vehicles right now!" << endl;
     }
     cout << endl;
     enterWait();

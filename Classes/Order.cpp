@@ -66,7 +66,7 @@ int Order::getOrderClient() const {
 void Order::print(ostream &out) const {
     out << "/" << endl;
     out << setw(4) << left << '|' << "Restaurant: " << restaurant << endl;
-    out << setw(4) << left << '|' << "Client: "<< client << endl;
+    out << setw(4) << left << '|' << "Client: "<< setw(9) << right << setfill('0') << client << setfill(' ') << endl;
     out << setw(4) << left << '|' << "Date: " << date << endl;
     out << setw(4) << left << '|' << "Order time: " << orderTime << endl;
     out << setw(4) << left << '|' << "Products: ";

@@ -2,7 +2,7 @@
 #define AEDA_UGHEATS_VEHICLE_H
 
 #include <string>
-#include "Date.h"
+#include "Time.h"
 #include "../utils.h"
 
 using namespace std;
@@ -29,6 +29,9 @@ private:
     /**The number of deliveries done by the Vehicle.
     */
     int numDeliveries;
+    /**The time of the last maintenance of the Vehicle.
+    */
+    Time lastMaintenance;
 public:
     /**Default Constructor.
     */
@@ -67,6 +70,10 @@ public:
        * @param deliveries is the parameter you want the new Vehicle to have.
     */
     void setNumDeliveries(int deliveries);
+    /** Sets the time of the last vehicle maintenance
+     * @param time is the time of the maintenance
+     */
+    void setLastMaintenance(Time time);
 
 
     //Metodos Get
@@ -97,15 +104,30 @@ public:
        * @return the Vehicle's number of deliveries.
     */
     int getNumDeliveries() const;
+    /**
+     * @return the start time of the vehicle's last maintenance
+     */
+    Time getLastMaintenance() const;
 
 
     //Other Methods
+    /** Checks the lastMaintenance time agains the current time
+     * @return is whether the vehicle is available or not
+     */
+    bool isAvailable() const;
 
     /** Compares 2 vehicles. It's the method to order the BST.
      * It is ordered by the number of deliveries done, in the event of a tie, the number of kilometers driven and in the event of a tie, by the date of purchase.
       * @param vhc is the Vehicle to compare to.
      */
     bool operator<(const Vehicle &vhc) const;
+
+    /**
+     * Compares two vehicles by their license plates.
+     * @param vhc is the Vehicle on the rhs of the comparison.
+     * @return is whether the vehicles are equal or not.
+     */
+    bool operator==(const Vehicle &vhc);
 
     /** Displays the Vehicle in a nice format.
       * @param out is the ostream.

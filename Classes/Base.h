@@ -176,6 +176,7 @@ public:
         * @return the pointer to the Restaurant wanted or a null pointer if the Restaurant does not exist.
  */
     Restaurant* getRestaurant(const string &name);
+    HEAP_REPAIRMAN getBaseRepairmen() const;
     //Other Methods
 
     void addVehicle(const Vehicle& v);
@@ -211,6 +212,7 @@ public:
     void addOrderToBase(Order* order);
     Worker* findWorker(int nif);
     Client* findClient(int nif);
+    Vehicle findVehicle(string licenseplate);
     int assignDelivery(Time order_time, Time& delivery_time);
 };
 
