@@ -826,10 +826,42 @@ bool deleteClientAccount(Client* client, Base* base){
 // Worker functions
 
 bool hireWorker(Base *base){
-    string str_nif, str;
+    string str;
     int nif, opt;
 
-    while (true) {
+    inputNIF(nif, "Enter worker's nif (* - cancel): ");
+
+    Worker* wrk = base->findWorker(nif);
+
+    bool new_hire = true;
+
+    if (wrk != nullptr) {
+        if (wrk->getWorking()) {
+            cout << "The specified worker is active in the company already." << endl;
+            enterWait();
+            return false;
+        } else {
+            cout << "The specified worker is a past member of this base's team!" << endl;
+            string type;
+            if (dynamic_cast<Admin*>(wrk) != nullptr) {
+                type = "Admin";
+                opt = 1;
+            } else if (dynamic_cast<Deliveryperson*>(wrk) != nullptr) {
+                type = "Deliveryperson";
+                opt = 2;
+            } else if (dynamic_cast<RepairMan*>(wrk) != nullptr) {
+                type = "Repairman";
+                opt = 3;
+            }
+            cout << "They were a " << type << ", will they keep their category? (Y/n) ";
+            getline(cin, str);
+            if (str != "n") {
+                new_hire = false;
+            }
+        }
+    }
+
+    /*while (true) {
         cout << "Enter worker's nif (* - cancel): ";
         getline(cin, str_nif);
         if (validNIF(str_nif)) {
@@ -847,146 +879,189 @@ bool hireWorker(Base *base){
             enterWait();
             return false;
         }
+    }*/
+
+    if (new_hire) {
+        cout << "Select job qualifications:" << endl;
+        cout << "1. Admin" << endl;
+        cout << "2. Deliveryperson" << endl;
+        cout << "3. Repairman" << endl;
+        getOption(opt);
     }
 
-    cout << "Select job qualifications:" << endl;
-    cout << "1. Admin" << endl;
-    cout << "2. Deliveryperson" << endl;
-    cout << "3. Repairman" << endl;
-    getOption(opt);
+    switch (opt) {
+        case 1: {
+            if (!new_hire) {
+                wrk->setWorking(true);
+                break;
+            } else {
+                Admin *new_worker = new Admin();
+                new_worker->setWorkerNif(nif);
+                new_worker->setWorkerBase(base);
+                cout << "Name: (* - cancel): ";
+                getline(cin, str);
+                if (str == "*")
+                    return false;
+                else
+                    new_worker->setWorkerName(trim(str));
 
-    if(opt==1){
-        Admin *new_worker = new Admin();
-        new_worker->setWorkerNif(nif);
-        new_worker->setWorkerBase(base);
-        cout << "Name: (* - cancel): ";
-        getline(cin,str);
-        if(str == "*")
-            return false;
-        else
+                cout << "Birthdate (dd/mm/yyyy): ";
+                getline(cin, str);
+                if (!validDate(trim(str))) {
+                    cinERR("ERROR: Invalid birthdate");
+                    enterWait();
+                    return false;
+                }
+                new_worker->setWorkerBirthdate(Date(trim(str)));
+
+                cout << "Base salary: ";
+                getline(cin, str);
+                if (stod(trim(str)) < 0) {
+                    cinERR("ERROR: Invalid salary");
+                    enterWait();
+                    return false;
+                }
+                new_worker->setWorkerSalary(stod(trim(str)));
+
+                cout << "Administrator's function description: ";
+                getline(cin, str);
+                new_worker->setWorkerDescription(trim(str));
+                new_worker->setWorking(true);
+
+                base->addWorkerToBase(new_worker);
+            }
+            break;
+        }
+        case 2: {
+            string brand, type, date, plate;
+            if (!new_hire) {
+                wrk->setWorking(true);
+                cout << "You must update the worker's vehicle." << endl;
+                cout << "Deliveryperson vehicle's brand: ";
+                getline(cin, brand);
+                cout << "Deliveryperson vehicle's type: ";
+                getline(cin, type);
+                cout << "Deliveryperson vehicle's license plate: ";
+                getline(cin, plate);
+                if(!validLicensePlate(trim(plate))){
+                    cinERR("ERROR: Invalid license plate");
+                    enterWait();
+                    return false;
+                }
+                cout << "Deliveryperson vehicle's plate date: ";
+                getline(cin, date);
+                if(!validDate(trim(date))){
+                    cinERR("ERROR: Invalid date");
+                    enterWait();
+                    return false;
+                }
+                Vehicle v(trim(brand), trim(type), Date(trim(date)), trim(plate));
+                ((Deliveryperson*)wrk)->setVehicle(v.getLicensePlate());
+                base->addVehicle(v);
+                break;
+            }
+            Deliveryperson *new_worker = new Deliveryperson();
+            new_worker->setWorkerNif(nif);
+            new_worker->setWorkerBase(base);
+            cout << "Name: (* - cancel): ";
+            getline(cin,str);
+            if(str == "*")
+                return false;
             new_worker->setWorkerName(trim(str));
 
-        cout << "Birthdate (dd/mm/yyyy): ";
-        getline(cin, str);
-        if(!validDate(trim(str))){
-            cinERR("ERROR: Invalid birthdate");
+            cout << "Birthdate (dd/mm/yyyy): ";
+            getline(cin, str);
+            if(!validDate(trim(str))){
+                cinERR("ERROR: Invalid birthdate");
+                enterWait();
+                return false;
+            }
+            new_worker->setWorkerBirthdate(Date(trim(str)));
+
+            cout << "Base salary: ";
+            getline(cin, str);
+            if(stod(trim(str)) < 0){
+                cinERR("ERROR: Invalid salary");
+                enterWait();
+                return false;
+            }
+            new_worker->setWorkerSalary(stod(trim(str)));
+
+            cout << "Deliveryperson vehicle's brand: ";
+            getline(cin, brand);
+            cout << "Deliveryperson vehicle's type: ";
+            getline(cin, type);
+            cout << "Deliveryperson vehicle's license plate: ";
+            getline(cin, plate);
+            if(!validLicensePlate(trim(plate))){
+                cinERR("ERROR: Invalid license plate");
+                enterWait();
+                return false;
+            }
+            cout << "Deliveryperson vehicle's plate date: ";
+            getline(cin, date);
+            if(!validDate(trim(date))){
+                cinERR("ERROR: Invalid date");
+                enterWait();
+                return false;
+            }
+            Vehicle v(trim(brand), trim(type), Date(trim(date)), trim(plate));
+            new_worker->setVehicle(v.getLicensePlate());
+            base->addVehicle(v);
+            new_worker->setWorking(true);
+
+            base->addWorkerToBase(new_worker);
+            break;
+        }
+        case 3: {
+            if (!new_hire) {
+                wrk->setWorking(true);
+                break;
+            }
+            RepairMan *new_worker = new RepairMan();
+            new_worker->setWorkerNif(nif);
+            new_worker->setWorkerBase(base);
+            cout << "Name: (* - cancel): ";
+            getline(cin,str);
+            if(str == "*")
+                return false;
+            else
+                new_worker->setWorkerName(trim(str));
+
+            cout << "Birthdate (dd/mm/yyyy): ";
+            getline(cin, str);
+            if(!validDate(trim(str))){
+                cinERR("ERROR: Invalid birthdate");
+                enterWait();
+                return false;
+            }
+            new_worker->setWorkerBirthdate(Date(trim(str)));
+
+            cout << "Base salary: ";
+            getline(cin, str);
+            if(stod(trim(str)) < 0){
+                cinERR("ERROR: Invalid salary");
+                enterWait();
+                return false;
+            }
+            new_worker->setWorkerSalary(stod(trim(str)));
+
+
+            new_worker->setTime(Time(0,0,0));
+            new_worker->setNumMaintenance(0);
+            new_worker->setWorking(true);
+
+            base->addWorkerToBase(new_worker);
+            base->addRepairmanToHeap(new_worker);
+            break;
+        }
+        default: {
+            cinERR("ERROR: Invalid job option!");
             enterWait();
             return false;
         }
-        new_worker->setWorkerBirthdate(Date(trim(str)));
-
-        cout << "Base salary: ";
-        getline(cin, str);
-        if(stod(trim(str)) < 0){
-            cinERR("ERROR: Invalid salary");
-            enterWait();
-            return false;
-        }
-        new_worker->setWorkerSalary(stod(trim(str)));
-
-        cout << "Administrator's function description: ";
-        getline(cin, str);
-        new_worker->setWorkerDescription(trim(str));
-        new_worker->setWorking(true);
-
-        base->addWorkerToBase(new_worker);
     }
-    else if(opt==2){
-        string brand, type, date, plate;
-        Deliveryperson *new_worker = new Deliveryperson();
-        new_worker->setWorkerNif(nif);
-        new_worker->setWorkerBase(base);
-        cout << "Name: (* - cancel): ";
-        getline(cin,str);
-        if(str == "*")
-            return false;
-        new_worker->setWorkerName(trim(str));
 
-        cout << "Birthdate (dd/mm/yyyy): ";
-        getline(cin, str);
-        if(!validDate(trim(str))){
-            cinERR("ERROR: Invalid birthdate");
-            enterWait();
-            return false;
-        }
-        new_worker->setWorkerBirthdate(Date(trim(str)));
-
-        cout << "Base salary: ";
-        getline(cin, str);
-        if(stod(trim(str)) < 0){
-            cinERR("ERROR: Invalid salary");
-            enterWait();
-            return false;
-        }
-        new_worker->setWorkerSalary(stod(trim(str)));
-
-        cout << "Deliveryperson vehicle's brand: ";
-        getline(cin, brand);
-        cout << "Deliveryperson vehicle's type: ";
-        getline(cin, type);
-        cout << "Deliveryperson vehicle's license plate: ";
-        getline(cin, plate);
-        if(!validLicensePlate(trim(plate))){
-            cinERR("ERROR: Invalid license plate");
-            enterWait();
-            return false;
-        }
-        cout << "Deliveryperson vehicle's plate date: ";
-        getline(cin, date);
-        if(!validDate(trim(date))){
-            cinERR("ERROR: Invalid date");
-            enterWait();
-            return false;
-        }
-        Vehicle v(trim(brand), trim(type), Date(trim(date)), trim(plate));
-        new_worker->setVehicle(v.getLicensePlate());
-        base->addVehicle(v);
-        new_worker->setWorking(true);
-
-        base->addWorkerToBase(new_worker);
-    }
-    else if(opt==3){
-        RepairMan *new_worker = new RepairMan();
-        new_worker->setWorkerNif(nif);
-        new_worker->setWorkerBase(base);
-        cout << "Name: (* - cancel): ";
-        getline(cin,str);
-        if(str == "*")
-            return false;
-        else
-            new_worker->setWorkerName(trim(str));
-
-        cout << "Birthdate (dd/mm/yyyy): ";
-        getline(cin, str);
-        if(!validDate(trim(str))){
-            cinERR("ERROR: Invalid birthdate");
-            enterWait();
-            return false;
-        }
-        new_worker->setWorkerBirthdate(Date(trim(str)));
-
-        cout << "Base salary: ";
-        getline(cin, str);
-        if(stod(trim(str)) < 0){
-            cinERR("ERROR: Invalid salary");
-            enterWait();
-            return false;
-        }
-        new_worker->setWorkerSalary(stod(trim(str)));
-
-
-        new_worker->setTime(Time(0,0,0));
-        new_worker->setNumMaintenance(0);
-        new_worker->setWorking(true);
-
-        base->addWorkerToBase(new_worker);
-        base->addRepairmanToHeap(new_worker);
-    }
-    else{
-        cinERR("ERROR: Invalid job option!");
-        enterWait();
-        return false;
-    }
 
     cout << "Worker created successfully!" << endl;
     enterWait();
@@ -1132,18 +1207,8 @@ bool fireWorker(Base *base){
     string str_nif, str;
     int nif, opt;
 
-    while (true) {
-        cout << "Enter worker's nif (* - cancel): ";
-        getline(cin, str_nif);
-        if (validNIF(str_nif)) {
-            nif = stoi(str_nif);
-            break;
-        } else if (str_nif == "*") {
-            cout << "Canceled successfully!" << endl;
-            return false;
-        }
-        cinERR("ERROR: Invalid NIF, try again!");
-    }
+    inputNIF(nif, "Enter worker's nif (* - cancel): ");
+
     if (nif == base->getBaseManager()->getWorkerNif()) {
         cinERR("ERROR: Can't fire base manager");
         enterWait();
