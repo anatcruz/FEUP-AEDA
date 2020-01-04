@@ -365,8 +365,14 @@ bool Base::isVehicleOperational(string licenseplate) {
         if (worker->getWorking()) {
             auto d_person = dynamic_cast<Deliveryperson*>(worker);
             if (d_person != nullptr) {
-                if (d_person->getVehicle() == licenseplate && !d_person->isAvailable()) {
-                    return false;
+                if (d_person->getVehicle() == licenseplate) {
+                    vector<Delivery*> deliveries = d_person->getDeliveries();
+                    if (deliveries.empty()) {
+                        return true;
+                    }
+                    Time last_delivery = deliveries.back()->getDeliveryTime();
+                    Time now(time(NULL));
+                    return (now > last_delivery);
                 }
             }
         }
