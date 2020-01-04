@@ -87,7 +87,7 @@ public:
     string getMunicipality() const;
 
     //Other Methods
-    
+
     /** Displays the Address in a nice format.
       * @param out is the ostream.
       * @param address is the Address you want to display.
