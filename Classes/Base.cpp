@@ -167,7 +167,7 @@ bool Base::vehicleToMaintenance() {
     string licence;
     int min;
     int lower = 0;
-    cout << "Licence plate of the vehicle you want to send to maintenance: ";
+    cout << "Licence plate of the vehicle you want to send to maintenance (* - cancel): ";
     getline(cin,licence);
     if (licence == "*") {
         cout << "Canceled!" << endl;
