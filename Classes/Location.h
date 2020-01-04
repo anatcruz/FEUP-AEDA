@@ -46,7 +46,7 @@ public:
       * @return the Location's coords.
 */
     pair <float,float> getLocationCoords() const;
-    
+
     //Other Methods
     /** Displays the Location in a nice format.
       * @param out is the ostream.
