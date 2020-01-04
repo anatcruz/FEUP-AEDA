@@ -57,7 +57,7 @@ public:
        * @return the Product's price.
 */
     float getPrice() const;
-    
+
     //Other Methods
     /** Displays the Product in a nice format.
       * @param out is the ostream.
