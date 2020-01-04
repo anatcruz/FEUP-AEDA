@@ -2097,6 +2097,32 @@ void showAvailableVehicles(Base* base) {
     enterWait();
 }
 
+void showSpecificVehicle(Base* base){
+    BSTItrIn<Vehicle> it(base->getBaseVehicles());
+    string plate;
+    cout << "Enter vehicles's license plate (* - cancel): " ;
+    getline(cin,plate);
+    plate=trim(plate);
+    if(plate=="*"){
+        cout<<"Canceled successfully!" << endl << endl;
+        return;
+    }
+    while(!validLicensePlate(plate)){
+        cinERR("ERROR: Invalid license plate! Try again: ");
+        getline(cin, plate);
+    }
+    while(!it.isAtEnd()){
+        if (it.retrieve().getLicensePlate()==trim(plate)) {
+            cout << it.retrieve() << endl;
+            enterWait();
+            return;
+        }
+        it.advance();
+    }
+    cout << "No vehicle with given license plate" << endl << endl;
+    enterWait();
+}
+
 bool changeDeliveryPersonVehicle(Base* base){
     string str_nif, str;
     int nif, opt;

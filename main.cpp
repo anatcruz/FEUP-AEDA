@@ -108,6 +108,7 @@ int main() {
     // adminVehicleViewMenu creation
     adminVehicleViewMenu.addOption("Go back", faznada);
     adminVehicleViewMenu.addOption("View all vehicles", [&](){showBaseVehicles(openBase);});
+    adminVehicleViewMenu.addOption("View specific vehicle", [&](){showSpecificVehicle(openBase);});
     adminVehicleViewMenu.addOption("View available vehicles", [&](){showAvailableVehicles(openBase);});
     adminVehicleViewMenu.addOption("View vehicles under maintenance", [&](){showVehiclesUnderMaintenance(openBase);});
 
