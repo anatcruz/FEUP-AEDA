@@ -218,7 +218,7 @@ public:
       * @param repairman is the RepairMan you want to display.
      */
     friend ostream& operator<<(ostream& out, const RepairMan &repairman);
-    bool isAvailable();
+    bool isAvailable() const;
     bool operator<(RepairMan* repairman);
 };
 

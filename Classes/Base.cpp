@@ -180,7 +180,7 @@ bool Base::vehicleToMaintenance() {
         enterWait();
         return false;
     } else if (!isVehicleOperational(v)) {
-        cinERR("Vehicle is already under maintenance!");
+        cinERR("Vehicle is already under maintenance or fulfilling an order!");
         enterWait();
         return false;
     }
@@ -361,6 +361,16 @@ bool Base::isVehicleOperational(string licenseplate) {
         }
         rep.pop();
     }
+    for (auto worker : workers) {
+        if (worker->getWorking()) {
+            auto d_person = dynamic_cast<Deliveryperson*>(worker);
+            if (d_person != nullptr) {
+                if (d_person->getVehicle() == licenseplate && !d_person->isAvailable()) {
+                    return false;
+                }
+            }
+        }
+    }
     return true;
 }
 
@@ -373,6 +383,16 @@ bool Base::isVehicleOperational(const Vehicle &vhc) {
             }
         }
         rep.pop();
+    }
+    for (auto worker : workers) {
+        if (worker->getWorking()) {
+            auto d_person = dynamic_cast<Deliveryperson*>(worker);
+            if (d_person != nullptr) {
+                if (d_person->getVehicle() == vhc.getLicensePlate() && !d_person->isAvailable()) {
+                    return false;
+                }
+            }
+        }
     }
     return true;
 }

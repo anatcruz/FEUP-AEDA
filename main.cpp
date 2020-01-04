@@ -109,7 +109,7 @@ int main() {
     adminVehicleViewMenu.addOption("Go back", faznada);
     adminVehicleViewMenu.addOption("View all vehicles", [&](){showBaseVehicles(openBase);});
     adminVehicleViewMenu.addOption("View available vehicles", [&](){showAvailableVehicles(openBase);});
-    adminVehicleViewMenu.addOption("View vehicles under maintenance", [&](){showVehiclesUnderMaintenance(openBase);});
+    adminVehicleViewMenu.addOption("View occupied vehicles", [&](){showVehiclesUnderMaintenance(openBase);});
 
     // adminRestaurantManagementMenu creation
     adminRestaurantManagementMenu.addOption("Go back", faznada);

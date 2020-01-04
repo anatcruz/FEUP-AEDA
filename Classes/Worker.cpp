@@ -142,7 +142,7 @@ double Deliveryperson::getDeliveryEarnings() const {
 }
 
 bool Deliveryperson::isAvailable() const {
-    if (!working) {
+    if (!working || !base->isVehicleOperational(vehicle)) {
         return false;
     }
     vector<Delivery*> deliveries = this->getDeliveries();
@@ -151,7 +151,7 @@ bool Deliveryperson::isAvailable() const {
     }
     Time last_delivery = deliveries.back()->getDeliveryTime();
     Time now(time(NULL));
-    return (now > last_delivery) && base->isVehicleOperational(vehicle);
+    return (now > last_delivery);
 }
 
 
@@ -206,13 +206,14 @@ ostream &operator<<(ostream &out, const RepairMan &repairman) {
     out << setw(4) << left << '/' << "Repairman" << endl;
     repairman.print(out);
     out << setw(4) << left << '|' << "Last maintenance: " << repairman.lastMaintenance << " - " << repairman.lastMaintenance.getDate() << endl;
+    out << setw(4) << left << '|' << "Currently available: " << repairman.isAvailable() << endl;
     out << setw(4) << left << '|' << "Licence plate of the Vehicle: " << repairman.licence_plate << endl;
     out << setw(4) << left << '|' << "Number of maintenance made: " << repairman.num_maintenance << endl;
     out << "\\_" << endl;
     return out;
 }
 
-bool RepairMan::isAvailable() {
+bool RepairMan::isAvailable() const {
     Time maintenance = lastMaintenance;
     return Time(time(NULL)) > maintenance.addtime(240);
 }

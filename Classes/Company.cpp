@@ -1202,7 +1202,7 @@ bool editWorkerInfo(Base *base){
     return false;
 
 }//BY ADMIN
-//TODO Change remove worker
+
 bool fireWorker(Base *base){
     string str_nif, str;
     int nif, opt;
@@ -1588,8 +1588,8 @@ bool makeOrderDeliveryByPrice(Client &client, Base *base)   {
             for (auto prod : p_rp.second) {
                 cout << "|  - " << prod << endl;
             }
+            cnt++;
         }
-        cnt++;
     }
 
     cout << endl << "0 - cancel order" << endl;

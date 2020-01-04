@@ -23,3 +23,80 @@ Quim oto,Quim oto,Quim oto,Quim oto
 09/11/2019
 12:10:00
 Trazer bastantes pauzinhos
+-----
+Olivier Avenida
+666999666
+04/01/2020
+16:21:36
+Bacalhau a Bras Avenida,Costoletas de borrego grelhadas
+46
+51
+654821445
+1
+04/01/2020
+16:32:36
+Costoletas mal passadas
+-----
+Sushi dos Sa Morais
+222111222
+04/01/2020
+16:25:34
+Quim oto,Quim oto,Quim oto
+48
+51
+100500600
+1
+04/01/2020
+16:32:34
+Nao e preciso wasabi
+-----
+Sushi dos Sa Morais
+888888888
+04/01/2020
+16:32:36
+Pica Pau de Atum
+12
+17
+100500600
+1
+04/01/2020
+16:40:36
+
+-----
+Sushi dos Sa Morais
+222111222
+04/01/2020
+16:47:27
+Pica Pau de Atum,Quim oto
+28
+31
+100500600
+1
+04/01/2020
+17:00:27
+
+-----
+Olivier Avenida
+222111222
+04/01/2020
+16:47:43
+Bacalhau a Bras Avenida
+24
+29
+654821445
+1
+04/01/2020
+16:52:43
+
+-----
+Sushi dos Sa Morais
+222111222
+04/01/2020
+16:48:31
+Quim oto
+16
+19
+654821445
+0
+04/01/2020
+17:07:31
