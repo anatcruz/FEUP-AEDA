@@ -2078,7 +2078,7 @@ void showVehiclesUnderMaintenance(Base* base) {
         it.advance();
     }
     if (cnt == 0) {
-        cout << "No vehicles under maintenance right now!" << endl;
+        cout << "No vehicles under maintenance or fulfilling orders right now!" << endl;
     }
     cout << endl;
     enterWait();
