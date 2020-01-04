@@ -63,8 +63,8 @@ public:
     void setSec(int sec);
 
     /**
-     * Sets the date of a Time object
-     * @param date
+     * Sets the Date of a Time object.
+     * @param date is the parameter you want the new Time to have.
      */
     void setDate(Date date);
 
@@ -106,13 +106,20 @@ public:
      */
     friend ostream& operator<<(ostream& out, const Time &time);
 
-
+    /** Compares two times.
+     * @param t is the Time to compare to.
+     */
     bool operator<(const Time &t);
 
-
+    /** Compares two times.
+     * @param t is the Time to compare to.
+     */
     bool operator>(const Time &t);
 
-
+    /** Compares two times.
+     * The times are equal if the hour, min and sec are the same.
+     * @param t is the Time to compare to.
+     */
     bool operator==(const Time &t);
 
     /** Adds a given amount of minutes to a Time oject.
