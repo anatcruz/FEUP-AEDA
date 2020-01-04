@@ -107,7 +107,7 @@ public:
       * @param kms is the number of kilometers to add.
       */
     void new_delivery(int kms);
-    
+
     /** Compares 2 vehicles. It's the method to order the BST.
      * It is ordered by the number of deliveries done, in the event of a tie, the number of kilometers driven and in the event of a tie, by the date of purchase.
       * @param vhc is the Vehicle to compare to.
