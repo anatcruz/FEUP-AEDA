@@ -16,53 +16,86 @@ public:
     /**Default Constructor.
 */
     Date() = default;
+
     /** Constructor of a Date from the day, month and year given.
 */
     Date(int day, int month, int year);
+
     /** Constructor of a Date from a given date in the format of a string.
        * @param date is what you want to transform in a Date.
 */
     Date(string date);
+
     //Metodos Set
+
     /** Sets the day of a Date.
        * @param day is the parameter you want the new Date to have.
 */
     void setDay(int day);
+
     /** Sets the month of a Date.
        * @param month is the parameter you want the new Date to have.
 */
     void setMonth(int month);
+
     /** Sets the year of a Date.
        * @param year is the parameter you want the new Date to have.
 */
     void setYear(int year);
+
     //Metodos Get
+
     /**
        * @return the Date's day.
 */
     int getDay() const;
+
     /**
        * @return the Date's month.
 */
     int getMonth() const;
+
     /**
        * @return the Date's year.
 */
     int getYear() const;
+
     //Other Methods
     /** Compares 2 Dates.
       * @param date is the Date you want to compare too.
       * @return true if the Date passed as parameter is after the Date.
      */
     bool operator<(const Date &date) const;
+
+    /** Compares 2 Dates.
+      * @param date is the Date you want to compare too.
+      * @return true if the Date passed as parameter is before the Date.
+     */
     bool operator>(const Date &date) const;
+
+    /** Compares 2 Dates.
+     * Two dates are equal is they have the same day,month and year.
+      * @param date is the Date you want to compare too.
+      * @return true if the Date passed as parameter is equal to the Date.
+     */
     bool operator==(const Date &date) const;
+
+    /** Compares 2 Dates.
+      * @param date is the Date you want to compare too.
+      * @return true if the Date passed as parameter is different from the Date.
+     */
     bool operator!=(const Date &date) const { return !(*this == date);};
+
     /** Displays the Date in a nice format.
       * @param out is the ostream.
       * @param date is the Date you want to display.
      */
     friend ostream& operator<<(ostream& out, const Date & date);
+
+    /** It allows to add a day to a Date.
+       * @param numDays is the number of days to add, by default is 1.
+       * @return the Date updated.
+*/
     Date addDay(int numDays = 1);
 };
 
