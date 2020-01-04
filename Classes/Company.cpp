@@ -1201,8 +1201,8 @@ bool editWorkerInfo(Base *base){
     enterWait();
     return false;
 
-}//BY ADMIN
-//TODO Change remove worker
+}
+
 bool fireWorker(Base *base){
     string str_nif, str;
     int nif, opt;
@@ -2183,9 +2183,6 @@ bool changeDeliveryPersonVehicle(Base* base){
 }
 
 
-// TODO show orders by date
-
-
 // Finance functions
 
 void showCompanyTotalEarnings(Company &company){
@@ -2247,6 +2244,3 @@ void showEarningsByBase(Base* base){
 
     enterWait();
 }
-
-
-// TODO show earnings by client, restaurant and by time period
