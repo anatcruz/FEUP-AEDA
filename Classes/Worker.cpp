@@ -142,16 +142,7 @@ double Deliveryperson::getDeliveryEarnings() const {
 }
 
 bool Deliveryperson::isAvailable() const {
-    if (!working || !base->isVehicleOperational(vehicle)) {
-        return false;
-    }
-    vector<Delivery*> deliveries = this->getDeliveries();
-    if (deliveries.empty()) {
-        return true;
-    }
-    Time last_delivery = deliveries.back()->getDeliveryTime();
-    Time now(time(NULL));
-    return (now > last_delivery);
+    return working && base->isVehicleOperational(vehicle);
 }
 
 

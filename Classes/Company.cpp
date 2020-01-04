@@ -829,7 +829,9 @@ bool hireWorker(Base *base){
     string str;
     int nif, opt;
 
-    inputNIF(nif, "Enter worker's nif (* - cancel): ");
+    if (!inputNIF(nif, "Enter worker's nif (* - cancel): ")) {
+        return false;
+    }
 
     Worker* wrk = base->findWorker(nif);
 
@@ -1207,7 +1209,9 @@ bool fireWorker(Base *base){
     string str_nif, str;
     int nif, opt;
 
-    inputNIF(nif, "Enter worker's nif (* - cancel): ");
+    if (!inputNIF(nif, "Enter worker's nif (* - cancel): ")) {
+        return false;
+    }
 
     if (nif == base->getBaseManager()->getWorkerNif()) {
         cinERR("ERROR: Can't fire base manager");

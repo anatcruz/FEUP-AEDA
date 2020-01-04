@@ -1,34 +1,15 @@
-Repairman
-Ana Catarina
-800400700
-25/08/1979
-670
-0
-14/12/2019
-12:35:06
-45
-
------
 Deliveryperson
-Antonio Paulo
-900700333
-22/02/1959
+Maria Manuela
+100500600
+15/04/1999
 580
 1
-BMW
-Motociclo
-ZZ-33-ZZ
-16/07/2006
-946651
-8
------
-Admin
-Carlos Jorge
-321654986
-19/08/1978
-1000
-1
-Gerente de Lisboa
+Fiat
+Carro
+YY-33-YY
+08/09/2002
+840002
+3
 -----
 Deliveryperson
 Alex Santos
@@ -43,6 +24,27 @@ XX-33-XX
 78777
 2
 -----
+Admin
+Carlos Jorge
+321654986
+19/08/1978
+1000
+1
+Gerente de Lisboa
+-----
+Deliveryperson
+Antonio Paulo
+900700333
+22/02/1959
+580
+1
+BMW
+Motociclo
+ZZ-33-ZZ
+16/07/2006
+946651
+8
+-----
 Repairman
 Heloisia Rossio
 987789987
@@ -54,18 +56,16 @@ Heloisia Rossio
 1
 AB-33-AB
 -----
-Deliveryperson
-Maria Manuela
-100500600
-15/04/1999
-580
-1
-Fiat
-Carro
-YY-33-YY
-08/09/2002
-840002
-3
+Repairman
+Ana Catarina
+800400700
+25/08/1979
+670
+0
+14/12/2019
+12:35:06
+45
+
 -----
 Repairman
 Andre Maria
