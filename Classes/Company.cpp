@@ -2103,14 +2103,15 @@ void showSpecificVehicle(Base* base){
     cout << "Enter vehicles's license plate (* - cancel): " ;
     getline(cin,plate);
     plate=trim(plate);
-    if(plate=="*"){
-        cout<<"Canceled successfully!" << endl << endl;
-        return;
-    }
     while(!validLicensePlate(plate)){
+        if(plate=="*") {
+            cout << "Canceled successfully!" << endl << endl;
+            return;
+        }
         cinERR("ERROR: Invalid license plate! Try again: ");
         getline(cin, plate);
     }
+    plate=trim(plate);
     while(!it.isAtEnd()){
         if (it.retrieve().getLicensePlate()==trim(plate)) {
             cout << it.retrieve() << endl;

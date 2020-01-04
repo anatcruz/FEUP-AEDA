@@ -105,7 +105,12 @@ bool validPostcode(string const &postcode){
 }
 
 bool validLicensePlate(string const &plate){
-    return strToVect(plate,'-').size()==3;
+    vector<string> str = strToVect(plate,'-');
+    if(str.size()!=3) return false;
+    for(int i=0;i<str.size();i++){
+        if(str[i].length()!=2)  return false;
+    }
+    return true;
 }
 
 void enterWait(const string &message) {
