@@ -84,6 +84,10 @@ void enterWait(const string &message = "ENTER to go back");
 */
 string removeSpaces(string str);
 
+/** Checks if the licence plate is valid.
+       * @param plate is what you want to check.
+       * @return true if the licence plate is valid.
+*/
 bool validLicensePlate(string const &plate);
 
 #endif //AEDA_UGHEATS_UTILS_H
