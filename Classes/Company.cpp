@@ -1657,6 +1657,7 @@ bool makeOrderDeliveryByCuisine(Client &client, Base *base){
             cout << "ERROR: Invalid restaurant choice!Try again: ";
         }
     }while(opt != 0);
+    return true;
 }
 
 bool makeOrderDeliveryAll(Client &client, Base *base) {
