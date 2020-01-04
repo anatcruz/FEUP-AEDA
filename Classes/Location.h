@@ -15,30 +15,38 @@ public:
     /** Default Constructor.
 */
     Location() = default;
+
     /** Constructor of a Location from the location in the format of a string.
 */
     Location(string location);
+
     /** Constructor of a Location from the address and coordinates given.
 */
     Location(Address address, pair<float, float> coords);
+
     //Metodos Set
     /** Sets the Address of a Location.
        * @param address is the parameter you want the new Location to have.
 */
     void setLocationAddress(Address address);
+
     /** Sets the coords of a Location.
        * @param coords is the parameter you want the new Location to have.
 */
     void setLocationCoords(pair<float,float> coords);
+
     //Metodos Get
+
     /**
       * @return the Location's Address.
 */
     Address getLocationAddress() const;
+
     /**
       * @return the Location's coords.
 */
     pair <float,float> getLocationCoords() const;
+    
     //Other Methods
     /** Displays the Location in a nice format.
       * @param out is the ostream.
