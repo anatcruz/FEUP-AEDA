@@ -128,7 +128,7 @@ public:
        * @param product is what you want to add.
 */
     void addProductsToRestaurant(const Product &product);
-    
+
     /** Removes a Product from a Restaurant.
        * @param product is what you want to remove.
 */
