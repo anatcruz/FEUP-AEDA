@@ -44,7 +44,7 @@ public:
     /** Sets the options vector of the Menu.
 */
     void setOptions(vector<pair<string, function<void()>>> options);
-    
+
     /** Creates a new menu option, adding a pair to the options vector.
      */
     void addOption(string option, function<void()> func);
