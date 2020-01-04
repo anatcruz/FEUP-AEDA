@@ -1201,7 +1201,7 @@ bool editWorkerInfo(Base *base){
     enterWait();
     return false;
 
-}//BY ADMIN
+}
 
 bool fireWorker(Base *base){
     string str_nif, str;
@@ -2097,6 +2097,33 @@ void showAvailableVehicles(Base* base) {
     enterWait();
 }
 
+void showSpecificVehicle(Base* base){
+    BSTItrIn<Vehicle> it(base->getBaseVehicles());
+    string plate;
+    cout << "Enter vehicles's license plate (* - cancel): " ;
+    getline(cin,plate);
+    plate=trim(plate);
+    while(!validLicensePlate(plate)){
+        if(plate=="*") {
+            cout << "Canceled successfully!" << endl << endl;
+            return;
+        }
+        cinERR("ERROR: Invalid license plate! Try again: ");
+        getline(cin, plate);
+    }
+    plate=trim(plate);
+    while(!it.isAtEnd()){
+        if (it.retrieve().getLicensePlate()==trim(plate)) {
+            cout << it.retrieve() << endl;
+            enterWait();
+            return;
+        }
+        it.advance();
+    }
+    cout << "No vehicle with given license plate" << endl << endl;
+    enterWait();
+}
+
 bool changeDeliveryPersonVehicle(Base* base){
     string str_nif, str;
     int nif, opt;
@@ -2154,9 +2181,6 @@ bool changeDeliveryPersonVehicle(Base* base){
     enterWait();
     return false;
 }
-
-
-// TODO show orders by date
 
 
 // Finance functions
@@ -2220,6 +2244,3 @@ void showEarningsByBase(Base* base){
 
     enterWait();
 }
-
-
-// TODO show earnings by client, restaurant and by time period
